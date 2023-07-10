@@ -1,21 +1,19 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Volo.Abp.Identity;
-using Volo.Abp.ObjectExtending;
-using Volo.Abp.Threading;
+﻿using Volo.Abp.Threading;
 
 namespace BlueXT.MobileMonitoring.EntityFrameworkCore;
 
 public static class MobileMonitoringEfCoreEntityExtensionMappings
 {
-    private static readonly OneTimeRunner OneTimeRunner = new OneTimeRunner();
+    private static readonly OneTimeRunner OneTimeRunner = new();
 
     public static void Configure()
     {
         MobileMonitoringGlobalFeatureConfigurator.Configure();
         MobileMonitoringModuleExtensionConfigurator.Configure();
 
-        OneTimeRunner.Run(() =>
-        {
+        OneTimeRunner.Run(
+            () =>
+            {
                 /* You can configure extra properties for the
                  * entities defined in the modules used by your application.
                  *
@@ -39,6 +37,6 @@ public static class MobileMonitoringEfCoreEntityExtensionMappings
                  * See the documentation for more:
                  * https://docs.abp.io/en/abp/latest/Customizing-Application-Modules-Extending-Entities
                  */
-        });
+            });
     }
 }

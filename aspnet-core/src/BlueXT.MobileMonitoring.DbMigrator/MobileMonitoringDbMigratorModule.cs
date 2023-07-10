@@ -8,8 +8,7 @@ namespace BlueXT.MobileMonitoring.DbMigrator;
     typeof(AbpAutofacModule),
     typeof(MobileMonitoringEntityFrameworkCoreModule),
     typeof(MobileMonitoringApplicationContractsModule)
-    )]
+)]
 public class MobileMonitoringDbMigratorModule : AbpModule
 {
-
 }

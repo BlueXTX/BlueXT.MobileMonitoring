@@ -23,8 +23,8 @@ namespace BlueXT.MobileMonitoring;
     typeof(AbpOpenIddictDomainSharedModule),
     typeof(AbpPermissionManagementDomainSharedModule),
     typeof(AbpSettingManagementDomainSharedModule),
-    typeof(AbpTenantManagementDomainSharedModule)    
-    )]
+    typeof(AbpTenantManagementDomainSharedModule)
+)]
 public class MobileMonitoringDomainSharedModule : AbpModule
 {
     public override void PreConfigureServices(ServiceConfigurationContext context)
@@ -35,24 +35,27 @@ public class MobileMonitoringDomainSharedModule : AbpModule
 
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
-        Configure<AbpVirtualFileSystemOptions>(options =>
-        {
-            options.FileSets.AddEmbedded<MobileMonitoringDomainSharedModule>();
-        });
+        Configure<AbpVirtualFileSystemOptions>(
+            options =>
+            {
+                options.FileSets.AddEmbedded<MobileMonitoringDomainSharedModule>();
+            });
 
-        Configure<AbpLocalizationOptions>(options =>
-        {
-            options.Resources
-                .Add<MobileMonitoringResource>("en")
-                .AddBaseTypes(typeof(AbpValidationResource))
-                .AddVirtualJson("/Localization/MobileMonitoring");
+        Configure<AbpLocalizationOptions>(
+            options =>
+            {
+                options.Resources
+                    .Add<MobileMonitoringResource>("en")
+                    .AddBaseTypes(typeof(AbpValidationResource))
+                    .AddVirtualJson("/Localization/MobileMonitoring");
 
-            options.DefaultResourceType = typeof(MobileMonitoringResource);
-        });
+                options.DefaultResourceType = typeof(MobileMonitoringResource);
+            });
 
-        Configure<AbpExceptionLocalizationOptions>(options =>
-        {
-            options.MapCodeNamespace("MobileMonitoring", typeof(MobileMonitoringResource));
-        });
+        Configure<AbpExceptionLocalizationOptions>(
+            options =>
+            {
+                options.MapCodeNamespace("MobileMonitoring", typeof(MobileMonitoringResource));
+            });
     }
 }

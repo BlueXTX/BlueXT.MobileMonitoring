@@ -17,8 +17,6 @@ namespace BlueXT.MobileMonitoring.Data;
 
 public class MobileMonitoringDbMigrationService : ITransientDependency
 {
-    public ILogger<MobileMonitoringDbMigrationService> Logger { get; set; }
-
     private readonly IDataSeeder _dataSeeder;
     private readonly IEnumerable<IMobileMonitoringDbSchemaMigrator> _dbSchemaMigrators;
     private readonly ITenantRepository _tenantRepository;
@@ -38,6 +36,8 @@ public class MobileMonitoringDbMigrationService : ITransientDependency
         Logger = NullLogger<MobileMonitoringDbMigrationService>.Instance;
     }
 
+    public ILogger<MobileMonitoringDbMigrationService> Logger { get; set; }
+
     public async Task MigrateAsync()
     {
         var initialMigrationAdded = AddInitialMigrationIfNotExist();
@@ -52,7 +52,7 @@ public class MobileMonitoringDbMigrationService : ITransientDependency
         await MigrateDatabaseSchemaAsync();
         await SeedDataAsync();
 
-        Logger.LogInformation($"Successfully completed host database migrations.");
+        Logger.LogInformation("Successfully completed host database migrations.");
 
         var tenants = await _tenantRepository.GetListAsync(includeDetails: true);
 
@@ -100,9 +100,10 @@ public class MobileMonitoringDbMigrationService : ITransientDependency
     {
         Logger.LogInformation($"Executing {(tenant == null ? "host" : tenant.Name + " tenant")} database seed...");
 
-        await _dataSeeder.SeedAsync(new DataSeedContext(tenant?.Id)
-            .WithProperty(IdentityDataSeedContributor.AdminEmailPropertyName, IdentityDataSeedContributor.AdminEmailDefaultValue)
-            .WithProperty(IdentityDataSeedContributor.AdminPasswordPropertyName, IdentityDataSeedContributor.AdminPasswordDefaultValue)
+        await _dataSeeder.SeedAsync(
+            new DataSeedContext(tenant?.Id)
+                .WithProperty(IdentityDataSeedContributor.AdminEmailPropertyName, IdentityDataSeedContributor.AdminEmailDefaultValue)
+                .WithProperty(IdentityDataSeedContributor.AdminPasswordPropertyName, IdentityDataSeedContributor.AdminPasswordDefaultValue)
         );
     }
 
@@ -127,10 +128,8 @@ public class MobileMonitoringDbMigrationService : ITransientDependency
                 AddInitialMigration();
                 return true;
             }
-            else
-            {
-                return false;
-            }
+
+            return false;
         }
         catch (Exception e)
         {
@@ -170,7 +169,8 @@ public class MobileMonitoringDbMigrationService : ITransientDependency
             fileName = "cmd.exe";
         }
 
-        var procStartInfo = new ProcessStartInfo(fileName,
+        var procStartInfo = new ProcessStartInfo(
+            fileName,
             $"{argumentPrefix} \"abp create-migration-and-run-migrator \"{GetEntityFrameworkCoreProjectFolderPath()}\"\""
         );
 

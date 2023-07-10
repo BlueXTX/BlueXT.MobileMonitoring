@@ -1,6 +1,9 @@
 using System;
 using System.IO;
 using System.Linq;
+using BlueXT.MobileMonitoring.EntityFrameworkCore;
+using BlueXT.MobileMonitoring.Localization;
+using BlueXT.MobileMonitoring.MultiTenancy;
 using Localization.Resources.AbpUi;
 using Medallion.Threading;
 using Medallion.Threading.Redis;
@@ -9,15 +12,10 @@ using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using BlueXT.MobileMonitoring.EntityFrameworkCore;
-using BlueXT.MobileMonitoring.Localization;
-using BlueXT.MobileMonitoring.MultiTenancy;
 using StackExchange.Redis;
 using Volo.Abp;
 using Volo.Abp.Account;
 using Volo.Abp.Account.Web;
-using Volo.Abp.AspNetCore.Mvc.UI;
-using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap;
 using Volo.Abp.AspNetCore.Mvc.UI.Bundling;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.LeptonXLite;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.LeptonXLite.Bundling;
@@ -32,7 +30,6 @@ using Volo.Abp.DistributedLocking;
 using Volo.Abp.Localization;
 using Volo.Abp.Modularity;
 using Volo.Abp.UI.Navigation.Urls;
-using Volo.Abp.UI;
 using Volo.Abp.VirtualFileSystem;
 
 namespace BlueXT.MobileMonitoring;
@@ -47,80 +44,87 @@ namespace BlueXT.MobileMonitoring;
     typeof(AbpAspNetCoreMvcUiLeptonXLiteThemeModule),
     typeof(MobileMonitoringEntityFrameworkCoreModule),
     typeof(AbpAspNetCoreSerilogModule)
-    )]
+)]
 public class MobileMonitoringAuthServerModule : AbpModule
 {
-    public override void PreConfigureServices(ServiceConfigurationContext context)
-    {
-        PreConfigure<OpenIddictBuilder>(builder =>
-        {
-            builder.AddValidation(options =>
+    public override void PreConfigureServices(ServiceConfigurationContext context) =>
+        PreConfigure<OpenIddictBuilder>(
+            builder =>
             {
-                options.AddAudiences("MobileMonitoring");
-                options.UseLocalServer();
-                options.UseAspNetCore();
+                builder.AddValidation(
+                    options =>
+                    {
+                        options.AddAudiences("MobileMonitoring");
+                        options.UseLocalServer();
+                        options.UseAspNetCore();
+                    });
             });
-        });
-    }
 
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
         var hostingEnvironment = context.Services.GetHostingEnvironment();
         var configuration = context.Services.GetConfiguration();
 
-        Configure<AbpLocalizationOptions>(options =>
-        {
-            options.Resources
-                .Get<MobileMonitoringResource>()
-                .AddBaseTypes(
-                    typeof(AbpUiResource)
+        Configure<AbpLocalizationOptions>(
+            options =>
+            {
+                options.Resources
+                    .Get<MobileMonitoringResource>()
+                    .AddBaseTypes(
+                        typeof(AbpUiResource)
+                    );
+            });
+
+        Configure<AbpBundlingOptions>(
+            options =>
+            {
+                options.StyleBundles.Configure(
+                    LeptonXLiteThemeBundles.Styles.Global,
+                    bundle =>
+                    {
+                        bundle.AddFiles("/global-styles.css");
+                    }
                 );
-        });
+            });
 
-        Configure<AbpBundlingOptions>(options =>
-        {
-            options.StyleBundles.Configure(
-                LeptonXLiteThemeBundles.Styles.Global,
-                bundle =>
-                {
-                    bundle.AddFiles("/global-styles.css");
-                }
-            );
-        });
-
-        Configure<AbpAuditingOptions>(options =>
-        {
+        Configure<AbpAuditingOptions>(
+            options =>
+            {
                 //options.IsEnabledForGetRequests = true;
                 options.ApplicationName = "AuthServer";
-        });
+            });
 
         if (hostingEnvironment.IsDevelopment())
         {
-            Configure<AbpVirtualFileSystemOptions>(options =>
-            {
-                options.FileSets.ReplaceEmbeddedByPhysical<MobileMonitoringDomainSharedModule>(Path.Combine(hostingEnvironment.ContentRootPath, $"..{Path.DirectorySeparatorChar}BlueXT.MobileMonitoring.Domain.Shared"));
-                options.FileSets.ReplaceEmbeddedByPhysical<MobileMonitoringDomainModule>(Path.Combine(hostingEnvironment.ContentRootPath, $"..{Path.DirectorySeparatorChar}BlueXT.MobileMonitoring.Domain"));
-            });
+            Configure<AbpVirtualFileSystemOptions>(
+                options =>
+                {
+                    options.FileSets.ReplaceEmbeddedByPhysical<MobileMonitoringDomainSharedModule>(Path.Combine(hostingEnvironment.ContentRootPath, $"..{Path.DirectorySeparatorChar}BlueXT.MobileMonitoring.Domain.Shared"));
+                    options.FileSets.ReplaceEmbeddedByPhysical<MobileMonitoringDomainModule>(Path.Combine(hostingEnvironment.ContentRootPath, $"..{Path.DirectorySeparatorChar}BlueXT.MobileMonitoring.Domain"));
+                });
         }
 
-        Configure<AppUrlOptions>(options =>
-        {
-            options.Applications["MVC"].RootUrl = configuration["App:SelfUrl"];
-            options.RedirectAllowedUrls.AddRange(configuration["App:RedirectAllowedUrls"]?.Split(',') ?? Array.Empty<string>());
+        Configure<AppUrlOptions>(
+            options =>
+            {
+                options.Applications["MVC"].RootUrl = configuration["App:SelfUrl"];
+                options.RedirectAllowedUrls.AddRange(configuration["App:RedirectAllowedUrls"]?.Split(separator: ',') ?? Array.Empty<string>());
 
-            options.Applications["Angular"].RootUrl = configuration["App:ClientUrl"];
-            options.Applications["Angular"].Urls[AccountUrlNames.PasswordReset] = "account/reset-password";
-        });
+                options.Applications["Angular"].RootUrl = configuration["App:ClientUrl"];
+                options.Applications["Angular"].Urls[AccountUrlNames.PasswordReset] = "account/reset-password";
+            });
 
-        Configure<AbpBackgroundJobOptions>(options =>
-        {
-            options.IsJobExecutionEnabled = false;
-        });
+        Configure<AbpBackgroundJobOptions>(
+            options =>
+            {
+                options.IsJobExecutionEnabled = false;
+            });
 
-        Configure<AbpDistributedCacheOptions>(options =>
-        {
-            options.KeyPrefix = "MobileMonitoring:";
-        });
+        Configure<AbpDistributedCacheOptions>(
+            options =>
+            {
+                options.KeyPrefix = "MobileMonitoring:";
+            });
 
         var dataProtectionBuilder = context.Services.AddDataProtection().SetApplicationName("MobileMonitoring");
         if (!hostingEnvironment.IsDevelopment())
@@ -129,31 +133,34 @@ public class MobileMonitoringAuthServerModule : AbpModule
             dataProtectionBuilder.PersistKeysToStackExchangeRedis(redis, "MobileMonitoring-Protection-Keys");
         }
 
-        context.Services.AddSingleton<IDistributedLockProvider>(sp =>
-        {
-            var connection = ConnectionMultiplexer
-                .Connect(configuration["Redis:Configuration"]);
-            return new RedisDistributedSynchronizationProvider(connection.GetDatabase());
-        });
-
-        context.Services.AddCors(options =>
-        {
-            options.AddDefaultPolicy(builder =>
+        context.Services.AddSingleton<IDistributedLockProvider>(
+            sp =>
             {
-                builder
-                    .WithOrigins(
-                        configuration["App:CorsOrigins"]?
-                            .Split(",", StringSplitOptions.RemoveEmptyEntries)
-                            .Select(o => o.RemovePostFix("/"))
-                            .ToArray() ?? Array.Empty<string>()
-                    )
-                    .WithAbpExposedHeaders()
-                    .SetIsOriginAllowedToAllowWildcardSubdomains()
-                    .AllowAnyHeader()
-                    .AllowAnyMethod()
-                    .AllowCredentials();
+                var connection = ConnectionMultiplexer
+                    .Connect(configuration["Redis:Configuration"]);
+                return new RedisDistributedSynchronizationProvider(connection.GetDatabase());
             });
-        });
+
+        context.Services.AddCors(
+            options =>
+            {
+                options.AddDefaultPolicy(
+                    builder =>
+                    {
+                        builder
+                            .WithOrigins(
+                                configuration["App:CorsOrigins"]?
+                                    .Split(",", StringSplitOptions.RemoveEmptyEntries)
+                                    .Select(o => o.RemovePostFix("/"))
+                                    .ToArray() ?? Array.Empty<string>()
+                            )
+                            .WithAbpExposedHeaders()
+                            .SetIsOriginAllowedToAllowWildcardSubdomains()
+                            .AllowAnyHeader()
+                            .AllowAnyMethod()
+                            .AllowCredentials();
+                    });
+            });
     }
 
     public override void OnApplicationInitialization(ApplicationInitializationContext context)

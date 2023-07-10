@@ -5,5 +5,4 @@ namespace BlueXT.MobileMonitoring.Localization;
 [LocalizationResourceName("MobileMonitoring")]
 public class MobileMonitoringResource
 {
-
 }

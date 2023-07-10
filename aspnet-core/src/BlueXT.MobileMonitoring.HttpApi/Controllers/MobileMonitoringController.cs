@@ -7,8 +7,5 @@ namespace BlueXT.MobileMonitoring.Controllers;
  */
 public abstract class MobileMonitoringController : AbpControllerBase
 {
-    protected MobileMonitoringController()
-    {
-        LocalizationResource = typeof(MobileMonitoringResource);
-    }
+    protected MobileMonitoringController() => LocalizationResource = typeof(MobileMonitoringResource);
 }

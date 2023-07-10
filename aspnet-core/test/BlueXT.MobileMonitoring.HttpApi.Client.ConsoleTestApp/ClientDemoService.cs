@@ -9,10 +9,7 @@ public class ClientDemoService : ITransientDependency
 {
     private readonly IProfileAppService _profileAppService;
 
-    public ClientDemoService(IProfileAppService profileAppService)
-    {
-        _profileAppService = profileAppService;
-    }
+    public ClientDemoService(IProfileAppService profileAppService) => _profileAppService = profileAppService;
 
     public async Task RunAsync()
     {

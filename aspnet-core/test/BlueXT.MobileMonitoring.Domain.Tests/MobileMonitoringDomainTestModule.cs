@@ -5,8 +5,7 @@ namespace BlueXT.MobileMonitoring;
 
 [DependsOn(
     typeof(MobileMonitoringEntityFrameworkCoreTestModule)
-    )]
+)]
 public class MobileMonitoringDomainTestModule : AbpModule
 {
-
 }

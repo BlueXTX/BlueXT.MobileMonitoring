@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using BlueXT.MobileMonitoring.Localization;
+﻿using BlueXT.MobileMonitoring.Localization;
 using Volo.Abp.Application.Services;
 
 namespace BlueXT.MobileMonitoring;
@@ -10,8 +7,5 @@ namespace BlueXT.MobileMonitoring;
  */
 public abstract class MobileMonitoringAppService : ApplicationService
 {
-    protected MobileMonitoringAppService()
-    {
-        LocalizationResource = typeof(MobileMonitoringResource);
-    }
+    protected MobileMonitoringAppService() => LocalizationResource = typeof(MobileMonitoringResource);
 }

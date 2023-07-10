@@ -1,5 +1,5 @@
-﻿using Localization.Resources.AbpUi;
-using BlueXT.MobileMonitoring.Localization;
+﻿using BlueXT.MobileMonitoring.Localization;
+using Localization.Resources.AbpUi;
 using Volo.Abp.Account;
 using Volo.Abp.FeatureManagement;
 using Volo.Abp.Identity;
@@ -19,23 +19,19 @@ namespace BlueXT.MobileMonitoring;
     typeof(AbpTenantManagementHttpApiModule),
     typeof(AbpFeatureManagementHttpApiModule),
     typeof(AbpSettingManagementHttpApiModule)
-    )]
+)]
 public class MobileMonitoringHttpApiModule : AbpModule
 {
-    public override void ConfigureServices(ServiceConfigurationContext context)
-    {
-        ConfigureLocalization();
-    }
+    public override void ConfigureServices(ServiceConfigurationContext context) => ConfigureLocalization();
 
-    private void ConfigureLocalization()
-    {
-        Configure<AbpLocalizationOptions>(options =>
-        {
-            options.Resources
-                .Get<MobileMonitoringResource>()
-                .AddBaseTypes(
-                    typeof(AbpUiResource)
-                );
-        });
-    }
+    private void ConfigureLocalization() =>
+        Configure<AbpLocalizationOptions>(
+            options =>
+            {
+                options.Resources
+                    .Get<MobileMonitoringResource>()
+                    .AddBaseTypes(
+                        typeof(AbpUiResource)
+                    );
+            });
 }

@@ -2,5 +2,4 @@
 
 public abstract class MobileMonitoringDomainTestBase : MobileMonitoringTestBase<MobileMonitoringDomainTestModule>
 {
-
 }

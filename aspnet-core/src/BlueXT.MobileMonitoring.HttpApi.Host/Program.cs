@@ -11,7 +11,7 @@ namespace BlueXT.MobileMonitoring;
 
 public class Program
 {
-    public async static Task<int> Main(string[] args)
+    public static async Task<int> Main(string[] args)
     {
         var logsPath = Path.Join(AppDomain.CurrentDomain.BaseDirectory, "Logs", "logs.txt");
         Log.Logger = new LoggerConfiguration()

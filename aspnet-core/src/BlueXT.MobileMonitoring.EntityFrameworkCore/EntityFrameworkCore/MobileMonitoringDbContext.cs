@@ -25,8 +25,29 @@ public class MobileMonitoringDbContext :
     IIdentityDbContext,
     ITenantManagementDbContext
 {
+    public MobileMonitoringDbContext(DbContextOptions<MobileMonitoringDbContext> options)
+        : base(options)
+    {
+    }
+
     /* Add DbSet properties for your Aggregate Roots / Entities here. */
     public DbSet<DeviceStatistic> DeviceStatistics { get; set; }
+
+    protected override void OnModelCreating(ModelBuilder builder)
+    {
+        base.OnModelCreating(builder);
+
+        builder.ConfigurePermissionManagement();
+        builder.ConfigureSettingManagement();
+        builder.ConfigureBackgroundJobs();
+        builder.ConfigureAuditLogging();
+        builder.ConfigureIdentity();
+        builder.ConfigureOpenIddict();
+        builder.ConfigureFeatureManagement();
+        builder.ConfigureTenantManagement();
+
+        builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+    }
 
     #region Entities from the modules
 
@@ -55,25 +76,4 @@ public class MobileMonitoringDbContext :
     public DbSet<TenantConnectionString> TenantConnectionStrings { get; set; }
 
     #endregion
-
-    public MobileMonitoringDbContext(DbContextOptions<MobileMonitoringDbContext> options)
-        : base(options)
-    {
-    }
-
-    protected override void OnModelCreating(ModelBuilder builder)
-    {
-        base.OnModelCreating(builder);
-
-        builder.ConfigurePermissionManagement();
-        builder.ConfigureSettingManagement();
-        builder.ConfigureBackgroundJobs();
-        builder.ConfigureAuditLogging();
-        builder.ConfigureIdentity();
-        builder.ConfigureOpenIddict();
-        builder.ConfigureFeatureManagement();
-        builder.ConfigureTenantManagement();
-
-        builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-    }
 }

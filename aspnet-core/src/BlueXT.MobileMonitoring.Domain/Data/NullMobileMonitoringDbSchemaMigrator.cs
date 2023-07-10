@@ -8,8 +8,5 @@ namespace BlueXT.MobileMonitoring.Data;
  */
 public class NullMobileMonitoringDbSchemaMigrator : IMobileMonitoringDbSchemaMigrator, ITransientDependency
 {
-    public Task MigrateAsync()
-    {
-        return Task.CompletedTask;
-    }
+    public Task MigrateAsync() => Task.CompletedTask;
 }

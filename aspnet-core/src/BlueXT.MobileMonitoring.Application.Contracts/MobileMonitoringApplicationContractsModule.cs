@@ -21,8 +21,5 @@ namespace BlueXT.MobileMonitoring;
 )]
 public class MobileMonitoringApplicationContractsModule : AbpModule
 {
-    public override void PreConfigureServices(ServiceConfigurationContext context)
-    {
-        MobileMonitoringDtoExtensions.Configure();
-    }
+    public override void PreConfigureServices(ServiceConfigurationContext context) => MobileMonitoringDtoExtensions.Configure();
 }
