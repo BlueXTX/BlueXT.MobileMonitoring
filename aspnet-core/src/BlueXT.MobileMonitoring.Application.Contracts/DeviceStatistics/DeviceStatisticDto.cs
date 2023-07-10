@@ -4,7 +4,7 @@ using Volo.Abp.Application.Dtos;
 namespace BlueXT.MobileMonitoring.DeviceStatistics;
 
 /// <summary>
-/// DTO для DeviceStatistic/>/>
+/// DTO для получения DeviceStatistic.
 /// </summary>
 public class DeviceStatisticDto : FullAuditedEntityDto<Guid>
 {

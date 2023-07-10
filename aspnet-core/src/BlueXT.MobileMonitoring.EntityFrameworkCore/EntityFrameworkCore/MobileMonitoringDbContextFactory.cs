@@ -6,13 +6,10 @@ using Microsoft.Extensions.Configuration;
 
 namespace BlueXT.MobileMonitoring.EntityFrameworkCore;
 
-/* This class is needed for EF Core console commands
- * (like Add-Migration and Update-Database commands) */
 public class MobileMonitoringDbContextFactory : IDesignTimeDbContextFactory<MobileMonitoringDbContext>
 {
     public MobileMonitoringDbContext CreateDbContext(string[] args)
     {
-        // https://www.npgsql.org/efcore/release-notes/6.0.html#opting-out-of-the-new-timestamp-mapping-logic
         AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", isEnabled: true);
 
         MobileMonitoringEfCoreEntityExtensionMappings.Configure();
