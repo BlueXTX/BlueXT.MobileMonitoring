@@ -1,4 +1,6 @@
 ﻿using System;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.Uow;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
@@ -26,12 +28,11 @@ namespace BlueXT.MobileMonitoring.EntityFrameworkCore;
     typeof(AbpAuditLoggingEntityFrameworkCoreModule),
     typeof(AbpTenantManagementEntityFrameworkCoreModule),
     typeof(AbpFeatureManagementEntityFrameworkCoreModule)
-    )]
+)]
 public class MobileMonitoringEntityFrameworkCoreModule : AbpModule
 {
     public override void PreConfigureServices(ServiceConfigurationContext context)
     {
-        // https://www.npgsql.org/efcore/release-notes/6.0.html#opting-out-of-the-new-timestamp-mapping-logic
         AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
         MobileMonitoringEfCoreEntityExtensionMappings.Configure();
@@ -39,19 +40,49 @@ public class MobileMonitoringEntityFrameworkCoreModule : AbpModule
 
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
-        context.Services.AddAbpDbContext<MobileMonitoringDbContext>(options =>
-        {
-                /* Remove "includeAllEntities: true" to create
-                 * default repositories only for aggregate roots */
-            options.AddDefaultRepositories(includeAllEntities: true);
-        });
+        var configuration = context.Services.GetConfiguration();
 
-        Configure<AbpDbContextOptions>(options =>
-        {
-                /* The main point to change your DBMS.
-                 * See also MobileMonitoringMigrationsDbContextFactory for EF Core tooling. */
-            options.UseNpgsql();
-        });
+        context.Services.AddAbpDbContext<MobileMonitoringDbContext>(
+            options =>
+            {
+                options.AddDefaultRepositories(includeAllEntities: true);
+            });
 
+        var useInMemoryDatabase = configuration.GetValue<bool>("UseInMemoryDatabase");
+
+        if (useInMemoryDatabase)
+        {
+            ConfigureInMemoryDatabase();
+        }
+        else
+        {
+            ConfigureNpgsqlDatabase();
+        }
+    }
+
+    private void ConfigureNpgsqlDatabase() =>
+        Configure<AbpDbContextOptions>(
+            options =>
+            {
+                options.UseNpgsql();
+            });
+
+    private void ConfigureInMemoryDatabase()
+    {
+        Configure<AbpDbContextOptions>(
+            options =>
+            {
+                options.Configure(
+                    configurationContext =>
+                    {
+                        configurationContext.DbContextOptions.UseInMemoryDatabase("MobileMonitoringDb");
+                    });
+            });
+
+        Configure<AbpUnitOfWorkDefaultOptions>(
+            options => { options.TransactionBehavior = UnitOfWorkTransactionBehavior.Disabled; });
+
+        Configure<AbpUnitOfWorkOptions>(
+            options => { options.IsTransactional = false; });
     }
 }
