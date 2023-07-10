@@ -2,8 +2,7 @@
 
 public static class MobileMonitoringPermissions
 {
-    public const string GroupName = "MobileMonitoring";
-
-    //Add your own permission names. Example:
-    //public const string MyPermission1 = GroupName + ".MyPermission1";
+    public const string DeviceStatistics = "DeviceStatistics";
+    public const string Delete = DeviceStatistics + ".Delete";
+    public const string GetList = DeviceStatistics + ".GetList";
 }

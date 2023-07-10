@@ -8,13 +8,14 @@ public class MobileMonitoringPermissionDefinitionProvider : PermissionDefinition
 {
     public override void Define(IPermissionDefinitionContext context)
     {
-        var myGroup = context.AddGroup(MobileMonitoringPermissions.GroupName);
-        //Define your own permissions here. Example:
-        //myGroup.AddPermission(MobileMonitoringPermissions.MyPermission1, L("Permission:MyPermission1"));
+        var deviceStatistics = context.AddGroup(MobileMonitoringPermissions.DeviceStatistics);
+        deviceStatistics.AddPermission(
+            MobileMonitoringPermissions.Delete,
+            L($"Permission:{nameof(MobileMonitoringPermissions.Delete)}"));
+        deviceStatistics.AddPermission(
+            MobileMonitoringPermissions.GetList,
+            L($"Permission:{nameof(MobileMonitoringPermissions.GetList)}"));
     }
 
-    private static LocalizableString L(string name)
-    {
-        return LocalizableString.Create<MobileMonitoringResource>(name);
-    }
+    private static LocalizableString L(string name) => LocalizableString.Create<MobileMonitoringResource>(name);
 }
