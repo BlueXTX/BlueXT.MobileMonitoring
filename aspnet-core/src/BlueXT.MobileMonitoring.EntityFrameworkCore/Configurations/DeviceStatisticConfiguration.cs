@@ -11,7 +11,7 @@ public class DeviceStatisticConfiguration : IEntityTypeConfiguration<DeviceStati
     {
         builder.ToTable(MobileMonitoringConsts.DbTablePrefix + nameof(DeviceStatistic) + MobileMonitoringConsts.DbSchema);
         builder.ConfigureByConvention();
-        builder.Property(x => x.DeviceId).IsRequired();
+        builder.HasIndex(x => x.DeviceId);
         builder.Property(x => x.Username).IsRequired();
         builder.Property(x => x.OperatingSystem).IsRequired();
         builder.Property(x => x.AppVersion).IsRequired();
