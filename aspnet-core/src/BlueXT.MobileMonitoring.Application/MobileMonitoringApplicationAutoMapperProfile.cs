@@ -14,6 +14,6 @@ public class MobileMonitoringApplicationAutoMapperProfile : Profile
     public MobileMonitoringApplicationAutoMapperProfile()
     {
         CreateMap<DeviceStatistic, DeviceStatisticDto>();
-        CreateMap<CreateUpdateDeviceStatisticDto, DeviceStatistic>();
+        CreateMap<CreateOrUpdateDeviceStatisticDto, DeviceStatistic>();
     }
 }

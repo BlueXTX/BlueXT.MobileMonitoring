@@ -8,7 +8,7 @@ namespace BlueXT.MobileMonitoring.DeviceStatistics;
 /// <summary>
 /// CRUD сервис для сущности <see cref="DeviceStatistic"/>.
 /// </summary>
-public class DeviceStatisticService : CrudAppService<DeviceStatistic, DeviceStatisticDto, Guid, PagedAndSortedResultRequestDto, CreateUpdateDeviceStatisticDto>, IDeviceStatisticService
+public class DeviceStatisticService : CrudAppService<DeviceStatistic, DeviceStatisticDto, Guid, PagedAndSortedResultRequestDto, CreateOrUpdateDeviceStatisticDto>, IDeviceStatisticService
 {
     /// <summary>
     /// Конструктор класса.

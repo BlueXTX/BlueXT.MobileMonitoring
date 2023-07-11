@@ -3,9 +3,9 @@
 namespace BlueXT.MobileMonitoring.DeviceStatistics.Validators;
 
 /// <summary>
-/// Валидатор для сущности <see cref="CreateUpdateDeviceStatisticDto"/>.
+/// Валидатор для сущности <see cref="CreateOrUpdateDeviceStatisticDto"/>.
 /// </summary>
-public class CreateUpdateDeviceStatisticDtoValidator : AbstractValidator<CreateUpdateDeviceStatisticDto>
+public class CreateUpdateDeviceStatisticDtoValidator : AbstractValidator<CreateOrUpdateDeviceStatisticDto>
 {
     /// <summary>
     /// Набор правил.
