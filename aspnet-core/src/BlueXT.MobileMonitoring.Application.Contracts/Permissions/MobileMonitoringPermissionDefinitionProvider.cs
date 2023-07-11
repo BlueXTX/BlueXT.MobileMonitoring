@@ -18,11 +18,11 @@ public class MobileMonitoringPermissionDefinitionProvider : PermissionDefinition
         var deviceStatistics = context.AddGroup(MobileMonitoringPermissions.DeviceStatistics);
         deviceStatistics.AddPermission(
             MobileMonitoringPermissions.Delete,
-            L($"Permission:{nameof(MobileMonitoringPermissions.Delete)}"));
+            Localizer($"Permission:{nameof(MobileMonitoringPermissions.Delete)}"));
         deviceStatistics.AddPermission(
             MobileMonitoringPermissions.GetList,
-            L($"Permission:{nameof(MobileMonitoringPermissions.GetList)}"));
+            Localizer($"Permission:{nameof(MobileMonitoringPermissions.GetList)}"));
     }
 
-    private static LocalizableString L(string name) => LocalizableString.Create<MobileMonitoringResource>(name);
+    private static LocalizableString Localizer(string name) => LocalizableString.Create<MobileMonitoringResource>(name);
 }
