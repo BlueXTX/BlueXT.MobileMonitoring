@@ -12,18 +12,14 @@ using Volo.Abp.Identity.EntityFrameworkCore;
 using Volo.Abp.OpenIddict.EntityFrameworkCore;
 using Volo.Abp.PermissionManagement.EntityFrameworkCore;
 using Volo.Abp.SettingManagement.EntityFrameworkCore;
-using Volo.Abp.TenantManagement;
-using Volo.Abp.TenantManagement.EntityFrameworkCore;
 
 namespace BlueXT.MobileMonitoring.EntityFrameworkCore;
 
 [ReplaceDbContext(typeof(IIdentityDbContext))]
-[ReplaceDbContext(typeof(ITenantManagementDbContext))]
 [ConnectionStringName("Default")]
 public class MobileMonitoringDbContext :
     AbpDbContext<MobileMonitoringDbContext>,
-    IIdentityDbContext,
-    ITenantManagementDbContext
+    IIdentityDbContext
 {
     public MobileMonitoringDbContext(DbContextOptions<MobileMonitoringDbContext> options)
         : base(options)
@@ -43,7 +39,6 @@ public class MobileMonitoringDbContext :
         builder.ConfigureIdentity();
         builder.ConfigureOpenIddict();
         builder.ConfigureFeatureManagement();
-        builder.ConfigureTenantManagement();
 
         builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
     }
@@ -58,10 +53,6 @@ public class MobileMonitoringDbContext :
     public DbSet<IdentitySecurityLog> SecurityLogs { get; set; }
     public DbSet<IdentityLinkUser> LinkUsers { get; set; }
     public DbSet<IdentityUserDelegation> UserDelegations { get; set; }
-
-    // Tenant Management
-    public DbSet<Tenant> Tenants { get; set; }
-    public DbSet<TenantConnectionString> TenantConnectionStrings { get; set; }
 
     #endregion
 }

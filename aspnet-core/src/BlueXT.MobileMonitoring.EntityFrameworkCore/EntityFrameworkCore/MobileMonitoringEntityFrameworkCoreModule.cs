@@ -12,7 +12,6 @@ using Volo.Abp.Modularity;
 using Volo.Abp.OpenIddict.EntityFrameworkCore;
 using Volo.Abp.PermissionManagement.EntityFrameworkCore;
 using Volo.Abp.SettingManagement.EntityFrameworkCore;
-using Volo.Abp.TenantManagement.EntityFrameworkCore;
 using Volo.Abp.Uow;
 
 namespace BlueXT.MobileMonitoring.EntityFrameworkCore;
@@ -26,7 +25,6 @@ namespace BlueXT.MobileMonitoring.EntityFrameworkCore;
     typeof(AbpEntityFrameworkCorePostgreSqlModule),
     typeof(AbpBackgroundJobsEntityFrameworkCoreModule),
     typeof(AbpAuditLoggingEntityFrameworkCoreModule),
-    typeof(AbpTenantManagementEntityFrameworkCoreModule),
     typeof(AbpFeatureManagementEntityFrameworkCoreModule)
 )]
 public class MobileMonitoringEntityFrameworkCoreModule : AbpModule

@@ -1,5 +1,4 @@
-﻿using BlueXT.MobileMonitoring.MultiTenancy;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Volo.Abp.AuditLogging;
 using Volo.Abp.BackgroundJobs;
@@ -8,12 +7,10 @@ using Volo.Abp.FeatureManagement;
 using Volo.Abp.Identity;
 using Volo.Abp.Localization;
 using Volo.Abp.Modularity;
-using Volo.Abp.MultiTenancy;
 using Volo.Abp.OpenIddict;
 using Volo.Abp.PermissionManagement.Identity;
 using Volo.Abp.PermissionManagement.OpenIddict;
 using Volo.Abp.SettingManagement;
-using Volo.Abp.TenantManagement;
 
 namespace BlueXT.MobileMonitoring;
 
@@ -27,7 +24,6 @@ namespace BlueXT.MobileMonitoring;
     typeof(AbpPermissionManagementDomainOpenIddictModule),
     typeof(AbpPermissionManagementDomainIdentityModule),
     typeof(AbpSettingManagementDomainModule),
-    typeof(AbpTenantManagementDomainModule),
     typeof(AbpEmailingModule)
 )]
 public class MobileMonitoringDomainModule : AbpModule
@@ -105,12 +101,6 @@ public class MobileMonitoringDomainModule : AbpModule
                         "Deutsch",
                         "de"));
                 options.Languages.Add(new LanguageInfo("es", "es", "Español"));
-            });
-
-        Configure<AbpMultiTenancyOptions>(
-            options =>
-            {
-                options.IsEnabled = MultiTenancyConsts.IsEnabled;
             });
 
 #if DEBUG

@@ -187,11 +187,6 @@ public class MobileMonitoringAuthServerModule : AbpModule
         app.UseAuthentication();
         app.UseAbpOpenIddictValidation();
 
-        if (MultiTenancyConsts.IsEnabled)
-        {
-            app.UseMultiTenancy();
-        }
-
         app.UseUnitOfWork();
         app.UseAuthorization();
         app.UseAuditing();
