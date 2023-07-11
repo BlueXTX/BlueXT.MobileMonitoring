@@ -1,6 +1,8 @@
 ﻿namespace BlueXT.MobileMonitoring;
 
+/// <summary>
+/// Константы описывающие ошибки бизнес логики.
+/// </summary>
 public static class MobileMonitoringDomainErrorCodes
 {
-    /* You can add your business exception error codes here, as constants */
 }

@@ -1,5 +1,5 @@
-﻿using Shouldly;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using Shouldly;
 using Volo.Abp.Identity;
 using Xunit;
 
@@ -14,10 +14,7 @@ public class SampleAppServiceTests : MobileMonitoringApplicationTestBase
 {
     private readonly IIdentityUserAppService _userAppService;
 
-    public SampleAppServiceTests()
-    {
-        _userAppService = GetRequiredService<IIdentityUserAppService>();
-    }
+    public SampleAppServiceTests() => _userAppService = GetRequiredService<IIdentityUserAppService>();
 
     [Fact]
     public async Task Initial_Data_Should_Contain_Admin_User()
@@ -26,7 +23,7 @@ public class SampleAppServiceTests : MobileMonitoringApplicationTestBase
         var result = await _userAppService.GetListAsync(new GetIdentityUsersInput());
 
         //Assert
-        result.TotalCount.ShouldBeGreaterThan(0);
+        result.TotalCount.ShouldBeGreaterThan(expected: 0);
         result.Items.ShouldContain(u => u.UserName == "admin");
     }
 }

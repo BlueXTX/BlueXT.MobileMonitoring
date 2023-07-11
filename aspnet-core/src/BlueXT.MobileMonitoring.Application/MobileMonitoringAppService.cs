@@ -1,17 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using BlueXT.MobileMonitoring.Localization;
+﻿using BlueXT.MobileMonitoring.Localization;
 using Volo.Abp.Application.Services;
 
 namespace BlueXT.MobileMonitoring;
 
-/* Inherit your application services from this class.
- */
+/// <summary>
+/// Базовый класс для сервисов приложения MobileMonitoringApp.
+/// </summary>
 public abstract class MobileMonitoringAppService : ApplicationService
 {
-    protected MobileMonitoringAppService()
-    {
-        LocalizationResource = typeof(MobileMonitoringResource);
-    }
+    /// <summary>
+    /// Конструктор.
+    /// </summary>
+    protected MobileMonitoringAppService() => LocalizationResource = typeof(MobileMonitoringResource);
 }

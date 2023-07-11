@@ -1,20 +1,23 @@
 ﻿using System;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Volo.Abp.Uow;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
 using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore.PostgreSql;
-using Volo.Abp.FeatureManagement.EntityFrameworkCore;
 using Volo.Abp.Identity.EntityFrameworkCore;
 using Volo.Abp.Modularity;
 using Volo.Abp.OpenIddict.EntityFrameworkCore;
 using Volo.Abp.PermissionManagement.EntityFrameworkCore;
 using Volo.Abp.SettingManagement.EntityFrameworkCore;
-using Volo.Abp.TenantManagement.EntityFrameworkCore;
+using Volo.Abp.Uow;
 
 namespace BlueXT.MobileMonitoring.EntityFrameworkCore;
 
+/// <summary>
+/// Модуль приложения отвечающий за работу с Entity Framework.
+/// </summary>
 [DependsOn(
     typeof(MobileMonitoringDomainModule),
     typeof(AbpIdentityEntityFrameworkCoreModule),
@@ -23,35 +26,65 @@ namespace BlueXT.MobileMonitoring.EntityFrameworkCore;
     typeof(AbpSettingManagementEntityFrameworkCoreModule),
     typeof(AbpEntityFrameworkCorePostgreSqlModule),
     typeof(AbpBackgroundJobsEntityFrameworkCoreModule),
-    typeof(AbpAuditLoggingEntityFrameworkCoreModule),
-    typeof(AbpTenantManagementEntityFrameworkCoreModule),
-    typeof(AbpFeatureManagementEntityFrameworkCoreModule)
-    )]
+    typeof(AbpAuditLoggingEntityFrameworkCoreModule)
+)]
 public class MobileMonitoringEntityFrameworkCoreModule : AbpModule
 {
-    public override void PreConfigureServices(ServiceConfigurationContext context)
-    {
-        // https://www.npgsql.org/efcore/release-notes/6.0.html#opting-out-of-the-new-timestamp-mapping-logic
-        AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+    /// <summary>
+    /// Предварительная конфигурация сервисов.
+    /// </summary>
+    /// <param name="context">Контекст конфигурации.</param>
+    public override void PreConfigureServices(ServiceConfigurationContext context) => AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", isEnabled: true);
 
-        MobileMonitoringEfCoreEntityExtensionMappings.Configure();
-    }
-
+    /// <summary>
+    /// Конфигурация сервисов.
+    /// </summary>
+    /// <param name="context">Контекст конфигурации.</param>
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
-        context.Services.AddAbpDbContext<MobileMonitoringDbContext>(options =>
-        {
-                /* Remove "includeAllEntities: true" to create
-                 * default repositories only for aggregate roots */
-            options.AddDefaultRepositories(includeAllEntities: true);
-        });
+        var configuration = context.Services.GetConfiguration();
 
-        Configure<AbpDbContextOptions>(options =>
-        {
-                /* The main point to change your DBMS.
-                 * See also MobileMonitoringMigrationsDbContextFactory for EF Core tooling. */
-            options.UseNpgsql();
-        });
+        context.Services.AddAbpDbContext<MobileMonitoringDbContext>(
+            options =>
+            {
+                options.AddDefaultRepositories(includeAllEntities: true);
+            });
 
+        var useInMemoryDatabase = configuration.GetValue<bool>("UseInMemoryDatabase");
+
+        if (useInMemoryDatabase)
+        {
+            ConfigureInMemoryDatabase();
+        }
+        else
+        {
+            ConfigureNpgsqlDatabase();
+        }
+    }
+
+    private void ConfigureNpgsqlDatabase() =>
+        Configure<AbpDbContextOptions>(
+            options =>
+            {
+                options.UseNpgsql();
+            });
+
+    private void ConfigureInMemoryDatabase()
+    {
+        Configure<AbpDbContextOptions>(
+            options =>
+            {
+                options.Configure(
+                    configurationContext =>
+                    {
+                        configurationContext.DbContextOptions.UseInMemoryDatabase("MobileMonitoringDb");
+                    });
+            });
+
+        Configure<AbpUnitOfWorkDefaultOptions>(
+            options => { options.TransactionBehavior = UnitOfWorkTransactionBehavior.Disabled; });
+
+        Configure<AbpUnitOfWorkOptions>(
+            options => { options.IsTransactional = false; });
     }
 }

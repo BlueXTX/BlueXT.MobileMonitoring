@@ -1,34 +1,32 @@
 ﻿using System;
 using System.Threading.Tasks;
+using BlueXT.MobileMonitoring.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using BlueXT.MobileMonitoring.Data;
 using Volo.Abp.DependencyInjection;
 
 namespace BlueXT.MobileMonitoring.EntityFrameworkCore;
 
+/// <summary>
+/// Мигратор схемы базы данных для Entity Framework.
+/// </summary>
 public class EntityFrameworkCoreMobileMonitoringDbSchemaMigrator
     : IMobileMonitoringDbSchemaMigrator, ITransientDependency
 {
     private readonly IServiceProvider _serviceProvider;
 
+    /// <summary>
+    /// Конструктор.
+    /// </summary>
+    /// <param name="serviceProvider">Провайдер сервисов приложения.</param>
     public EntityFrameworkCoreMobileMonitoringDbSchemaMigrator(
-        IServiceProvider serviceProvider)
-    {
+        IServiceProvider serviceProvider) =>
         _serviceProvider = serviceProvider;
-    }
 
-    public async Task MigrateAsync()
-    {
-        /* We intentionally resolving the MobileMonitoringDbContext
-         * from IServiceProvider (instead of directly injecting it)
-         * to properly get the connection string of the current tenant in the
-         * current scope.
-         */
-
+    /// <inheritdoc cref="IMobileMonitoringDbSchemaMigrator.MigrateAsync"/>
+    public async Task MigrateAsync() =>
         await _serviceProvider
             .GetRequiredService<MobileMonitoringDbContext>()
             .Database
             .MigrateAsync();
-    }
 }

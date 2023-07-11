@@ -1,8 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Shouldly;
-using System;
+﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using Shouldly;
 using Volo.Abp.Domain.Repositories;
 using Volo.Abp.Identity;
 using Xunit;
@@ -18,26 +18,22 @@ public class SampleRepositoryTests : MobileMonitoringEntityFrameworkCoreTestBase
 {
     private readonly IRepository<IdentityUser, Guid> _appUserRepository;
 
-    public SampleRepositoryTests()
-    {
-        _appUserRepository = GetRequiredService<IRepository<IdentityUser, Guid>>();
-    }
+    public SampleRepositoryTests() => _appUserRepository = GetRequiredService<IRepository<IdentityUser, Guid>>();
 
     [Fact]
-    public async Task Should_Query_AppUser()
-    {
+    public async Task Should_Query_AppUser() =>
         /* Need to manually start Unit Of Work because
          * FirstOrDefaultAsync should be executed while db connection / context is available.
          */
-        await WithUnitOfWorkAsync(async () =>
-        {
+        await WithUnitOfWorkAsync(
+            async () =>
+            {
                 //Act
                 var adminUser = await (await _appUserRepository.GetQueryableAsync())
-                .Where(u => u.UserName == "admin")
-                .FirstOrDefaultAsync();
+                    .Where(u => u.UserName == "admin")
+                    .FirstOrDefaultAsync();
 
                 //Assert
                 adminUser.ShouldNotBeNull();
-        });
-    }
+            });
 }

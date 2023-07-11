@@ -1,13 +1,19 @@
 ﻿using AutoMapper;
+using BlueXT.MobileMonitoring.DeviceStatistics;
 
 namespace BlueXT.MobileMonitoring;
 
+/// <summary>
+/// Профиль маппинга сущности <see cref="DeviceStatistic"/>.
+/// </summary>
 public class MobileMonitoringApplicationAutoMapperProfile : Profile
 {
+    /// <summary>
+    /// Набор правил.
+    /// </summary>
     public MobileMonitoringApplicationAutoMapperProfile()
     {
-        /* You can configure your AutoMapper mapping configuration here.
-         * Alternatively, you can split your mapping configurations
-         * into multiple profile classes for a better organization. */
+        CreateMap<DeviceStatistic, DeviceStatisticDto>();
+        CreateMap<CreateOrUpdateDeviceStatisticDto, DeviceStatistic>();
     }
 }
