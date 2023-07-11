@@ -13,11 +13,9 @@
         "eslint-plugin-import",
         "@angular-eslint/eslint-plugin",
         "rxjs",
-        "sonarjs",
         "@typescript-eslint"
     ],
     "extends": [
-        "plugin:sonarjs/recommended",
         "plugin:@angular-eslint/recommended"
     ],
     "rules": {
@@ -172,7 +170,6 @@
         "prefer-const": "error",
         "radix": "error",
         "rxjs/no-unsafe-takeuntil": "error",
-        "spaced-comment": "off",
-        "sonarjs/no-redundant-jump": "off"
+        "spaced-comment": "off"
     }
 }
