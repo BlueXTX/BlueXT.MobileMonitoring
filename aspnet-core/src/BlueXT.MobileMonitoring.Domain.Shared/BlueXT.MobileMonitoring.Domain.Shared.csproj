@@ -7,6 +7,9 @@
         <Nullable>enable</Nullable>
         <RootNamespace>BlueXT.MobileMonitoring</RootNamespace>
         <GenerateEmbeddedFilesManifest>true</GenerateEmbeddedFilesManifest>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <CodeAnalysisRuleSet>..\..\infotecs.ruleset</CodeAnalysisRuleSet>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     </PropertyGroup>
 
     <ItemGroup>
@@ -27,4 +30,10 @@
         <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="7.0.0" />
     </ItemGroup>
 
+    <ItemGroup>
+        <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
+            <ExcludeAssets>all</ExcludeAssets>
+        </PackageReference>
+    </ItemGroup>
+    
 </Project>
