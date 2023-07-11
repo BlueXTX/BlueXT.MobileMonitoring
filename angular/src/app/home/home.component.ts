@@ -2,18 +2,18 @@ import { AuthService } from '@abp/ng.core';
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss'],
+    selector: 'app-home',
+    templateUrl: './home.component.html',
+    styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent {
-  get hasLoggedIn(): boolean {
-    return this.authService.isAuthenticated;
-  }
+    constructor(private authService: AuthService) {}
 
-  constructor(private authService: AuthService) {}
+    get hasLoggedIn(): boolean {
+        return this.authService.isAuthenticated;
+    }
 
-  login() {
-    this.authService.navigateToLogin();
-  }
+    login() {
+        this.authService.navigateToLogin();
+    }
 }
