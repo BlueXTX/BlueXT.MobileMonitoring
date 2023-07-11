@@ -22,6 +22,11 @@ public class MobileMonitoringDbMigrationService : ITransientDependency
     private readonly IEnumerable<IMobileMonitoringDbSchemaMigrator> _dbSchemaMigrators;
 
     /// <summary>
+    /// Логгер.
+    /// </summary>
+    private readonly ILogger<MobileMonitoringDbMigrationService> _logger;
+
+    /// <summary>
     /// Конструктор.
     /// </summary>
     /// <param name="dataSeeder">Сидер данных.</param>
@@ -33,13 +38,8 @@ public class MobileMonitoringDbMigrationService : ITransientDependency
         _dataSeeder = dataSeeder;
         _dbSchemaMigrators = dbSchemaMigrators;
 
-        Logger = NullLogger<MobileMonitoringDbMigrationService>.Instance;
+        _logger = NullLogger<MobileMonitoringDbMigrationService>.Instance;
     }
-
-    /// <summary>
-    /// Логгер.
-    /// </summary>
-    public ILogger<MobileMonitoringDbMigrationService> Logger { get; set; }
 
     /// <summary>
     /// Провести миграцию.
@@ -54,20 +54,20 @@ public class MobileMonitoringDbMigrationService : ITransientDependency
             return;
         }
 
-        Logger.LogInformation("Started database migrations...");
+        _logger.LogInformation("Started database migrations...");
 
         await MigrateDatabaseSchemaAsync();
         await SeedDataAsync();
 
-        Logger.LogInformation("Successfully completed host database migrations.");
+        _logger.LogInformation("Successfully completed host database migrations.");
 
-        Logger.LogInformation("Successfully completed all database migrations.");
-        Logger.LogInformation("You can safely end this process...");
+        _logger.LogInformation("Successfully completed all database migrations.");
+        _logger.LogInformation("You can safely end this process...");
     }
 
     private async Task MigrateDatabaseSchemaAsync()
     {
-        Logger.LogInformation("Migrating schema for host database...");
+        _logger.LogInformation("Migrating schema for host database...");
 
         foreach (var migrator in _dbSchemaMigrators)
         {
@@ -77,7 +77,7 @@ public class MobileMonitoringDbMigrationService : ITransientDependency
 
     private async Task SeedDataAsync()
     {
-        Logger.LogInformation("Executing host database seed...");
+        _logger.LogInformation("Executing host database seed...");
 
         await _dataSeeder.SeedAsync(
             new DataSeedContext()
@@ -112,7 +112,7 @@ public class MobileMonitoringDbMigrationService : ITransientDependency
         }
         catch (Exception e)
         {
-            Logger.LogWarning("Couldn't determinate if any migrations exist : " + e.Message);
+            _logger.LogWarning("Couldn't determinate if any migrations exist : " + e.Message);
             return false;
         }
     }
@@ -132,7 +132,7 @@ public class MobileMonitoringDbMigrationService : ITransientDependency
 
     private void AddInitialMigration()
     {
-        Logger.LogInformation("Creating initial migration...");
+        _logger.LogInformation("Creating initial migration...");
 
         string argumentPrefix;
         string fileName;
