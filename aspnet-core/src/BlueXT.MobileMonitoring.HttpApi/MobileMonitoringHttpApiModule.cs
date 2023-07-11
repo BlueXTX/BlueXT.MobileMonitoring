@@ -1,7 +1,6 @@
 ﻿using BlueXT.MobileMonitoring.Localization;
 using Localization.Resources.AbpUi;
 using Volo.Abp.Account;
-using Volo.Abp.FeatureManagement;
 using Volo.Abp.Identity;
 using Volo.Abp.Localization;
 using Volo.Abp.Modularity;
@@ -15,7 +14,6 @@ namespace BlueXT.MobileMonitoring;
     typeof(AbpAccountHttpApiModule),
     typeof(AbpIdentityHttpApiModule),
     typeof(AbpPermissionManagementHttpApiModule),
-    typeof(AbpFeatureManagementHttpApiModule),
     typeof(AbpSettingManagementHttpApiModule)
 )]
 public class MobileMonitoringHttpApiModule : AbpModule

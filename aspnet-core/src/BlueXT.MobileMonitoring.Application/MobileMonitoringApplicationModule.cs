@@ -1,6 +1,5 @@
 using Volo.Abp.Account;
 using Volo.Abp.AutoMapper;
-using Volo.Abp.FeatureManagement;
 using Volo.Abp.FluentValidation;
 using Volo.Abp.Identity;
 using Volo.Abp.Modularity;
@@ -15,7 +14,6 @@ namespace BlueXT.MobileMonitoring;
     typeof(MobileMonitoringApplicationContractsModule),
     typeof(AbpIdentityApplicationModule),
     typeof(AbpPermissionManagementApplicationModule),
-    typeof(AbpFeatureManagementApplicationModule),
     typeof(AbpSettingManagementApplicationModule),
     typeof(AbpFluentValidationModule)
 )]

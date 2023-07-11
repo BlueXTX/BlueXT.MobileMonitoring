@@ -3,7 +3,6 @@ using System.IO;
 using System.Linq;
 using BlueXT.MobileMonitoring.EntityFrameworkCore;
 using BlueXT.MobileMonitoring.Localization;
-using BlueXT.MobileMonitoring.MultiTenancy;
 using Localization.Resources.AbpUi;
 using Medallion.Threading;
 using Medallion.Threading.Redis;

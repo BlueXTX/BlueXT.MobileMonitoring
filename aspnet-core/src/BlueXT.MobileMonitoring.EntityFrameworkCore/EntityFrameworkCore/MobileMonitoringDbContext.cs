@@ -6,7 +6,6 @@ using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
 using Volo.Abp.Data;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.EntityFrameworkCore;
-using Volo.Abp.FeatureManagement.EntityFrameworkCore;
 using Volo.Abp.Identity;
 using Volo.Abp.Identity.EntityFrameworkCore;
 using Volo.Abp.OpenIddict.EntityFrameworkCore;
@@ -38,7 +37,6 @@ public class MobileMonitoringDbContext :
         builder.ConfigureAuditLogging();
         builder.ConfigureIdentity();
         builder.ConfigureOpenIddict();
-        builder.ConfigureFeatureManagement();
 
         builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
     }
