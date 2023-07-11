@@ -15,15 +15,15 @@ public class CreateUpdateDeviceStatisticDto
     /// <summary>
     /// Имя пользователя.
     /// </summary>
-    public string Username { get; set; }
+    public string Username { get; set; } = string.Empty;
 
     /// <summary>
     /// Операционная система.
     /// </summary>
-    public string OperatingSystem { get; set; }
+    public string OperatingSystem { get; set; } = string.Empty;
 
     /// <summary>
     /// Версия установленного приложения.
     /// </summary>
-    public string AppVersion { get; set; }
+    public string AppVersion { get; set; } = string.Empty;
 }

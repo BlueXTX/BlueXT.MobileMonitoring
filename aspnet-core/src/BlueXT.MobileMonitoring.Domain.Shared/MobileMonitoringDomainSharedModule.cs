@@ -13,6 +13,9 @@ using Volo.Abp.VirtualFileSystem;
 
 namespace BlueXT.MobileMonitoring;
 
+/// <summary>
+/// Модуль общих доменных сущностей.
+/// </summary>
 [DependsOn(
     typeof(AbpAuditLoggingDomainSharedModule),
     typeof(AbpBackgroundJobsDomainSharedModule),
@@ -23,12 +26,10 @@ namespace BlueXT.MobileMonitoring;
 )]
 public class MobileMonitoringDomainSharedModule : AbpModule
 {
-    public override void PreConfigureServices(ServiceConfigurationContext context)
-    {
-        MobileMonitoringGlobalFeatureConfigurator.Configure();
-        MobileMonitoringModuleExtensionConfigurator.Configure();
-    }
-
+    /// <summary>
+    /// Сконфигурировать сервисы модуля.
+    /// </summary>
+    /// <param name="context">Контекст конфигурации.</param>
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
         Configure<AbpVirtualFileSystemOptions>(

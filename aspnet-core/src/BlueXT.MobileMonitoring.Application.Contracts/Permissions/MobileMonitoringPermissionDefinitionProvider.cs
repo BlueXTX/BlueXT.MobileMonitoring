@@ -4,8 +4,15 @@ using Volo.Abp.Localization;
 
 namespace BlueXT.MobileMonitoring.Permissions;
 
+/// <summary>
+/// Провайдер определений разрешений.
+/// </summary>
 public class MobileMonitoringPermissionDefinitionProvider : PermissionDefinitionProvider
 {
+    /// <summary>
+    /// Определить разрешения.
+    /// </summary>
+    /// <param name="context">Контекст для определения разрешений.</param>
     public override void Define(IPermissionDefinitionContext context)
     {
         var deviceStatistics = context.AddGroup(MobileMonitoringPermissions.DeviceStatistics);

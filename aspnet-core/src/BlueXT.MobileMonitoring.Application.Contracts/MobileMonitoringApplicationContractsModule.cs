@@ -7,6 +7,9 @@ using Volo.Abp.SettingManagement;
 
 namespace BlueXT.MobileMonitoring;
 
+/// <summary>
+/// Модуль контрактов приложения.
+/// </summary>
 [DependsOn(
     typeof(MobileMonitoringDomainSharedModule),
     typeof(AbpAccountApplicationContractsModule),
@@ -17,5 +20,4 @@ namespace BlueXT.MobileMonitoring;
 )]
 public class MobileMonitoringApplicationContractsModule : AbpModule
 {
-    public override void PreConfigureServices(ServiceConfigurationContext context) => MobileMonitoringDtoExtensions.Configure();
 }
