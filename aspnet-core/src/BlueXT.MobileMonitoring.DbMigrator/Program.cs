@@ -20,29 +20,19 @@ internal class Program
     public static IHostBuilder CreateHostBuilder(string[] args) =>
         Host.CreateDefaultBuilder(args)
             .AddAppSettingsSecretsJson()
-            .ConfigureLogging((context, logging) => logging.ClearProviders())
+            .ConfigureLogging(
+                (context, logging) =>
+                {
+                    logging.ClearProviders();
+                    Log.Logger = new LoggerConfiguration()
+                        .ReadFrom.Configuration(context.Configuration)
+                        .CreateLogger();
+                })
             .ConfigureServices(
-                (hostContext, services) =>
+                (_, services) =>
                 {
                     services.AddHostedService<DbMigratorHostedService>();
                 });
 
-    private static async Task Main(string[] args)
-    {
-        Log.Logger = new LoggerConfiguration()
-            .MinimumLevel.Information()
-            .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
-            .MinimumLevel.Override("Volo.Abp", LogEventLevel.Warning)
-#if DEBUG
-            .MinimumLevel.Override("BlueXT.MobileMonitoring", LogEventLevel.Debug)
-#else
-                .MinimumLevel.Override("BlueXT.MobileMonitoring", LogEventLevel.Information)
-#endif
-            .Enrich.FromLogContext()
-            .WriteTo.Async(c => c.File("Logs/logs.txt"))
-            .WriteTo.Async(c => c.Console())
-            .CreateLogger();
-
-        await CreateHostBuilder(args).RunConsoleAsync();
-    }
+    private static async Task Main(string[] args) => await CreateHostBuilder(args).RunConsoleAsync();
 }
