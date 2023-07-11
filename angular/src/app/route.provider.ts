@@ -15,6 +15,13 @@ function configureRoutes(routesService: RoutesService) {
                 order: 1,
                 layout: eLayoutType.application,
             },
+            {
+                path: '/device-statistics',
+                name: '::Menu:DeviceStatistics',
+                iconClass: 'fas fa-regular fa-chart-bar',
+                order: 2,
+                layout: eLayoutType.application,
+            },
         ]);
     };
 }
