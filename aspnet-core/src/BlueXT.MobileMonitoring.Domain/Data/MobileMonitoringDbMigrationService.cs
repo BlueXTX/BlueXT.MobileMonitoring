@@ -10,34 +10,41 @@ using Microsoft.Extensions.Logging.Abstractions;
 using Volo.Abp.Data;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.Identity;
-using Volo.Abp.MultiTenancy;
-using Volo.Abp.TenantManagement;
 
 namespace BlueXT.MobileMonitoring.Data;
 
+/// <summary>
+/// Сервис для миграции базы данных.
+/// </summary>
 public class MobileMonitoringDbMigrationService : ITransientDependency
 {
-    public ILogger<MobileMonitoringDbMigrationService> Logger { get; set; }
-
     private readonly IDataSeeder _dataSeeder;
     private readonly IEnumerable<IMobileMonitoringDbSchemaMigrator> _dbSchemaMigrators;
-    private readonly ITenantRepository _tenantRepository;
-    private readonly ICurrentTenant _currentTenant;
 
+    /// <summary>
+    /// Логгер.
+    /// </summary>
+    private readonly ILogger<MobileMonitoringDbMigrationService> _logger;
+
+    /// <summary>
+    /// Конструктор.
+    /// </summary>
+    /// <param name="dataSeeder">Сидер данных.</param>
+    /// <param name="dbSchemaMigrators">Миграторы схемы базы данных.</param>
     public MobileMonitoringDbMigrationService(
         IDataSeeder dataSeeder,
-        IEnumerable<IMobileMonitoringDbSchemaMigrator> dbSchemaMigrators,
-        ITenantRepository tenantRepository,
-        ICurrentTenant currentTenant)
+        IEnumerable<IMobileMonitoringDbSchemaMigrator> dbSchemaMigrators)
     {
         _dataSeeder = dataSeeder;
         _dbSchemaMigrators = dbSchemaMigrators;
-        _tenantRepository = tenantRepository;
-        _currentTenant = currentTenant;
 
-        Logger = NullLogger<MobileMonitoringDbMigrationService>.Instance;
+        _logger = NullLogger<MobileMonitoringDbMigrationService>.Instance;
     }
 
+    /// <summary>
+    /// Провести миграцию.
+    /// </summary>
+    /// <returns>Задача миграции.</returns>
     public async Task MigrateAsync()
     {
         var initialMigrationAdded = AddInitialMigrationIfNotExist();
@@ -47,48 +54,20 @@ public class MobileMonitoringDbMigrationService : ITransientDependency
             return;
         }
 
-        Logger.LogInformation("Started database migrations...");
+        _logger.LogInformation("Started database migrations...");
 
         await MigrateDatabaseSchemaAsync();
         await SeedDataAsync();
 
-        Logger.LogInformation($"Successfully completed host database migrations.");
+        _logger.LogInformation("Successfully completed host database migrations.");
 
-        var tenants = await _tenantRepository.GetListAsync(includeDetails: true);
-
-        var migratedDatabaseSchemas = new HashSet<string>();
-        foreach (var tenant in tenants)
-        {
-            using (_currentTenant.Change(tenant.Id))
-            {
-                if (tenant.ConnectionStrings.Any())
-                {
-                    var tenantConnectionStrings = tenant.ConnectionStrings
-                        .Select(x => x.Value)
-                        .ToList();
-
-                    if (!migratedDatabaseSchemas.IsSupersetOf(tenantConnectionStrings))
-                    {
-                        await MigrateDatabaseSchemaAsync(tenant);
-
-                        migratedDatabaseSchemas.AddIfNotContains(tenantConnectionStrings);
-                    }
-                }
-
-                await SeedDataAsync(tenant);
-            }
-
-            Logger.LogInformation($"Successfully completed {tenant.Name} tenant database migrations.");
-        }
-
-        Logger.LogInformation("Successfully completed all database migrations.");
-        Logger.LogInformation("You can safely end this process...");
+        _logger.LogInformation("Successfully completed all database migrations.");
+        _logger.LogInformation("You can safely end this process...");
     }
 
-    private async Task MigrateDatabaseSchemaAsync(Tenant? tenant = null)
+    private async Task MigrateDatabaseSchemaAsync()
     {
-        Logger.LogInformation(
-            $"Migrating schema for {(tenant == null ? "host" : tenant.Name + " tenant")} database...");
+        _logger.LogInformation("Migrating schema for host database...");
 
         foreach (var migrator in _dbSchemaMigrators)
         {
@@ -96,13 +75,14 @@ public class MobileMonitoringDbMigrationService : ITransientDependency
         }
     }
 
-    private async Task SeedDataAsync(Tenant? tenant = null)
+    private async Task SeedDataAsync()
     {
-        Logger.LogInformation($"Executing {(tenant == null ? "host" : tenant.Name + " tenant")} database seed...");
+        _logger.LogInformation("Executing host database seed...");
 
-        await _dataSeeder.SeedAsync(new DataSeedContext(tenant?.Id)
-            .WithProperty(IdentityDataSeedContributor.AdminEmailPropertyName, IdentityDataSeedContributor.AdminEmailDefaultValue)
-            .WithProperty(IdentityDataSeedContributor.AdminPasswordPropertyName, IdentityDataSeedContributor.AdminPasswordDefaultValue)
+        await _dataSeeder.SeedAsync(
+            new DataSeedContext()
+                .WithProperty(IdentityDataSeedContributor.AdminEmailPropertyName, IdentityDataSeedContributor.AdminEmailDefaultValue)
+                .WithProperty(IdentityDataSeedContributor.AdminPasswordPropertyName, IdentityDataSeedContributor.AdminPasswordDefaultValue)
         );
     }
 
@@ -127,14 +107,12 @@ public class MobileMonitoringDbMigrationService : ITransientDependency
                 AddInitialMigration();
                 return true;
             }
-            else
-            {
-                return false;
-            }
+
+            return false;
         }
         catch (Exception e)
         {
-            Logger.LogWarning("Couldn't determinate if any migrations exist : " + e.Message);
+            _logger.LogWarning("Couldn't determinate if any migrations exist : " + e.Message);
             return false;
         }
     }
@@ -154,7 +132,7 @@ public class MobileMonitoringDbMigrationService : ITransientDependency
 
     private void AddInitialMigration()
     {
-        Logger.LogInformation("Creating initial migration...");
+        _logger.LogInformation("Creating initial migration...");
 
         string argumentPrefix;
         string fileName;
@@ -170,7 +148,8 @@ public class MobileMonitoringDbMigrationService : ITransientDependency
             fileName = "cmd.exe";
         }
 
-        var procStartInfo = new ProcessStartInfo(fileName,
+        var procStartInfo = new ProcessStartInfo(
+            fileName,
             $"{argumentPrefix} \"abp create-migration-and-run-migrator \"{GetEntityFrameworkCoreProjectFolderPath()}\"\""
         );
 

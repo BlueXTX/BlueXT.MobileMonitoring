@@ -1,9 +1,22 @@
 ﻿namespace BlueXT.MobileMonitoring.Permissions;
 
+/// <summary>
+/// Определения разрешений.
+/// </summary>
 public static class MobileMonitoringPermissions
 {
-    public const string GroupName = "MobileMonitoring";
+    /// <summary>
+    /// Операции с DeviceStatistics.
+    /// </summary>
+    public const string DeviceStatistics = "DeviceStatistics";
 
-    //Add your own permission names. Example:
-    //public const string MyPermission1 = GroupName + ".MyPermission1";
+    /// <summary>
+    /// Удаление DeviceStatistics.
+    /// </summary>
+    public const string Delete = DeviceStatistics + ".Delete";
+
+    /// <summary>
+    /// Получение списка DeviceStatistics.
+    /// </summary>
+    public const string GetList = DeviceStatistics + ".GetList";
 }

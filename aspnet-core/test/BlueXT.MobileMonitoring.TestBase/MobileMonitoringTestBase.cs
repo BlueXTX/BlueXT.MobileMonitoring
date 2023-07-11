@@ -3,8 +3,8 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp;
 using Volo.Abp.Modularity;
-using Volo.Abp.Uow;
 using Volo.Abp.Testing;
+using Volo.Abp.Uow;
 
 namespace BlueXT.MobileMonitoring;
 
@@ -13,15 +13,9 @@ namespace BlueXT.MobileMonitoring;
 public abstract class MobileMonitoringTestBase<TStartupModule> : AbpIntegratedTest<TStartupModule>
     where TStartupModule : IAbpModule
 {
-    protected override void SetAbpApplicationCreationOptions(AbpApplicationCreationOptions options)
-    {
-        options.UseAutofac();
-    }
+    protected override void SetAbpApplicationCreationOptions(AbpApplicationCreationOptions options) => options.UseAutofac();
 
-    protected virtual Task WithUnitOfWorkAsync(Func<Task> func)
-    {
-        return WithUnitOfWorkAsync(new AbpUnitOfWorkOptions(), func);
-    }
+    protected virtual Task WithUnitOfWorkAsync(Func<Task> func) => WithUnitOfWorkAsync(new AbpUnitOfWorkOptions(), func);
 
     protected virtual async Task WithUnitOfWorkAsync(AbpUnitOfWorkOptions options, Func<Task> action)
     {
@@ -38,10 +32,7 @@ public abstract class MobileMonitoringTestBase<TStartupModule> : AbpIntegratedTe
         }
     }
 
-    protected virtual Task<TResult> WithUnitOfWorkAsync<TResult>(Func<Task<TResult>> func)
-    {
-        return WithUnitOfWorkAsync(new AbpUnitOfWorkOptions(), func);
-    }
+    protected virtual Task<TResult> WithUnitOfWorkAsync<TResult>(Func<Task<TResult>> func) => WithUnitOfWorkAsync(new AbpUnitOfWorkOptions(), func);
 
     protected virtual async Task<TResult> WithUnitOfWorkAsync<TResult>(AbpUnitOfWorkOptions options, Func<Task<TResult>> func)
     {

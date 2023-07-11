@@ -3,13 +3,11 @@ using Volo.Abp.DependencyInjection;
 
 namespace BlueXT.MobileMonitoring.Data;
 
-/* This is used if database provider does't define
- * IMobileMonitoringDbSchemaMigrator implementation.
- */
+/// <summary>
+/// Пустой мигратор базы данных.
+/// </summary>
 public class NullMobileMonitoringDbSchemaMigrator : IMobileMonitoringDbSchemaMigrator, ITransientDependency
 {
-    public Task MigrateAsync()
-    {
-        return Task.CompletedTask;
-    }
+    /// <inheritdoc cref="IMobileMonitoringDbSchemaMigrator.MigrateAsync"/>
+    public Task MigrateAsync() => Task.CompletedTask;
 }

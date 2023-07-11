@@ -6,10 +6,7 @@ namespace BlueXT.MobileMonitoring;
 
 public class MobileMonitoringTestDataSeedContributor : IDataSeedContributor, ITransientDependency
 {
-    public Task SeedAsync(DataSeedContext context)
-    {
+    public Task SeedAsync(DataSeedContext context) =>
         /* Seed additional test data... */
-
-        return Task.CompletedTask;
-    }
+        Task.CompletedTask;
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
@@ -8,35 +9,35 @@ using Serilog.Events;
 
 namespace BlueXT.MobileMonitoring;
 
+/// <summary>
+/// Главный класс приложения.
+/// </summary>
 public class Program
 {
-    public async static Task<int> Main(string[] args)
+    /// <summary>
+    /// Входная точка.
+    /// </summary>
+    /// <param name="args">Аргументы командной строки.</param>
+    /// <returns>Задача выполняющая приложение.</returns>
+    public static async Task Main(string[] args)
     {
-        Log.Logger = new LoggerConfiguration()
-#if DEBUG
-            .MinimumLevel.Debug()
-#else
-            .MinimumLevel.Information()
-#endif
-            .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
-            .MinimumLevel.Override("Microsoft.EntityFrameworkCore", LogEventLevel.Warning)
-            .Enrich.FromLogContext()
-            .WriteTo.Async(c => c.File("Logs/logs.txt"))
-            .WriteTo.Async(c => c.Console())
-            .CreateLogger();
-
         try
         {
-            Log.Information("Starting BlueXT.MobileMonitoring.HttpApi.Host.");
             var builder = WebApplication.CreateBuilder(args);
+            Log.Logger = new LoggerConfiguration()
+                .ReadFrom.Configuration(builder.Configuration)
+                .CreateLogger();
+
+            Log.Information("Starting BlueXT.MobileMonitoring.HttpApi.Host.");
+
             builder.Host.AddAppSettingsSecretsJson()
                 .UseAutofac()
                 .UseSerilog();
+
             await builder.AddApplicationAsync<MobileMonitoringHttpApiHostModule>();
             var app = builder.Build();
             await app.InitializeApplicationAsync();
             await app.RunAsync();
-            return 0;
         }
         catch (Exception ex)
         {
@@ -46,7 +47,6 @@ public class Program
             }
 
             Log.Fatal(ex, "Host terminated unexpectedly!");
-            return 1;
         }
         finally
         {

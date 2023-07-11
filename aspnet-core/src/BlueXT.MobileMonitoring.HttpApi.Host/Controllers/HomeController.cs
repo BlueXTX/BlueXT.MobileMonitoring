@@ -3,10 +3,14 @@ using Volo.Abp.AspNetCore.Mvc;
 
 namespace BlueXT.MobileMonitoring.Controllers;
 
+/// <summary>
+/// Контроллер домашней страницы.
+/// </summary>
 public class HomeController : AbpController
 {
-    public ActionResult Index()
-    {
-        return Redirect("~/swagger");
-    }
+    /// <summary>
+    /// Главная страница.
+    /// </summary>
+    /// <returns>Страница с описанием API.</returns>
+    public ActionResult Index() => Redirect("~/swagger");
 }
