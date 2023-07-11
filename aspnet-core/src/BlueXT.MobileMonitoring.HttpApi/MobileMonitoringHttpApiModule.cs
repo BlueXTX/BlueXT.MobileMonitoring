@@ -9,6 +9,9 @@ using Volo.Abp.SettingManagement;
 
 namespace BlueXT.MobileMonitoring;
 
+/// <summary>
+/// Модуль http API приложения. 
+/// </summary>
 [DependsOn(
     typeof(MobileMonitoringApplicationContractsModule),
     typeof(AbpAccountHttpApiModule),
@@ -18,6 +21,10 @@ namespace BlueXT.MobileMonitoring;
 )]
 public class MobileMonitoringHttpApiModule : AbpModule
 {
+    /// <summary>
+    /// Конфигурация сервисов.
+    /// </summary>
+    /// <param name="context">Контекст конфигурации.</param>
     public override void ConfigureServices(ServiceConfigurationContext context) => ConfigureLocalization();
 
     private void ConfigureLocalization() =>

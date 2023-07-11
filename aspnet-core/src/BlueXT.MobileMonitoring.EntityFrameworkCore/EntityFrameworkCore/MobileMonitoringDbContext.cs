@@ -24,7 +24,7 @@ public class MobileMonitoringDbContext :
     IIdentityDbContext
 {
     /// <summary>
-    /// Конструктор
+    /// Конструктор.
     /// </summary>
     /// <param name="options">Опции подключения к базе данных.</param>
     public MobileMonitoringDbContext(DbContextOptions<MobileMonitoringDbContext> options)

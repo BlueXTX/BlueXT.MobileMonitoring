@@ -25,10 +25,10 @@ public class OpenIddictDataSeedContributor : IDataSeedContributor, ITransientDep
     private readonly IAbpApplicationManager _applicationManager;
     private readonly IOpenIddictScopeManager _scopeManager;
     private readonly IPermissionDataSeeder _permissionDataSeeder;
-    private readonly IStringLocalizer<OpenIddictResponse> L;
+    private readonly IStringLocalizer<OpenIddictResponse> _l;
 
     /// <summary>
-    /// Конструктор
+    /// Конструктор.
     /// </summary>
     /// <param name="configuration">Конфигурация приложения.</param>
     /// <param name="applicationManager">Менеджер приложения.</param>
@@ -46,9 +46,14 @@ public class OpenIddictDataSeedContributor : IDataSeedContributor, ITransientDep
         _applicationManager = applicationManager;
         _scopeManager = scopeManager;
         _permissionDataSeeder = permissionDataSeeder;
-        L = l;
+        this._l = l;
     }
 
+    /// <summary>
+    /// Заполнить базу данных.
+    /// </summary>
+    /// <param name="context">Контекст заполнения.</param>
+    /// <returns>Задача заполнения.</returns>
     [UnitOfWork]
     public virtual async Task SeedAsync(DataSeedContext context)
     {
@@ -223,12 +228,12 @@ public class OpenIddictDataSeedContributor : IDataSeedContributor, ITransientDep
     {
         if (!string.IsNullOrEmpty(secret) && string.Equals(type, OpenIddictConstants.ClientTypes.Public, StringComparison.OrdinalIgnoreCase))
         {
-            throw new BusinessException(L["NoClientSecretCanBeSetForPublicApplications"]);
+            throw new BusinessException(_l["NoClientSecretCanBeSetForPublicApplications"]);
         }
 
         if (string.IsNullOrEmpty(secret) && string.Equals(type, OpenIddictConstants.ClientTypes.Confidential, StringComparison.OrdinalIgnoreCase))
         {
-            throw new BusinessException(L["TheClientSecretIsRequiredForConfidentialApplications"]);
+            throw new BusinessException(_l["TheClientSecretIsRequiredForConfidentialApplications"]);
         }
 
         if (!string.IsNullOrEmpty(name) && await _applicationManager.FindByClientIdAsync(name) != null)
@@ -372,7 +377,7 @@ public class OpenIddictDataSeedContributor : IDataSeedContributor, ITransientDep
                 {
                     if (!Uri.TryCreate(redirectUri, UriKind.Absolute, out var uri) || !uri.IsWellFormedOriginalString())
                     {
-                        throw new BusinessException(L["InvalidRedirectUri", redirectUri]);
+                        throw new BusinessException(_l["InvalidRedirectUri", redirectUri]);
                     }
 
                     if (application.RedirectUris.All(x => x != uri))
@@ -388,7 +393,7 @@ public class OpenIddictDataSeedContributor : IDataSeedContributor, ITransientDep
                 {
                     if (!Uri.TryCreate(postLogoutRedirectUri, UriKind.Absolute, out var uri) || !uri.IsWellFormedOriginalString())
                     {
-                        throw new BusinessException(L["InvalidPostLogoutRedirectUri", postLogoutRedirectUri]);
+                        throw new BusinessException(_l["InvalidPostLogoutRedirectUri", postLogoutRedirectUri]);
                     }
 
                     if (application.PostLogoutRedirectUris.All(x => x != uri))

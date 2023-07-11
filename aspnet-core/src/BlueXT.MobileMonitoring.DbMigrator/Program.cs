@@ -7,8 +7,16 @@ using Serilog.Events;
 
 namespace BlueXT.MobileMonitoring.DbMigrator;
 
+/// <summary>
+/// Главный класс приложения.
+/// </summary>
 internal class Program
 {
+    /// <summary>
+    /// Конфигурация создателя хоста.
+    /// </summary>
+    /// <param name="args">Аргументы командной строки.</param>
+    /// <returns>Создатель хоста.</returns>
     public static IHostBuilder CreateHostBuilder(string[] args) =>
         Host.CreateDefaultBuilder(args)
             .AddAppSettingsSecretsJson()

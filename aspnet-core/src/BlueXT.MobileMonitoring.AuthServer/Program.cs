@@ -8,8 +8,16 @@ using Serilog.Events;
 
 namespace BlueXT.MobileMonitoring;
 
+/// <summary>
+/// Главный класс приложения.
+/// </summary>
 public class Program
 {
+    /// <summary>
+    /// Входная точка.
+    /// </summary>
+    /// <param name="args">Аргументы командной строки.</param>
+    /// <returns>Задача возвращающая код работы приложения.</returns>
     public static async Task<int> Main(string[] args)
     {
         Log.Logger = new LoggerConfiguration()

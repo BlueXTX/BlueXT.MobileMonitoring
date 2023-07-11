@@ -29,6 +29,9 @@ using Volo.Abp.VirtualFileSystem;
 
 namespace BlueXT.MobileMonitoring;
 
+/// <summary>
+/// Модуль хоста для http api. 
+/// </summary>
 [DependsOn(
     typeof(MobileMonitoringHttpApiModule),
     typeof(AbpAutofacModule),
@@ -42,6 +45,10 @@ namespace BlueXT.MobileMonitoring;
 )]
 public class MobileMonitoringHttpApiHostModule : AbpModule
 {
+    /// <summary>
+    /// Сконфигурировать сервисы.
+    /// </summary>
+    /// <param name="context">Контекст конфигурации.</param>
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
         var configuration = context.Services.GetConfiguration();
@@ -57,6 +64,10 @@ public class MobileMonitoringHttpApiHostModule : AbpModule
         ConfigureSwaggerServices(context, configuration);
     }
 
+    /// <summary>
+    /// Инициализация приложения.
+    /// </summary>
+    /// <param name="context">Контекст инициализации.</param>
     public override void OnApplicationInitialization(ApplicationInitializationContext context)
     {
         var app = context.GetApplicationBuilder();

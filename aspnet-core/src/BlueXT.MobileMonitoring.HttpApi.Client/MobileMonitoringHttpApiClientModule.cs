@@ -8,6 +8,9 @@ using Volo.Abp.VirtualFileSystem;
 
 namespace BlueXT.MobileMonitoring;
 
+/// <summary>
+/// Модуль http клиента для приложения.   
+/// </summary>
 [DependsOn(
     typeof(MobileMonitoringApplicationContractsModule),
     typeof(AbpAccountHttpApiClientModule),
@@ -17,8 +20,15 @@ namespace BlueXT.MobileMonitoring;
 )]
 public class MobileMonitoringHttpApiClientModule : AbpModule
 {
+    /// <summary>
+    /// Имя удаленного сервиса.
+    /// </summary>
     public const string RemoteServiceName = "Default";
 
+    /// <summary>
+    /// Конфигурация сервисов.
+    /// </summary>
+    /// <param name="context">Контекст конфигурации.</param>
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
         context.Services.AddHttpClientProxies(

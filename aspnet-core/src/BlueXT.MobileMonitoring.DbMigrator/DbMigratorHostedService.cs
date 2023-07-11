@@ -10,17 +10,30 @@ using Volo.Abp.Data;
 
 namespace BlueXT.MobileMonitoring.DbMigrator;
 
+/// <summary>
+/// Хостед-сервис мигратора базы данных.
+/// </summary>
 public class DbMigratorHostedService : IHostedService
 {
     private readonly IHostApplicationLifetime _hostApplicationLifetime;
     private readonly IConfiguration _configuration;
 
+    /// <summary>
+    /// Конструктор.
+    /// </summary>
+    /// <param name="hostApplicationLifetime">Жизненный цикл хоста.</param>
+    /// <param name="configuration">Конфигурация.</param>
     public DbMigratorHostedService(IHostApplicationLifetime hostApplicationLifetime, IConfiguration configuration)
     {
         _hostApplicationLifetime = hostApplicationLifetime;
         _configuration = configuration;
     }
 
+    /// <summary>
+    /// Запустить.
+    /// </summary>
+    /// <param name="cancellationToken">Токен отмены.</param>
+    /// <returns>Задача запуска хоста.</returns>
     public async Task StartAsync(CancellationToken cancellationToken)
     {
         using var application = await AbpApplicationFactory.CreateAsync<MobileMonitoringDbMigratorModule>(
@@ -43,5 +56,10 @@ public class DbMigratorHostedService : IHostedService
         _hostApplicationLifetime.StopApplication();
     }
 
+    /// <summary>
+    /// Остановить.
+    /// </summary>
+    /// <param name="cancellationToken">Токен отмены.</param>
+    /// <returns>Задача отмены.</returns>
     public Task StopAsync(CancellationToken cancellationToken) => Task.CompletedTask;
 }

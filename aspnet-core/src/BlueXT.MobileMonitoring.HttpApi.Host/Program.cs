@@ -9,8 +9,16 @@ using Serilog.Events;
 
 namespace BlueXT.MobileMonitoring;
 
+/// <summary>
+/// Главный класс приложения.
+/// </summary>
 public class Program
 {
+    /// <summary>
+    /// Входная точка.
+    /// </summary>
+    /// <param name="args">Аргументы командной строки.</param>
+    /// <returns>Задача выполняющая приложение.</returns>
     public static async Task<int> Main(string[] args)
     {
         var logsPath = Path.Join(AppDomain.CurrentDomain.BaseDirectory, "Logs", "logs.txt");

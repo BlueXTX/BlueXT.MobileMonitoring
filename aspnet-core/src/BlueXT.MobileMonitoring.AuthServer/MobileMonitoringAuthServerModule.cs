@@ -33,6 +33,9 @@ using Volo.Abp.VirtualFileSystem;
 
 namespace BlueXT.MobileMonitoring;
 
+/// <summary>
+/// Модуль сервиса аутентификации.
+/// </summary>
 [DependsOn(
     typeof(AbpAutofacModule),
     typeof(AbpCachingStackExchangeRedisModule),
@@ -46,6 +49,10 @@ namespace BlueXT.MobileMonitoring;
 )]
 public class MobileMonitoringAuthServerModule : AbpModule
 {
+    /// <summary>
+    /// Предварительная конфигурация сервисов.
+    /// </summary>
+    /// <param name="context">Контекст конфигурации.</param>
     public override void PreConfigureServices(ServiceConfigurationContext context) =>
         PreConfigure<OpenIddictBuilder>(
             builder =>
@@ -59,6 +66,10 @@ public class MobileMonitoringAuthServerModule : AbpModule
                     });
             });
 
+    /// <summary>
+    /// Конфигурация сервисов.
+    /// </summary>
+    /// <param name="context">Контекст конфигурации.</param>
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
         var hostingEnvironment = context.Services.GetHostingEnvironment();
@@ -133,7 +144,7 @@ public class MobileMonitoringAuthServerModule : AbpModule
         }
 
         context.Services.AddSingleton<IDistributedLockProvider>(
-            sp =>
+            _ =>
             {
                 var connection = ConnectionMultiplexer
                     .Connect(configuration["Redis:Configuration"]);
@@ -162,6 +173,10 @@ public class MobileMonitoringAuthServerModule : AbpModule
             });
     }
 
+    /// <summary>
+    /// Инициализация приложения.
+    /// </summary>
+    /// <param name="context">Контекст инициализации.</param>
     public override void OnApplicationInitialization(ApplicationInitializationContext context)
     {
         var app = context.GetApplicationBuilder();

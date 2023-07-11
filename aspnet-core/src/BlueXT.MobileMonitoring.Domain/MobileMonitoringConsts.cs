@@ -11,7 +11,7 @@ public static class MobileMonitoringConsts
     public const string DbTablePrefix = "App";
 
     /// <summary>
-    /// Схема базы данных
+    /// Схема базы данных.
     /// </summary>
     public const string DbSchema = "";
 }
