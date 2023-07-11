@@ -13,7 +13,7 @@ export class HomeComponent {
         return this.authService.isAuthenticated;
     }
 
-    login() {
+    login(): void {
         this.authService.navigateToLogin();
     }
 }

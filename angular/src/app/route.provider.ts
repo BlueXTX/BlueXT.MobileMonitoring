@@ -6,7 +6,7 @@ export const APP_ROUTE_PROVIDER = [
 ];
 
 function configureRoutes(routesService: RoutesService) {
-    return () => {
+    return (): void => {
         routesService.add([
             {
                 path: '/',
