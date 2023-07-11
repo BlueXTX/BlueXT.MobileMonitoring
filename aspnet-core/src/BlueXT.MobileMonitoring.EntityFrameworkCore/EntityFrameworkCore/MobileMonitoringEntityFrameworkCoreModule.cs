@@ -15,6 +15,9 @@ using Volo.Abp.Uow;
 
 namespace BlueXT.MobileMonitoring.EntityFrameworkCore;
 
+/// <summary>
+/// Модуль приложения отвечающий за работу с Entity Framework.
+/// </summary>
 [DependsOn(
     typeof(MobileMonitoringDomainModule),
     typeof(AbpIdentityEntityFrameworkCoreModule),
@@ -27,13 +30,16 @@ namespace BlueXT.MobileMonitoring.EntityFrameworkCore;
 )]
 public class MobileMonitoringEntityFrameworkCoreModule : AbpModule
 {
-    public override void PreConfigureServices(ServiceConfigurationContext context)
-    {
-        AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", isEnabled: true);
+    /// <summary>
+    /// Предварительная конфигурация сервисов.
+    /// </summary>
+    /// <param name="context">Контекст конфигурации.</param>
+    public override void PreConfigureServices(ServiceConfigurationContext context) => AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", isEnabled: true);
 
-        MobileMonitoringEfCoreEntityExtensionMappings.Configure();
-    }
-
+    /// <summary>
+    /// Конфигурация сервисов.
+    /// </summary>
+    /// <param name="context">Контекст конфигурации.</param>
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
         var configuration = context.Services.GetConfiguration();

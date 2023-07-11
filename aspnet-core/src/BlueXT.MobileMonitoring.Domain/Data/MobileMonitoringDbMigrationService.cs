@@ -13,11 +13,19 @@ using Volo.Abp.Identity;
 
 namespace BlueXT.MobileMonitoring.Data;
 
+/// <summary>
+/// Сервис для миграции базы данных.
+/// </summary>
 public class MobileMonitoringDbMigrationService : ITransientDependency
 {
     private readonly IDataSeeder _dataSeeder;
     private readonly IEnumerable<IMobileMonitoringDbSchemaMigrator> _dbSchemaMigrators;
 
+    /// <summary>
+    /// Конструктор.
+    /// </summary>
+    /// <param name="dataSeeder">Сидер данных.</param>
+    /// <param name="dbSchemaMigrators">Миграторы схемы базы данных.</param>
     public MobileMonitoringDbMigrationService(
         IDataSeeder dataSeeder,
         IEnumerable<IMobileMonitoringDbSchemaMigrator> dbSchemaMigrators)
@@ -28,8 +36,15 @@ public class MobileMonitoringDbMigrationService : ITransientDependency
         Logger = NullLogger<MobileMonitoringDbMigrationService>.Instance;
     }
 
+    /// <summary>
+    /// Логгер.
+    /// </summary>
     public ILogger<MobileMonitoringDbMigrationService> Logger { get; set; }
 
+    /// <summary>
+    /// Провести миграцию.
+    /// </summary>
+    /// <returns>Задача миграции.</returns>
     public async Task MigrateAsync()
     {
         var initialMigrationAdded = AddInitialMigrationIfNotExist();

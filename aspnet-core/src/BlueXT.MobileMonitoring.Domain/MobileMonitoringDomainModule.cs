@@ -13,6 +13,9 @@ using Volo.Abp.SettingManagement;
 
 namespace BlueXT.MobileMonitoring;
 
+/// <summary>
+/// Модуль домена приложения.
+/// </summary>
 [DependsOn(
     typeof(MobileMonitoringDomainSharedModule),
     typeof(AbpAuditLoggingDomainModule),
@@ -26,6 +29,10 @@ namespace BlueXT.MobileMonitoring;
 )]
 public class MobileMonitoringDomainModule : AbpModule
 {
+    /// <summary>
+    /// Конфигурация сервисов.
+    /// </summary>
+    /// <param name="context">Контекст конфигурации.</param>
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
         Configure<AbpLocalizationOptions>(

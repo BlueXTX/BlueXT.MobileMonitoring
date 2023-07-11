@@ -14,19 +14,68 @@ using Volo.Abp.SettingManagement.EntityFrameworkCore;
 
 namespace BlueXT.MobileMonitoring.EntityFrameworkCore;
 
+/// <summary>
+/// Контекст для доступа к сущностям приложения.
+/// </summary>
 [ReplaceDbContext(typeof(IIdentityDbContext))]
 [ConnectionStringName("Default")]
 public class MobileMonitoringDbContext :
     AbpDbContext<MobileMonitoringDbContext>,
     IIdentityDbContext
 {
+    /// <summary>
+    /// Конструктор
+    /// </summary>
+    /// <param name="options">Опции подключения к базе данных.</param>
     public MobileMonitoringDbContext(DbContextOptions<MobileMonitoringDbContext> options)
         : base(options)
     {
     }
 
-    public DbSet<DeviceStatistic> DeviceStatistics { get; set; }
+    /// <summary>
+    /// Статистики устройств.
+    /// </summary>
+    public DbSet<DeviceStatistic> DeviceStatistics { get; set; } = null!;
 
+    /// <summary>
+    /// Пользователи.
+    /// </summary>
+    public DbSet<IdentityUser> Users { get; set; } = null!;
+
+    /// <summary>
+    /// Роли.
+    /// </summary>
+    public DbSet<IdentityRole> Roles { get; set; } = null!;
+
+    /// <summary>
+    /// Типы клеймов.
+    /// </summary>
+    public DbSet<IdentityClaimType> ClaimTypes { get; set; } = null!;
+
+    /// <summary>
+    /// Организации.
+    /// </summary>
+    public DbSet<OrganizationUnit> OrganizationUnits { get; set; } = null!;
+
+    /// <summary>
+    /// Логи безопасности.
+    /// </summary>
+    public DbSet<IdentitySecurityLog> SecurityLogs { get; set; } = null!;
+
+    /// <summary>
+    /// Связи пользователей.
+    /// </summary>
+    public DbSet<IdentityLinkUser> LinkUsers { get; set; } = null!;
+
+    /// <summary>
+    /// Делегирование пользователей.
+    /// </summary>
+    public DbSet<IdentityUserDelegation> UserDelegations { get; set; } = null!;
+
+    /// <summary>
+    /// Применение конфигураций.
+    /// </summary>
+    /// <param name="builder">Объект предоставляющий API для конфигурации.</param>
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
@@ -40,17 +89,4 @@ public class MobileMonitoringDbContext :
 
         builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
     }
-
-    #region Entities from the modules
-
-    //Identity
-    public DbSet<IdentityUser> Users { get; set; }
-    public DbSet<IdentityRole> Roles { get; set; }
-    public DbSet<IdentityClaimType> ClaimTypes { get; set; }
-    public DbSet<OrganizationUnit> OrganizationUnits { get; set; }
-    public DbSet<IdentitySecurityLog> SecurityLogs { get; set; }
-    public DbSet<IdentityLinkUser> LinkUsers { get; set; }
-    public DbSet<IdentityUserDelegation> UserDelegations { get; set; }
-
-    #endregion
 }

@@ -16,9 +16,9 @@ using Volo.Abp.Uow;
 
 namespace BlueXT.MobileMonitoring.OpenIddict;
 
-/* Creates initial data that is needed to property run the application
- * and make client-to-server communication possible.
- */
+/// <summary>
+/// Сидер данных OpenIddict.
+/// </summary>
 public class OpenIddictDataSeedContributor : IDataSeedContributor, ITransientDependency
 {
     private readonly IConfiguration _configuration;
@@ -27,6 +27,14 @@ public class OpenIddictDataSeedContributor : IDataSeedContributor, ITransientDep
     private readonly IPermissionDataSeeder _permissionDataSeeder;
     private readonly IStringLocalizer<OpenIddictResponse> L;
 
+    /// <summary>
+    /// Конструктор
+    /// </summary>
+    /// <param name="configuration">Конфигурация приложения.</param>
+    /// <param name="applicationManager">Менеджер приложения.</param>
+    /// <param name="scopeManager">Менеджер области приложения.</param>
+    /// <param name="permissionDataSeeder">Сидер разрешений.</param>
+    /// <param name="l">Локализатор строк.</param>
     public OpenIddictDataSeedContributor(
         IConfiguration configuration,
         IAbpApplicationManager applicationManager,
