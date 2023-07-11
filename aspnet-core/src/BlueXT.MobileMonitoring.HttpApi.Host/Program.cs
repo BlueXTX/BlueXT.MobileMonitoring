@@ -19,34 +19,25 @@ public class Program
     /// </summary>
     /// <param name="args">Аргументы командной строки.</param>
     /// <returns>Задача выполняющая приложение.</returns>
-    public static async Task<int> Main(string[] args)
+    public static async Task Main(string[] args)
     {
-        var logsPath = Path.Join(AppDomain.CurrentDomain.BaseDirectory, "Logs", "logs.txt");
-        Log.Logger = new LoggerConfiguration()
-#if DEBUG
-            .MinimumLevel.Debug()
-#else
-            .MinimumLevel.Information()
-#endif
-            .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
-            .MinimumLevel.Override("Microsoft.EntityFrameworkCore", LogEventLevel.Warning)
-            .Enrich.FromLogContext()
-            .WriteTo.Async(c => c.File(logsPath))
-            .WriteTo.Async(c => c.Console())
-            .CreateLogger();
-
         try
         {
-            Log.Information("Starting BlueXT.MobileMonitoring.HttpApi.Host.");
             var builder = WebApplication.CreateBuilder(args);
+            Log.Logger = new LoggerConfiguration()
+                .ReadFrom.Configuration(builder.Configuration)
+                .CreateLogger();
+
+            Log.Information("Starting BlueXT.MobileMonitoring.HttpApi.Host.");
+
             builder.Host.AddAppSettingsSecretsJson()
                 .UseAutofac()
                 .UseSerilog();
+
             await builder.AddApplicationAsync<MobileMonitoringHttpApiHostModule>();
             var app = builder.Build();
             await app.InitializeApplicationAsync();
             await app.RunAsync();
-            return 0;
         }
         catch (Exception ex)
         {
@@ -56,7 +47,6 @@ public class Program
             }
 
             Log.Fatal(ex, "Host terminated unexpectedly!");
-            return 1;
         }
         finally
         {
