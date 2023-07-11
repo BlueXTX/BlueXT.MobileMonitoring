@@ -6,9 +6,6 @@
         <TargetFramework>net7.0</TargetFramework>
         <Nullable>enable</Nullable>
         <RootNamespace>BlueXT.MobileMonitoring</RootNamespace>
-        <GenerateDocumentationFile>true</GenerateDocumentationFile>
-        <CodeAnalysisRuleSet>..\..\infotecs.ruleset</CodeAnalysisRuleSet>
-        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     </PropertyGroup>
 
     <ItemGroup>
@@ -25,12 +22,6 @@
     <ItemGroup>
         <EmbeddedResource Include="**\*generate-proxy.json"/>
         <Content Remove="**\*generate-proxy.json"/>
-    </ItemGroup>
-
-    <ItemGroup>
-        <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
-            <ExcludeAssets>all</ExcludeAssets>
-        </PackageReference>
     </ItemGroup>
 
 </Project>

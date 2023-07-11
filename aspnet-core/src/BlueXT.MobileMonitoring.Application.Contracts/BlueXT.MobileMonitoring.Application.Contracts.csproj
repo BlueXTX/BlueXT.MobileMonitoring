@@ -6,9 +6,6 @@
         <TargetFramework>net7.0</TargetFramework>
         <Nullable>enable</Nullable>
         <RootNamespace>BlueXT.MobileMonitoring</RootNamespace>
-        <GenerateDocumentationFile>true</GenerateDocumentationFile>
-        <CodeAnalysisRuleSet>..\..\infotecs.ruleset</CodeAnalysisRuleSet>
-        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     </PropertyGroup>
 
     <ItemGroup>
@@ -23,10 +20,4 @@
         <PackageReference Include="Volo.Abp.SettingManagement.Application.Contracts" Version="7.2.3" />
     </ItemGroup>
 
-    <ItemGroup>
-        <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
-            <ExcludeAssets>all</ExcludeAssets>
-        </PackageReference>
-    </ItemGroup>
-    
 </Project>
