@@ -4,9 +4,25 @@ services:
   redis:
     image: redis:7.0.11-alpine
     container_name: 'redis'
+    restart: unless-stopped
     ports:
       - '6379:6379'
     networks:
       mobile-monitoring:
+  seq:
+    image: datalust/seq:2023.2
+    container_name: 'seq'
+    restart: unless-stopped
+    ports:
+      - '5341:5341'
+      - '5342:80'
+    environment:
+      - ACCEPT_EULA=y
+    volumes:
+      - seq:/data
+
 networks:
   mobile-monitoring:
+
+volumes:
+  seq:
