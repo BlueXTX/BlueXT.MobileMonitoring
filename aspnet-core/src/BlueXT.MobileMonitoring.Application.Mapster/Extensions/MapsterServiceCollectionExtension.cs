@@ -1,8 +1,9 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using BlueXT.MobileMonitoring.Application.Mapster.Providers;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Volo.Abp.ObjectMapping;
 
-namespace BlueXT.MobileMonitoring.Mapster;
+namespace BlueXT.MobileMonitoring.Application.Mapster.Extensions;
 
 /// <summary>
 /// Расширение коллекции сервисов для добавления Mapster'а.

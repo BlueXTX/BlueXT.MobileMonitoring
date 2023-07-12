@@ -1,6 +1,5 @@
-using BlueXT.MobileMonitoring.Mapster;
+using BlueXT.MobileMonitoring.Application.Mapster;
 using Volo.Abp.Account;
-using Volo.Abp.AutoMapper;
 using Volo.Abp.FluentValidation;
 using Volo.Abp.Identity;
 using Volo.Abp.Modularity;
@@ -19,13 +18,9 @@ namespace BlueXT.MobileMonitoring;
     typeof(AbpIdentityApplicationModule),
     typeof(AbpPermissionManagementApplicationModule),
     typeof(AbpSettingManagementApplicationModule),
-    typeof(AbpFluentValidationModule)
+    typeof(AbpFluentValidationModule),
+    typeof(MobileMonitoringApplicationMapsterModule)
 )]
 public class MobileMonitoringApplicationModule : AbpModule
 {
-    /// <summary>
-    /// Конфигурация сервисов.
-    /// </summary>
-    /// <param name="context">Контекст конфигурации.</param>
-    public override void ConfigureServices(ServiceConfigurationContext context) => context.Services.AddMapster();
 }

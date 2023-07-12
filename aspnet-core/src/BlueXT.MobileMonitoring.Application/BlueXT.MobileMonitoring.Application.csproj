@@ -9,12 +9,12 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\BlueXT.MobileMonitoring.Application.Mapster\BlueXT.MobileMonitoring.Application.Mapster.csproj" />
         <ProjectReference Include="..\BlueXT.MobileMonitoring.Domain\BlueXT.MobileMonitoring.Domain.csproj" />
         <ProjectReference Include="..\BlueXT.MobileMonitoring.Application.Contracts\BlueXT.MobileMonitoring.Application.Contracts.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Mapster" Version="7.3.0" />
         <PackageReference Include="Volo.Abp.Account.Application" Version="7.2.3" />
         <PackageReference Include="Volo.Abp.FluentValidation" Version="7.2.3" />
         <PackageReference Include="Volo.Abp.Identity.Application" Version="7.2.3" />

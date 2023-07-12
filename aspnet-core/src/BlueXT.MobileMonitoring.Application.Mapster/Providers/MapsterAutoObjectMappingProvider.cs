@@ -1,7 +1,7 @@
 ﻿using Mapster;
 using Volo.Abp.ObjectMapping;
 
-namespace BlueXT.MobileMonitoring.Mapster;
+namespace BlueXT.MobileMonitoring.Application.Mapster.Providers;
 
 /// <summary>
 /// Провайдер маппинга Mapster.

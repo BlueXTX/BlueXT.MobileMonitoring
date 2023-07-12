@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace BlueXT.MobileMonitoring.Mapster;
+﻿namespace BlueXT.MobileMonitoring.Application.Mapster.Exceptions;
 
 /// <summary>
 /// Исключение маппинга с использованием Mapster.

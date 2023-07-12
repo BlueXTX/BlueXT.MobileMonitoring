@@ -1,10 +1,9 @@
-﻿using System;
-using Mapster;
+﻿using BlueXT.MobileMonitoring.Application.Mapster.Exceptions;
 using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.ObjectMapping;
 
-namespace BlueXT.MobileMonitoring.Mapster;
+namespace BlueXT.MobileMonitoring.Application.Mapster.Mapper;
 
 /// <summary>
 /// Маппер объектов основанный на библиотеке Mapster.
@@ -31,7 +30,7 @@ public class MapsterObjectMapper : IObjectMapper, ITransientDependency
     /// Провайдер маппинга объектов.
     /// </summary>
     public IAutoObjectMappingProvider AutoObjectMappingProvider { get; }
-    
+
     /// <summary>
     /// Преобразовать объект в нужный тип.
     /// </summary>
