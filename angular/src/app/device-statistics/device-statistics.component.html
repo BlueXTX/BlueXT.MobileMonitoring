@@ -10,7 +10,7 @@
     </div>
   </div>
   <div class='card-body'>
-    <ngx-datatable [rows]='deviceStatistics.items' [count]='deviceStatistics.totalCount' [list]='list' default>
+    <ngx-datatable [count]='deviceStatistics.totalCount' [list]='list' [rows]='deviceStatistics.items' default>
       <ngx-datatable-column [name]="'::DeviceStatistic:DeviceId' | abpLocalization"
                             prop='deviceId'></ngx-datatable-column>
       <ngx-datatable-column [name]="'::DeviceStatistic:Username' | abpLocalization"
