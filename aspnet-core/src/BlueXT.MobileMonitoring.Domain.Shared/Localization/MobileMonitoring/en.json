@@ -2,7 +2,12 @@
   "culture": "en",
   "texts": {
     "Menu:Home": "Home",
+	"Menu:DeviceStatistics": "Device statistics",
     "Welcome": "Welcome",
-    "LongWelcomeMessage": "Welcome to the application. This is a startup project based on the ABP framework. For more information, visit abp.io."
+    "LongWelcomeMessage": "Welcome to the application. This is a startup project based on the ABP framework. For more information, visit abp.io.",
+	"DeviceStatistic:DeviceId": "Device id",
+	"DeviceStatistic:Username": "Username",
+	"DeviceStatistic:OperatingSystem": "Operating system",
+	"DeviceStatistic:AppVersion": "Application version"
   }
 }

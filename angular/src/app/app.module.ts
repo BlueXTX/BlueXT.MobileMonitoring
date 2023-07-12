@@ -19,32 +19,32 @@ import { AbpOAuthModule } from '@abp/ng.oauth';
 import { ServiceWorkerModule } from '@angular/service-worker';
 
 @NgModule({
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    AppRoutingModule,
-    CoreModule.forRoot({
-      environment,
-      registerLocaleFn: registerLocale(),
-    }),
-    AbpOAuthModule.forRoot(),
-    ThemeSharedModule.forRoot(),
-    AccountConfigModule.forRoot(),
-    IdentityConfigModule.forRoot(),
-    TenantManagementConfigModule.forRoot(),
-    SettingManagementConfigModule.forRoot(),
-    ThemeLeptonXModule.forRoot(),
-    SideMenuLayoutModule.forRoot(),
-    FeatureManagementModule.forRoot(),
-    ServiceWorkerModule.register('ngsw-worker.js', {
-      enabled: environment.production,
-      // Register the ServiceWorker as soon as the application is stable
-      // or after 30 seconds (whichever comes first).
-      registrationStrategy: 'registerWhenStable:30000'
-    }),
-  ],
-  declarations: [AppComponent],
-  providers: [APP_ROUTE_PROVIDER],
-  bootstrap: [AppComponent],
+    imports: [
+        BrowserModule,
+        BrowserAnimationsModule,
+        AppRoutingModule,
+        CoreModule.forRoot({
+            environment,
+            registerLocaleFn: registerLocale(),
+        }),
+        AbpOAuthModule.forRoot(),
+        ThemeSharedModule.forRoot(),
+        AccountConfigModule.forRoot(),
+        IdentityConfigModule.forRoot(),
+        TenantManagementConfigModule.forRoot(),
+        SettingManagementConfigModule.forRoot(),
+        ThemeLeptonXModule.forRoot(),
+        SideMenuLayoutModule.forRoot(),
+        FeatureManagementModule.forRoot(),
+        ServiceWorkerModule.register('ngsw-worker.js', {
+            enabled: environment.production,
+            // Register the ServiceWorker as soon as the application is stable
+            // or after 30 seconds (whichever comes first).
+            registrationStrategy: 'registerWhenStable:30000',
+        }),
+    ],
+    declarations: [AppComponent],
+    providers: [APP_ROUTE_PROVIDER],
+    bootstrap: [AppComponent],
 })
 export class AppModule {}
