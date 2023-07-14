@@ -121,8 +121,7 @@ public class DapperDeviceStatisticRepository : DapperRepository<MobileMonitoring
     /// <param name="autoSave">Сохранять после обновления.</param>
     /// <param name="cancellationToken">Токен отмены.</param>
     /// <returns>Обновленная сущность.</returns>
-    /// <exception cref="NotImplementedException">Не реализовано.</exception>
-    public async Task<DeviceStatistic> UpdateAsync(DeviceStatistic entity, bool autoSave = false, CancellationToken cancellationToken = new()) => throw new NotImplementedException();
+    public async Task<DeviceStatistic> UpdateAsync(DeviceStatistic entity, bool autoSave = false, CancellationToken cancellationToken = new()) => await UpdateAsync(entity.Id, entity, cancellationToken);
 
     /// <summary>
     /// Обновить несколько сущностей.
