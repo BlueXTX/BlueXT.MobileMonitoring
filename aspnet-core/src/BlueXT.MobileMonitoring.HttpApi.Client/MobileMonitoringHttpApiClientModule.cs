@@ -9,7 +9,7 @@ using Volo.Abp.VirtualFileSystem;
 namespace BlueXT.MobileMonitoring;
 
 /// <summary>
-/// Модуль http клиента для приложения.   
+/// Модуль http клиента для приложения.
 /// </summary>
 [DependsOn(
     typeof(MobileMonitoringApplicationContractsModule),

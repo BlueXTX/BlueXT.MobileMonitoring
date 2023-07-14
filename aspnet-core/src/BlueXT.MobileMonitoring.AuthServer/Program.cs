@@ -26,9 +26,9 @@ public class Program
             Log.Logger = new LoggerConfiguration()
                 .ReadFrom.Configuration(builder.Configuration)
                 .CreateLogger();
-            
+
             Log.Information("Starting BlueXT.MobileMonitoring.AuthServer.");
-                
+
             builder.Host.AddAppSettingsSecretsJson()
                 .UseAutofac()
                 .UseSerilog();

@@ -95,10 +95,10 @@ public class DapperDeviceStatisticRepository : DapperRepository<MobileMonitoring
             new
             {
                 Id = _guidGenerator.Create(),
-                DeviceId = entity.DeviceId,
-                Username = entity.Username,
-                OperatingSystem = entity.OperatingSystem,
-                AppVersion = entity.AppVersion,
+                entity.DeviceId,
+                entity.Username,
+                entity.OperatingSystem,
+                entity.AppVersion,
                 CreationTime = _clock.Now,
             },
             await GetDbTransactionAsync());
@@ -215,10 +215,10 @@ public class DapperDeviceStatisticRepository : DapperRepository<MobileMonitoring
             Sql,
             new
             {
-                DeviceId = entity.DeviceId,
-                Username = entity.Username,
-                OperatingSystem = entity.OperatingSystem,
-                AppVersion = entity.AppVersion,
+                entity.DeviceId,
+                entity.Username,
+                entity.OperatingSystem,
+                entity.AppVersion,
                 LastModificationTime = _clock.Now,
                 Id = id,
             },

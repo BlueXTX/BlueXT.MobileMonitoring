@@ -133,7 +133,7 @@ public class MobileMonitoringAuthServerModule : AbpModule
     {
         var dataProtectionBuilder = ConfigureApplicationName(context);
         if (hostingEnvironment.IsDevelopment()) return;
-        
+
         var redisConnection = ConnectionMultiplexer.Connect(configuration["Redis:Configuration"]);
         dataProtectionBuilder.PersistKeysToStackExchangeRedis(redisConnection, "MobileMonitoring-Protection-Keys");
     }

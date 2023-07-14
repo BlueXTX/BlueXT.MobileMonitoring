@@ -31,7 +31,7 @@ using Volo.Abp.VirtualFileSystem;
 namespace BlueXT.MobileMonitoring;
 
 /// <summary>
-/// Модуль хоста для http api. 
+/// Модуль хоста для http api.
 /// </summary>
 [DependsOn(
     typeof(MobileMonitoringHttpApiModule),
