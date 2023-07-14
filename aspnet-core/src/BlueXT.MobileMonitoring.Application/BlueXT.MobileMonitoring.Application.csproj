@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-    <Import Project="..\..\common.props"/>
+    <Import Project="..\..\common.props" />
 
     <PropertyGroup>
         <TargetFramework>net7.0</TargetFramework>
@@ -9,20 +9,17 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\BlueXT.MobileMonitoring.Domain\BlueXT.MobileMonitoring.Domain.csproj"/>
-        <ProjectReference Include="..\BlueXT.MobileMonitoring.Application.Contracts\BlueXT.MobileMonitoring.Application.Contracts.csproj"/>
+        <ProjectReference Include="..\BlueXT.MobileMonitoring.Application.Mapster\BlueXT.MobileMonitoring.Application.Mapster.csproj" />
+        <ProjectReference Include="..\BlueXT.MobileMonitoring.Domain\BlueXT.MobileMonitoring.Domain.csproj" />
+        <ProjectReference Include="..\BlueXT.MobileMonitoring.Application.Contracts\BlueXT.MobileMonitoring.Application.Contracts.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Volo.Abp.Account.Application" Version="7.2.3"/>
-        <PackageReference Include="Volo.Abp.FluentValidation" Version="7.2.3"/>
-        <PackageReference Include="Volo.Abp.Identity.Application" Version="7.2.3"/>
-        <PackageReference Include="Volo.Abp.PermissionManagement.Application" Version="7.2.3"/>
-        <PackageReference Include="Volo.Abp.SettingManagement.Application" Version="7.2.3"/>
-    </ItemGroup>
-
-    <ItemGroup>
-        <Folder Include="DeviceStatistics\"/>
+        <PackageReference Include="Volo.Abp.Account.Application" Version="7.2.3" />
+        <PackageReference Include="Volo.Abp.FluentValidation" Version="7.2.3" />
+        <PackageReference Include="Volo.Abp.Identity.Application" Version="7.2.3" />
+        <PackageReference Include="Volo.Abp.PermissionManagement.Application" Version="7.2.3" />
+        <PackageReference Include="Volo.Abp.SettingManagement.Application" Version="7.2.3" />
     </ItemGroup>
 
 </Project>
