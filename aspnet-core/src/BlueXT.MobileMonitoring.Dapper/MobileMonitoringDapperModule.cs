@@ -1,4 +1,5 @@
 ﻿using BlueXT.MobileMonitoring.EntityFrameworkCore;
+using Dapper;
 using Volo.Abp.Modularity;
 
 namespace BlueXT.MobileMonitoring.Dapper;
@@ -9,4 +10,5 @@ namespace BlueXT.MobileMonitoring.Dapper;
 )]
 public class MobileMonitoringDapperModule : AbpModule
 {
+    public override void PreConfigureServices(ServiceConfigurationContext context) => DefaultTypeMap.MatchNamesWithUnderscores = true;
 }
