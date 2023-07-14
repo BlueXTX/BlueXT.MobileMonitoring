@@ -45,4 +45,12 @@ public class DeviceStatisticService : CrudAppService<DeviceStatistic, DeviceStat
         var mappedEntities = _mapper.Map<List<DeviceStatistic>, List<DeviceStatisticDto>>(entities);
         return new PagedResultDto<DeviceStatisticDto>(totalCount, mappedEntities);
     }
+
+    public override async Task<DeviceStatisticDto> UpdateAsync(Guid id, CreateOrUpdateDeviceStatisticDto input)
+    {
+        var entity = _mapper.Map<CreateOrUpdateDeviceStatisticDto, DeviceStatistic>(input);
+        return _mapper.Map<DeviceStatistic, DeviceStatisticDto>(await _repository.UpdateAsync(id, entity));
+    }
+
+    public override async Task DeleteAsync(Guid id) => await _repository.DeleteAsync(id);
 }

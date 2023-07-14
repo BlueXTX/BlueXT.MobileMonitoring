@@ -1,4 +1,4 @@
-using BlueXT.MobileMonitoring.DeviceStatistics;
+﻿using BlueXT.MobileMonitoring.DeviceStatistics;
 using BlueXT.MobileMonitoring.EntityFrameworkCore;
 using Dapper;
 using Volo.Abp.DependencyInjection;
@@ -69,24 +69,47 @@ public class DapperDeviceStatisticRepository : DapperRepository<MobileMonitoring
 
     public Task InsertManyAsync(IEnumerable<DeviceStatistic> entities, bool autoSave = false, CancellationToken cancellationToken = new()) => throw new NotImplementedException();
 
-    public Task<DeviceStatistic> UpdateAsync(DeviceStatistic entity, bool autoSave = false, CancellationToken cancellationToken = new()) => throw new NotImplementedException();
+    public async Task<DeviceStatistic> UpdateAsync(DeviceStatistic entity, bool autoSave = false, CancellationToken cancellationToken = new()) => throw new NotImplementedException();
 
     public Task UpdateManyAsync(IEnumerable<DeviceStatistic> entities, bool autoSave = false, CancellationToken cancellationToken = new()) => throw new NotImplementedException();
 
-    public Task DeleteAsync(DeviceStatistic entity, bool autoSave = false, CancellationToken cancellationToken = new()) => throw new NotImplementedException();
+    public async Task DeleteAsync(DeviceStatistic entity, bool autoSave = false, CancellationToken cancellationToken = new()) => await DeleteAsync(entity.Id, cancellationToken: cancellationToken);
 
     public Task DeleteManyAsync(IEnumerable<DeviceStatistic> entities, bool autoSave = false, CancellationToken cancellationToken = new()) => throw new NotImplementedException();
 
     public async Task<DeviceStatistic> GetAsync(Guid id, bool includeDetails = true, CancellationToken cancellationToken = new())
     {
-        const string Sql = "SELECT * FROM app_device_statistic WHERE id = @Id";
+        const string Sql = "SELECT * FROM app_device_statistic WHERE id = @Id and is_deleted = false";
         var connection = await GetDbConnectionAsync();
         return await connection.QuerySingleAsync<DeviceStatistic>(Sql, new { Id = id }, await GetDbTransactionAsync());
     }
 
     public Task<DeviceStatistic> FindAsync(Guid id, bool includeDetails = true, CancellationToken cancellationToken = new()) => throw new NotImplementedException();
 
-    public Task DeleteAsync(Guid id, bool autoSave = false, CancellationToken cancellationToken = new()) => throw new NotImplementedException();
+    public async Task DeleteAsync(Guid id, bool autoSave = false, CancellationToken cancellationToken = new())
+    {
+        const string Sql = @"UPDATE app_device_statistic SET is_deleted = true, deletion_time = @DeletionTime WHERE id = @Id";
+        var connection = await GetDbConnectionAsync();
+        await connection.ExecuteAsync(Sql, new { Id = id, DeletionTime = _clock.Now }, await GetDbTransactionAsync());
+    }
 
     public Task DeleteManyAsync(IEnumerable<Guid> ids, bool autoSave = false, CancellationToken cancellationToken = new()) => throw new NotImplementedException();
+
+    public async Task<DeviceStatistic> UpdateAsync(Guid id, DeviceStatistic entity, CancellationToken cancellationToken = new())
+    {
+        const string Sql = @"UPDATE app_device_statistic SET device_id = @DeviceId, username = @Username, operating_system = @OperatingSystem, app_version = @AppVersion, last_modification_time = @LastModificationTime WHERE id = @Id and is_deleted = false RETURNING *;";
+        var connection = await GetDbConnectionAsync();
+        return await connection.QuerySingleAsync<DeviceStatistic>(
+            Sql,
+            new
+            {
+                DeviceId = entity.DeviceId,
+                Username = entity.Username,
+                OperatingSystem = entity.OperatingSystem,
+                AppVersion = entity.AppVersion,
+                LastModificationTime = _clock.Now,
+                Id = id,
+            },
+            await GetDbTransactionAsync());
+    }
 }
