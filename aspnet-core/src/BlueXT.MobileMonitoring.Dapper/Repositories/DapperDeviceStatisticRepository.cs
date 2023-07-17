@@ -31,7 +31,7 @@ public class DapperDeviceStatisticRepository : DapperRepository<MobileMonitoring
     }
 
     /// <summary>
-    /// Получить список сущностей.
+    /// Получить список сущностей <see cref="DeviceStatistic"/>.
     /// </summary>
     /// <param name="includeDetails">Включать детали в выборку.</param>
     /// <param name="cancellationToken">Токен отмены.</param>
@@ -40,7 +40,7 @@ public class DapperDeviceStatisticRepository : DapperRepository<MobileMonitoring
     public Task<List<DeviceStatistic>> GetListAsync(bool includeDetails = false, CancellationToken cancellationToken = default) => throw new NotImplementedException();
 
     /// <summary>
-    /// Получить количество сущностей.
+    /// Получить количество сущностей <see cref="DeviceStatistic"/>.
     /// </summary>
     /// <param name="cancellationToken">Токен отмены.</param>
     /// <returns>Количество сущностей.</returns>
@@ -52,7 +52,7 @@ public class DapperDeviceStatisticRepository : DapperRepository<MobileMonitoring
     }
 
     /// <summary>
-    /// Получить постраничный список сущностей.
+    /// Получить постраничный список сущностей <see cref="DeviceStatistic"/>.
     /// </summary>
     /// <param name="skipCount">Число пропускаемых значений.</param>
     /// <param name="maxResultCount">Максимальное количество значений.</param>
@@ -80,7 +80,7 @@ public class DapperDeviceStatisticRepository : DapperRepository<MobileMonitoring
     }
 
     /// <summary>
-    /// Добавить сущность.
+    /// Добавить сущность <see cref="DeviceStatistic"/>.
     /// </summary>
     /// <param name="entity">Сущность.</param>
     /// <param name="autoSave">Сохранять после добавления.</param>
@@ -105,7 +105,7 @@ public class DapperDeviceStatisticRepository : DapperRepository<MobileMonitoring
     }
 
     /// <summary>
-    /// Добавить несколько сущностей.
+    /// Добавить несколько сущностей <see cref="DeviceStatistic"/>.
     /// </summary>
     /// <param name="entities">Сущности.</param>
     /// <param name="autoSave">Сохранять после добавления.</param>
@@ -115,7 +115,7 @@ public class DapperDeviceStatisticRepository : DapperRepository<MobileMonitoring
     public Task InsertManyAsync(IEnumerable<DeviceStatistic> entities, bool autoSave = false, CancellationToken cancellationToken = default) => throw new NotImplementedException();
 
     /// <summary>
-    /// Обновить сущность.
+    /// Обновить сущность <see cref="DeviceStatistic"/>.
     /// </summary>
     /// <param name="entity">Сущность для обновления.</param>
     /// <param name="autoSave">Сохранять после обновления.</param>
@@ -124,7 +124,7 @@ public class DapperDeviceStatisticRepository : DapperRepository<MobileMonitoring
     public async Task<DeviceStatistic> UpdateAsync(DeviceStatistic entity, bool autoSave = false, CancellationToken cancellationToken = default) => await UpdateAsync(entity.Id, entity, cancellationToken);
 
     /// <summary>
-    /// Обновить несколько сущностей.
+    /// Обновить несколько сущностей <see cref="DeviceStatistic"/>.
     /// </summary>
     /// <param name="entities">Сущности для обновления.</param>
     /// <param name="autoSave">Сохранять после обновления.</param>
@@ -134,7 +134,7 @@ public class DapperDeviceStatisticRepository : DapperRepository<MobileMonitoring
     public Task UpdateManyAsync(IEnumerable<DeviceStatistic> entities, bool autoSave = false, CancellationToken cancellationToken = default) => throw new NotImplementedException();
 
     /// <summary>
-    /// Удалить сущность.
+    /// Удалить сущность <see cref="DeviceStatistic"/>.
     /// </summary>
     /// <param name="entity">Сущность для удаления.</param>
     /// <param name="autoSave">Сохранять после удаления.</param>
@@ -143,7 +143,7 @@ public class DapperDeviceStatisticRepository : DapperRepository<MobileMonitoring
     public async Task DeleteAsync(DeviceStatistic entity, bool autoSave = false, CancellationToken cancellationToken = default) => await DeleteAsync(entity.Id, cancellationToken: cancellationToken);
 
     /// <summary>
-    /// Удалить несколько сущностей.
+    /// Удалить несколько сущностей <see cref="DeviceStatistic"/>.
     /// </summary>
     /// <param name="entities">Сущности для удаления.</param>
     /// <param name="autoSave">Сохранять после удаления.</param>
@@ -153,7 +153,7 @@ public class DapperDeviceStatisticRepository : DapperRepository<MobileMonitoring
     public Task DeleteManyAsync(IEnumerable<DeviceStatistic> entities, bool autoSave = false, CancellationToken cancellationToken = default) => throw new NotImplementedException();
 
     /// <summary>
-    /// Получить сущность.
+    /// Получить сущность <see cref="DeviceStatistic"/>.
     /// </summary>
     /// <param name="id">Уникальный идентификатор сущности.</param>
     /// <param name="includeDetails">Включать детали в выборку.</param>
@@ -167,7 +167,7 @@ public class DapperDeviceStatisticRepository : DapperRepository<MobileMonitoring
     }
 
     /// <summary>
-    /// Поиск сущности.
+    /// Поиск сущности <see cref="DeviceStatistic"/>.
     /// </summary>
     /// <param name="id">Уникальный идентификатор.</param>
     /// <param name="includeDetails">Включать детали в выборку.</param>
@@ -177,7 +177,7 @@ public class DapperDeviceStatisticRepository : DapperRepository<MobileMonitoring
     public Task<DeviceStatistic> FindAsync(Guid id, bool includeDetails = true, CancellationToken cancellationToken = default) => throw new NotImplementedException();
 
     /// <summary>
-    /// Удалить сущность.
+    /// Удалить сущность <see cref="DeviceStatistic"/>.
     /// </summary>
     /// <param name="id">Уникальный идентификатор.</param>
     /// <param name="autoSave">Сохранять после удаления.</param>
@@ -191,7 +191,7 @@ public class DapperDeviceStatisticRepository : DapperRepository<MobileMonitoring
     }
 
     /// <summary>
-    /// Удалить несколько сущностей.
+    /// Удалить несколько сущностей <see cref="DeviceStatistic"/>.
     /// </summary>
     /// <param name="ids">Уникальные идентификаторы.</param>
     /// <param name="autoSave">Сохранять после удаления.</param>
@@ -201,7 +201,7 @@ public class DapperDeviceStatisticRepository : DapperRepository<MobileMonitoring
     public Task DeleteManyAsync(IEnumerable<Guid> ids, bool autoSave = false, CancellationToken cancellationToken = default) => throw new NotImplementedException();
 
     /// <summary>
-    /// Обновить сущность.
+    /// Обновить сущность <see cref="DeviceStatistic"/>.
     /// </summary>
     /// <param name="id">Уникальный идентификатор.</param>
     /// <param name="entity">Данные для обновления.</param>
