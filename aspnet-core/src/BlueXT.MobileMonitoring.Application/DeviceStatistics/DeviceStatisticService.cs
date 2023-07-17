@@ -33,7 +33,7 @@ public class DeviceStatisticService : CrudAppService<DeviceStatistic, DeviceStat
     }
 
     /// <summary>
-    /// Создать сущность.
+    /// Создать сущность <see cref="DeviceStatistic"/>.
     /// </summary>
     /// <param name="input">DTO для создания.</param>
     /// <returns>Созданная сущность.</returns>
@@ -51,7 +51,7 @@ public class DeviceStatisticService : CrudAppService<DeviceStatistic, DeviceStat
     public override async Task<DeviceStatisticDto> GetAsync(Guid id) => _mapper.Map<DeviceStatistic, DeviceStatisticDto>(await _repository.GetAsync(id));
 
     /// <summary>
-    /// Получить постраничный список сущностей.
+    /// Получить постраничный список сущностей <see cref="DeviceStatistic"/>.
     /// </summary>
     /// <param name="input">DTO с опциями для формирования списка.</param>
     /// <returns>Список сущностей.</returns>
@@ -64,7 +64,7 @@ public class DeviceStatisticService : CrudAppService<DeviceStatistic, DeviceStat
     }
 
     /// <summary>
-    /// Обновить сущность.
+    /// Обновить сущность <see cref="DeviceStatistic"/>.
     /// </summary>
     /// <param name="id">Уникальный идентификатор сущности.</param>
     /// <param name="input">Данные для обновления.</param>
@@ -76,7 +76,7 @@ public class DeviceStatisticService : CrudAppService<DeviceStatistic, DeviceStat
     }
 
     /// <summary>
-    /// Удалить сущность.
+    /// Удалить сущность <see cref="DeviceStatistic"/>.
     /// </summary>
     /// <param name="id">Уникальный идентификатор сущности.</param>
     /// <returns>Задача удаления.</returns>
