@@ -1,4 +1,6 @@
-﻿namespace BlueXT.MobileMonitoring.DeviceEvents;
+﻿using System;
+
+namespace BlueXT.MobileMonitoring.DeviceEvents;
 
 /// <summary>
 /// DTO для создания или обновления DeviceEvent.
@@ -11,7 +13,7 @@ public class CreateOrUpdateDeviceEventDto
     public string Name { get; set; } = string.Empty;
 
     /// <summary>
-    /// Описание.
+    /// Дата создания.
     /// </summary>
-    public string? Description { get; set; } = string.Empty;
+    public DateTime CreationDate { get; set; }
 }
