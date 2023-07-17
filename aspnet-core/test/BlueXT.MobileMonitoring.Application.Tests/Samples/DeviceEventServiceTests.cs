@@ -30,7 +30,6 @@ public sealed class DeviceEventServiceTests : MobileMonitoringApplicationTestBas
         var dto = new CreateOrUpdateDeviceEventDto
         {
             Name = string.Empty,
-            Description = string.Empty,
         };
         var act = () => _deviceEventService.CreateAsync(dto);
 
@@ -45,7 +44,6 @@ public sealed class DeviceEventServiceTests : MobileMonitoringApplicationTestBas
 
         entity.ShouldNotBeNull();
         entity.Name.ShouldBe(createdEntity.Name);
-        entity.Description.ShouldBe(createdEntity.Description);
     }
 
     [Fact]
@@ -64,13 +62,11 @@ public sealed class DeviceEventServiceTests : MobileMonitoringApplicationTestBas
         var updateDto = new CreateOrUpdateDeviceEventDto
         {
             Name = UpdatedName,
-            Description = UpdatedDescription,
         };
 
         var updatedEntity = await _deviceEventService.UpdateAsync(createdEntity.Id, updateDto);
 
         updatedEntity.Name.ShouldBe(UpdatedName);
-        updatedEntity.Description.ShouldBe(UpdatedDescription);
     }
 
     [Fact]
@@ -79,7 +75,6 @@ public sealed class DeviceEventServiceTests : MobileMonitoringApplicationTestBas
         var updateDto = new CreateOrUpdateDeviceEventDto
         {
             Name = "updated name",
-            Description = "updated description",
         };
         var act = () => _deviceEventService.UpdateAsync(Guid.Empty, updateDto);
         await act.ShouldThrowAsync<EntityNotFoundException>();
@@ -97,6 +92,5 @@ public sealed class DeviceEventServiceTests : MobileMonitoringApplicationTestBas
             new CreateOrUpdateDeviceEventDto
             {
                 Name = _faker.Lorem.Word(),
-                Description = _faker.Lorem.Sentence(),
             });
 }
