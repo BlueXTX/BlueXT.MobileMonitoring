@@ -12,7 +12,7 @@ public class CreateOrUpdateDeviceEventDtoValidator : AbstractValidator<CreateOrU
     /// </summary>
     public CreateOrUpdateDeviceEventDtoValidator()
     {
-        RuleFor(x => x.Name).NotEmpty().MaximumLength(128);
-        RuleFor(x => x.Description).MaximumLength(512);
+        RuleFor(x => x.Name).NotEmpty().MaximumLength(maximumLength: 128);
+        RuleFor(x => x.Description).MaximumLength(maximumLength: 512);
     }
 }

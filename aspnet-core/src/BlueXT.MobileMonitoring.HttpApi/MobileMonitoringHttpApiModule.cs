@@ -10,7 +10,7 @@ using Volo.Abp.SettingManagement;
 namespace BlueXT.MobileMonitoring;
 
 /// <summary>
-/// Модуль http API приложения. 
+/// Модуль http API приложения.
 /// </summary>
 [DependsOn(
     typeof(MobileMonitoringApplicationContractsModule),
