@@ -18,7 +18,6 @@ public class DeviceEventConfiguration : IEntityTypeConfiguration<DeviceEvent>
     {
         builder.ToTable(MobileMonitoringConsts.DbTablePrefix + nameof(DeviceEvent) + MobileMonitoringConsts.DbSchema);
         builder.ConfigureByConvention();
-        builder.Property(x => x.Name).IsRequired().HasMaxLength(maxLength: 128);
-        builder.Property(x => x.Description).HasMaxLength(maxLength: 512);
+        builder.Property(x => x.Name).IsRequired().HasMaxLength(maxLength: 50);
     }
 }
