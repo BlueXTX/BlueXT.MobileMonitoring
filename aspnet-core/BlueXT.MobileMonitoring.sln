@@ -1,4 +1,4 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29020.237
@@ -38,6 +38,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlueXT.MobileMonitoring.DbMigrator", "src\BlueXT.MobileMonitoring.DbMigrator\BlueXT.MobileMonitoring.DbMigrator.csproj", "{AA94D832-1CCC-4715-95A9-A483F23A1A5D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlueXT.MobileMonitoring.Dapper", "src\BlueXT.MobileMonitoring.Dapper\BlueXT.MobileMonitoring.Dapper.csproj", "{220BB7E2-0E96-43E3-A35C-FEB6DEDBEA51}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlueXT.MobileMonitoring.Application.Mapster", "src\BlueXT.MobileMonitoring.Application.Mapster\BlueXT.MobileMonitoring.Application.Mapster.csproj", "{5831BB5E-B913-41A0-8A08-5CA013753CCF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -109,6 +111,10 @@ Global
 		{220BB7E2-0E96-43E3-A35C-FEB6DEDBEA51}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{220BB7E2-0E96-43E3-A35C-FEB6DEDBEA51}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{220BB7E2-0E96-43E3-A35C-FEB6DEDBEA51}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5831BB5E-B913-41A0-8A08-5CA013753CCF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5831BB5E-B913-41A0-8A08-5CA013753CCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5831BB5E-B913-41A0-8A08-5CA013753CCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5831BB5E-B913-41A0-8A08-5CA013753CCF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -130,6 +136,7 @@ Global
 		{EF480016-9127-4916-8735-D2466BDBC582} = {04DBDB01-70F4-4E06-B468-8F87850B22BE}
 		{AA94D832-1CCC-4715-95A9-A483F23A1A5D} = {CA9AC87F-097E-4F15-8393-4BC07735A5B0}
 		{220BB7E2-0E96-43E3-A35C-FEB6DEDBEA51} = {CA9AC87F-097E-4F15-8393-4BC07735A5B0}
+		{5831BB5E-B913-41A0-8A08-5CA013753CCF} = {CA9AC87F-097E-4F15-8393-4BC07735A5B0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {28315BFD-90E7-4E14-A2EA-F3D23AF4126F}
