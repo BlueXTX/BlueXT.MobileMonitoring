@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using BlueXT.MobileMonitoring.DeviceEvents;
 using BlueXT.MobileMonitoring.DeviceStatistics;
 using Microsoft.EntityFrameworkCore;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
@@ -36,6 +37,11 @@ public class MobileMonitoringDbContext :
     /// Статистики устройств.
     /// </summary>
     public DbSet<DeviceStatistic> DeviceStatistics { get; set; } = null!;
+
+    /// <summary>
+    /// События устройств.
+    /// </summary>
+    public DbSet<DeviceEvent> DeviceEvents { get; set; } = null!;
 
     /// <summary>
     /// Пользователи.
