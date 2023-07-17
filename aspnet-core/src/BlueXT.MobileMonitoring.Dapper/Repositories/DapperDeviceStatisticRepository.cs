@@ -5,7 +5,6 @@ using Volo.Abp.DependencyInjection;
 using Volo.Abp.Domain.Repositories.Dapper;
 using Volo.Abp.EntityFrameworkCore;
 using Volo.Abp.Guids;
-using Volo.Abp.Timing;
 
 namespace BlueXT.MobileMonitoring.Dapper.Repositories;
 
@@ -15,20 +14,14 @@ namespace BlueXT.MobileMonitoring.Dapper.Repositories;
 public class DapperDeviceStatisticRepository : DapperRepository<MobileMonitoringDbContext>, IDeviceStatisticRepository, ITransientDependency
 {
     private readonly IGuidGenerator _guidGenerator;
-    private readonly IClock _clock;
 
     /// <summary>
     /// Конструктор.
     /// </summary>
     /// <param name="dbContextProvider">Провайдер контекста базы данных.</param>
     /// <param name="guidGenerator">Генератор уникальных идентификаторов.</param>
-    /// <param name="clock">Часы.</param>
-    public DapperDeviceStatisticRepository(IDbContextProvider<MobileMonitoringDbContext> dbContextProvider, IGuidGenerator guidGenerator, IClock clock)
-        : base(dbContextProvider)
-    {
-        _guidGenerator = guidGenerator;
-        _clock = clock;
-    }
+    public DapperDeviceStatisticRepository(IDbContextProvider<MobileMonitoringDbContext> dbContextProvider, IGuidGenerator guidGenerator)
+        : base(dbContextProvider) => _guidGenerator = guidGenerator;
 
     /// <summary>
     /// Получить список сущностей <see cref="DeviceStatistic"/>.
@@ -46,7 +39,7 @@ public class DapperDeviceStatisticRepository : DapperRepository<MobileMonitoring
     /// <returns>Количество сущностей.</returns>
     public async Task<long> GetCountAsync(CancellationToken cancellationToken = default)
     {
-        const string Sql = "SELECT COUNT(*) FROM app_device_statistic WHERE is_deleted = false";
+        const string Sql = "SELECT COUNT(*) FROM app_device_statistic";
         var connection = await GetDbConnectionAsync();
         return await connection.ExecuteScalarAsync<int>(Sql, await GetDbTransactionAsync());
     }
@@ -67,7 +60,7 @@ public class DapperDeviceStatisticRepository : DapperRepository<MobileMonitoring
         bool includeDetails = false,
         CancellationToken cancellationToken = default)
     {
-        const string Sql = @"SELECT * FROM app_device_statistic WHERE is_deleted = false OFFSET @Offset LIMIT @Limit;";
+        const string Sql = @"SELECT * FROM app_device_statistic OFFSET @Offset LIMIT @Limit;";
         var connection = await GetDbConnectionAsync();
         return (await connection.QueryAsync<DeviceStatistic>(
             Sql,
@@ -88,7 +81,7 @@ public class DapperDeviceStatisticRepository : DapperRepository<MobileMonitoring
     /// <returns>Добавленная сущность.</returns>
     public async Task<DeviceStatistic> InsertAsync(DeviceStatistic entity, bool autoSave = false, CancellationToken cancellationToken = default)
     {
-        const string Sql = @"INSERT INTO app_device_statistic (id, device_id, username, operating_system, app_version, creation_time) VALUES (@Id, @DeviceId, @Username, @OperatingSystem, @AppVersion, @CreationTime) RETURNING *;";
+        const string Sql = @"INSERT INTO app_device_statistic (id, device_id, username, operating_system, app_version) VALUES (@Id, @DeviceId, @Username, @OperatingSystem, @AppVersion) RETURNING *;";
         var connection = await GetDbConnectionAsync();
         return await connection.QuerySingleAsync<DeviceStatistic>(
             Sql,
@@ -99,7 +92,6 @@ public class DapperDeviceStatisticRepository : DapperRepository<MobileMonitoring
                 entity.Username,
                 entity.OperatingSystem,
                 entity.AppVersion,
-                CreationTime = _clock.Now,
             },
             await GetDbTransactionAsync());
     }
@@ -185,9 +177,9 @@ public class DapperDeviceStatisticRepository : DapperRepository<MobileMonitoring
     /// <returns>Задача удаления.</returns>
     public async Task DeleteAsync(Guid id, bool autoSave = false, CancellationToken cancellationToken = default)
     {
-        const string Sql = @"UPDATE app_device_statistic SET is_deleted = true, deletion_time = @DeletionTime WHERE id = @Id";
+        const string Sql = @"DELETE FROM app_device_statistic WHERE id = @Id";
         var connection = await GetDbConnectionAsync();
-        await connection.ExecuteAsync(Sql, new { Id = id, DeletionTime = _clock.Now }, await GetDbTransactionAsync());
+        await connection.ExecuteAsync(Sql, new { Id = id }, await GetDbTransactionAsync());
     }
 
     /// <summary>
@@ -209,7 +201,7 @@ public class DapperDeviceStatisticRepository : DapperRepository<MobileMonitoring
     /// <returns>Обновленная сущность.</returns>
     public async Task<DeviceStatistic> UpdateAsync(Guid id, DeviceStatistic entity, CancellationToken cancellationToken = default)
     {
-        const string Sql = @"UPDATE app_device_statistic SET device_id = @DeviceId, username = @Username, operating_system = @OperatingSystem, app_version = @AppVersion, last_modification_time = @LastModificationTime WHERE id = @Id and is_deleted = false RETURNING *;";
+        const string Sql = @"UPDATE app_device_statistic SET device_id = @DeviceId, username = @Username, operating_system = @OperatingSystem, app_version = @AppVersion WHERE id = @Id RETURNING *;";
         var connection = await GetDbConnectionAsync();
         return await connection.QuerySingleAsync<DeviceStatistic>(
             Sql,
@@ -219,7 +211,6 @@ public class DapperDeviceStatisticRepository : DapperRepository<MobileMonitoring
                 entity.Username,
                 entity.OperatingSystem,
                 entity.AppVersion,
-                LastModificationTime = _clock.Now,
                 Id = id,
             },
             await GetDbTransactionAsync());
