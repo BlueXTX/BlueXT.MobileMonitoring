@@ -25,13 +25,5 @@ public class DeviceStatisticConfiguration : IEntityTypeConfiguration<DeviceStati
         builder.Property(x => x.Username).IsRequired().HasColumnName("username");
         builder.Property(x => x.OperatingSystem).IsRequired().HasColumnName("operating_system");
         builder.Property(x => x.AppVersion).IsRequired().HasColumnName("app_version");
-
-        builder.Property(x => x.CreatorId).HasColumnName("creator_id");
-        builder.Property(x => x.CreationTime).HasColumnName("creation_time");
-        builder.Property(x => x.LastModifierId).HasColumnName("last_modifier_id");
-        builder.Property(x => x.LastModificationTime).HasColumnName("last_modification_time");
-        builder.Property(x => x.DeleterId).HasColumnName("deleter_id");
-        builder.Property(x => x.DeletionTime).HasColumnName("deletion_time");
-        builder.Property(x => x.IsDeleted).HasColumnName("is_deleted");
     }
 }
