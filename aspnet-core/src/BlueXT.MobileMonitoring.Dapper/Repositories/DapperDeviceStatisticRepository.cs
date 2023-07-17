@@ -153,7 +153,7 @@ public class DapperDeviceStatisticRepository : DapperRepository<MobileMonitoring
     /// <returns>Сущность.</returns>
     public async Task<DeviceStatistic> GetAsync(Guid id, bool includeDetails = true, CancellationToken cancellationToken = default)
     {
-        const string Sql = "SELECT * FROM app_device_statistic WHERE id = @Id and is_deleted = false";
+        const string Sql = "SELECT * FROM app_device_statistic WHERE id = @Id";
         var connection = await GetDbConnectionAsync();
         return await connection.QuerySingleAsync<DeviceStatistic>(Sql, new { Id = id }, await GetDbTransactionAsync());
     }
