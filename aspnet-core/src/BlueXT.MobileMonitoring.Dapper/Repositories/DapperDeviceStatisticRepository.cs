@@ -37,14 +37,14 @@ public class DapperDeviceStatisticRepository : DapperRepository<MobileMonitoring
     /// <param name="cancellationToken">Токен отмены.</param>
     /// <returns>Список сущностей.</returns>
     /// <exception cref="NotImplementedException">Метод ее реализован.</exception>
-    public Task<List<DeviceStatistic>> GetListAsync(bool includeDetails = false, CancellationToken cancellationToken = new()) => throw new NotImplementedException();
+    public Task<List<DeviceStatistic>> GetListAsync(bool includeDetails = false, CancellationToken cancellationToken = default) => throw new NotImplementedException();
 
     /// <summary>
     /// Получить количество сущностей.
     /// </summary>
     /// <param name="cancellationToken">Токен отмены.</param>
     /// <returns>Количество сущностей.</returns>
-    public async Task<long> GetCountAsync(CancellationToken cancellationToken = new())
+    public async Task<long> GetCountAsync(CancellationToken cancellationToken = default)
     {
         const string Sql = "SELECT COUNT(*) FROM app_device_statistic WHERE is_deleted = false";
         var connection = await GetDbConnectionAsync();
@@ -65,7 +65,7 @@ public class DapperDeviceStatisticRepository : DapperRepository<MobileMonitoring
         int maxResultCount,
         string sorting,
         bool includeDetails = false,
-        CancellationToken cancellationToken = new())
+        CancellationToken cancellationToken = default)
     {
         const string Sql = @"SELECT * FROM app_device_statistic WHERE is_deleted = false OFFSET @Offset LIMIT @Limit;";
         var connection = await GetDbConnectionAsync();
@@ -86,7 +86,7 @@ public class DapperDeviceStatisticRepository : DapperRepository<MobileMonitoring
     /// <param name="autoSave">Сохранять после добавления.</param>
     /// <param name="cancellationToken">Токен отмены.</param>
     /// <returns>Добавленная сущность.</returns>
-    public async Task<DeviceStatistic> InsertAsync(DeviceStatistic entity, bool autoSave = false, CancellationToken cancellationToken = new())
+    public async Task<DeviceStatistic> InsertAsync(DeviceStatistic entity, bool autoSave = false, CancellationToken cancellationToken = default)
     {
         const string Sql = @"INSERT INTO app_device_statistic (id, device_id, username, operating_system, app_version, creation_time) VALUES (@Id, @DeviceId, @Username, @OperatingSystem, @AppVersion, @CreationTime) RETURNING *;";
         var connection = await GetDbConnectionAsync();
@@ -112,7 +112,7 @@ public class DapperDeviceStatisticRepository : DapperRepository<MobileMonitoring
     /// <param name="cancellationToken">Токен отмены.</param>
     /// <returns>Задача добавления.</returns>
     /// <exception cref="NotImplementedException">Не реализовано.</exception>
-    public Task InsertManyAsync(IEnumerable<DeviceStatistic> entities, bool autoSave = false, CancellationToken cancellationToken = new()) => throw new NotImplementedException();
+    public Task InsertManyAsync(IEnumerable<DeviceStatistic> entities, bool autoSave = false, CancellationToken cancellationToken = default) => throw new NotImplementedException();
 
     /// <summary>
     /// Обновить сущность.
@@ -121,7 +121,7 @@ public class DapperDeviceStatisticRepository : DapperRepository<MobileMonitoring
     /// <param name="autoSave">Сохранять после обновления.</param>
     /// <param name="cancellationToken">Токен отмены.</param>
     /// <returns>Обновленная сущность.</returns>
-    public async Task<DeviceStatistic> UpdateAsync(DeviceStatistic entity, bool autoSave = false, CancellationToken cancellationToken = new()) => await UpdateAsync(entity.Id, entity, cancellationToken);
+    public async Task<DeviceStatistic> UpdateAsync(DeviceStatistic entity, bool autoSave = false, CancellationToken cancellationToken = default) => await UpdateAsync(entity.Id, entity, cancellationToken);
 
     /// <summary>
     /// Обновить несколько сущностей.
@@ -131,7 +131,7 @@ public class DapperDeviceStatisticRepository : DapperRepository<MobileMonitoring
     /// <param name="cancellationToken">Токен отмены.</param>
     /// <returns>Задача обновления.</returns>
     /// <exception cref="NotImplementedException">Не реализовано.</exception>
-    public Task UpdateManyAsync(IEnumerable<DeviceStatistic> entities, bool autoSave = false, CancellationToken cancellationToken = new()) => throw new NotImplementedException();
+    public Task UpdateManyAsync(IEnumerable<DeviceStatistic> entities, bool autoSave = false, CancellationToken cancellationToken = default) => throw new NotImplementedException();
 
     /// <summary>
     /// Удалить сущность.
@@ -140,7 +140,7 @@ public class DapperDeviceStatisticRepository : DapperRepository<MobileMonitoring
     /// <param name="autoSave">Сохранять после удаления.</param>
     /// <param name="cancellationToken">Токен отмены.</param>
     /// <returns>Задача удаления.</returns>
-    public async Task DeleteAsync(DeviceStatistic entity, bool autoSave = false, CancellationToken cancellationToken = new()) => await DeleteAsync(entity.Id, cancellationToken: cancellationToken);
+    public async Task DeleteAsync(DeviceStatistic entity, bool autoSave = false, CancellationToken cancellationToken = default) => await DeleteAsync(entity.Id, cancellationToken: cancellationToken);
 
     /// <summary>
     /// Удалить несколько сущностей.
@@ -150,7 +150,7 @@ public class DapperDeviceStatisticRepository : DapperRepository<MobileMonitoring
     /// <param name="cancellationToken">Токен отмены.</param>
     /// <returns>Задача удаления.</returns>
     /// <exception cref="NotImplementedException">Не реализовано.</exception>
-    public Task DeleteManyAsync(IEnumerable<DeviceStatistic> entities, bool autoSave = false, CancellationToken cancellationToken = new()) => throw new NotImplementedException();
+    public Task DeleteManyAsync(IEnumerable<DeviceStatistic> entities, bool autoSave = false, CancellationToken cancellationToken = default) => throw new NotImplementedException();
 
     /// <summary>
     /// Получить сущность.
@@ -159,7 +159,7 @@ public class DapperDeviceStatisticRepository : DapperRepository<MobileMonitoring
     /// <param name="includeDetails">Включать детали в выборку.</param>
     /// <param name="cancellationToken">Токен отмены.</param>
     /// <returns>Сущность.</returns>
-    public async Task<DeviceStatistic> GetAsync(Guid id, bool includeDetails = true, CancellationToken cancellationToken = new())
+    public async Task<DeviceStatistic> GetAsync(Guid id, bool includeDetails = true, CancellationToken cancellationToken = default)
     {
         const string Sql = "SELECT * FROM app_device_statistic WHERE id = @Id and is_deleted = false";
         var connection = await GetDbConnectionAsync();
@@ -174,7 +174,7 @@ public class DapperDeviceStatisticRepository : DapperRepository<MobileMonitoring
     /// <param name="cancellationToken">Токен отмены.</param>
     /// <returns>Найденная сущность.</returns>
     /// <exception cref="NotImplementedException">Не реализовано.</exception>
-    public Task<DeviceStatistic> FindAsync(Guid id, bool includeDetails = true, CancellationToken cancellationToken = new()) => throw new NotImplementedException();
+    public Task<DeviceStatistic> FindAsync(Guid id, bool includeDetails = true, CancellationToken cancellationToken = default) => throw new NotImplementedException();
 
     /// <summary>
     /// Удалить сущность.
@@ -183,7 +183,7 @@ public class DapperDeviceStatisticRepository : DapperRepository<MobileMonitoring
     /// <param name="autoSave">Сохранять после удаления.</param>
     /// <param name="cancellationToken">Токен отмены.</param>
     /// <returns>Задача удаления.</returns>
-    public async Task DeleteAsync(Guid id, bool autoSave = false, CancellationToken cancellationToken = new())
+    public async Task DeleteAsync(Guid id, bool autoSave = false, CancellationToken cancellationToken = default)
     {
         const string Sql = @"UPDATE app_device_statistic SET is_deleted = true, deletion_time = @DeletionTime WHERE id = @Id";
         var connection = await GetDbConnectionAsync();
@@ -198,7 +198,7 @@ public class DapperDeviceStatisticRepository : DapperRepository<MobileMonitoring
     /// <param name="cancellationToken">Токен отмены.</param>
     /// <returns>Задача удаления.</returns>
     /// <exception cref="NotImplementedException">Не реализовано.</exception>
-    public Task DeleteManyAsync(IEnumerable<Guid> ids, bool autoSave = false, CancellationToken cancellationToken = new()) => throw new NotImplementedException();
+    public Task DeleteManyAsync(IEnumerable<Guid> ids, bool autoSave = false, CancellationToken cancellationToken = default) => throw new NotImplementedException();
 
     /// <summary>
     /// Обновить сущность.
@@ -207,7 +207,7 @@ public class DapperDeviceStatisticRepository : DapperRepository<MobileMonitoring
     /// <param name="entity">Данные для обновления.</param>
     /// <param name="cancellationToken">Токен отмены.</param>
     /// <returns>Обновленная сущность.</returns>
-    public async Task<DeviceStatistic> UpdateAsync(Guid id, DeviceStatistic entity, CancellationToken cancellationToken = new())
+    public async Task<DeviceStatistic> UpdateAsync(Guid id, DeviceStatistic entity, CancellationToken cancellationToken = default)
     {
         const string Sql = @"UPDATE app_device_statistic SET device_id = @DeviceId, username = @Username, operating_system = @OperatingSystem, app_version = @AppVersion, last_modification_time = @LastModificationTime WHERE id = @Id and is_deleted = false RETURNING *;";
         var connection = await GetDbConnectionAsync();
