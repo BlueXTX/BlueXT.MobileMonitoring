@@ -7,20 +7,15 @@ namespace BlueXT.MobileMonitoring.DeviceEvents;
 /// <summary>
 /// DTO сущности DeviceEvent.
 /// </summary>
-public class DeviceEventDto : IEntityDto<Guid>, IHasCreationTime
+public class DeviceEventDto : EntityDto<Guid>, IHasCreationTime
 {
     /// <summary>
-    /// Уникальный идентификатор.
+    /// Название.
     /// </summary>
-    public Guid Id { get; set; }
+    public string Name { get; set; } = string.Empty;
 
     /// <summary>
     /// Дата создания.
     /// </summary>
     public DateTime CreationTime { get; set; }
-
-    /// <summary>
-    /// Название.
-    /// </summary>
-    public string Name { get; set; } = string.Empty;
 }
