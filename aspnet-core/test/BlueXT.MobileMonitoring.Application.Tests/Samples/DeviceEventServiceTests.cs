@@ -9,13 +9,23 @@ using Xunit;
 
 namespace BlueXT.MobileMonitoring.Samples;
 
+/// <summary>
+/// Тесты для <see cref="DeviceEventService"/>.
+/// </summary>
 public sealed class DeviceEventServiceTests : MobileMonitoringApplicationTestBase
 {
     private readonly Faker _faker = new();
     private readonly DeviceEventService _deviceEventService;
 
+    /// <summary>
+    /// Конструктор.
+    /// </summary>
     public DeviceEventServiceTests() => _deviceEventService = GetRequiredService<DeviceEventService>();
 
+    /// <summary>
+    /// <see cref="DeviceEventService.CreateAsync"/> с валидным DTO должно возвращать <see cref="DeviceEventDto"/>.
+    /// </summary>
+    /// <returns>Тест.</returns>
     [Fact]
     public async Task CreateAsync_WithValidDto_ShouldReturnEntity()
     {
@@ -24,6 +34,10 @@ public sealed class DeviceEventServiceTests : MobileMonitoringApplicationTestBas
         createdEntity.Should().NotBeNull();
     }
 
+    /// <summary>
+    /// <see cref="DeviceEventService.CreateAsync"/> с невалидным DTO должен выбрасывать <see cref="AbpValidationException"/>.
+    /// </summary>
+    /// <returns>Тест.</returns>
     [Fact]
     public async Task CreateAsync_WithInvalidDto_ShouldThrow()
     {
@@ -36,6 +50,10 @@ public sealed class DeviceEventServiceTests : MobileMonitoringApplicationTestBas
         await act.Should().ThrowAsync<AbpValidationException>();
     }
 
+    /// <summary>
+    /// <see cref="DeviceEventService.GetAsync"/> с существующим id должен возвращать <see cref="DeviceEventDto"/>.
+    /// </summary>
+    /// <returns>Тест.</returns>
     [Fact]
     public async Task GetAsync_WithExistingId_ShouldNotBeNull()
     {
@@ -46,6 +64,10 @@ public sealed class DeviceEventServiceTests : MobileMonitoringApplicationTestBas
         entity.Name.Should().Be(createdEntity.Name);
     }
 
+    /// <summary>
+    /// <see cref="DeviceEventService.GetAsync"/> с несуществующим id должен выбрасывать <see cref="EntityNotFoundException"/>.
+    /// </summary>
+    /// <returns>Тест.</returns>
     [Fact]
     public async Task GetAsync_WithNonExistentId_ShouldNotBeNull()
     {
@@ -53,11 +75,14 @@ public sealed class DeviceEventServiceTests : MobileMonitoringApplicationTestBas
         await act.Should().ThrowAsync<EntityNotFoundException>();
     }
 
+    /// <summary>
+    /// <see cref="DeviceEventService.UpdateAsync"/> с существующим id должен обновлять сущность.
+    /// </summary>
+    /// <returns>Тест.</returns>
     [Fact]
     public async Task UpdateAsync_WithExistingId_ShouldUpdate()
     {
         const string UpdatedName = "Updated name";
-        const string UpdatedDescription = "Updated description";
         var createdEntity = await CreateEntity();
         var updateDto = new CreateOrUpdateDeviceEventDto
         {
@@ -69,6 +94,10 @@ public sealed class DeviceEventServiceTests : MobileMonitoringApplicationTestBas
         updatedEntity.Name.Should().Be(UpdatedName);
     }
 
+    /// <summary>
+    /// <see cref="DeviceEventService.UpdateAsync"/> с несуществующим id должен выбрасывать <see cref="EntityNotFoundException"/>.
+    /// </summary>
+    /// <returns>Тест.</returns>
     [Fact]
     public async Task UpdateAsync_WithNonExistentId_ShouldThrow()
     {
@@ -80,6 +109,10 @@ public sealed class DeviceEventServiceTests : MobileMonitoringApplicationTestBas
         await act.Should().ThrowAsync<EntityNotFoundException>();
     }
 
+    /// <summary>
+    /// <see cref="DeviceEventService.DeleteAsync"/> с существующим id должен удалять сущность.
+    /// </summary>
+    /// <returns>Тест.</returns>
     [Fact]
     public async Task Delete_WithExistingId_ShouldDelete()
     {
