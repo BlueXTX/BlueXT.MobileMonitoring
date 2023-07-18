@@ -14,6 +14,11 @@ public class DeviceEvent : Entity<Guid>
     public string Name { get; set; } = string.Empty;
 
     /// <summary>
+    /// Дата создания.
+    /// </summary>
+    public DateTime CreationDate { get; set; }
+
+    /// <summary>
     /// Уникальный идентификатор устройства.
     /// </summary>
     public Guid DeviceId { get; set; }
