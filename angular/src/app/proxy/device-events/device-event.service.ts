@@ -44,6 +44,14 @@ export class DeviceEventService {
     { apiName: this.apiName,...config });
   
 
+  getListByDeviceId = (deviceId: string, config?: Partial<Rest.Config>) =>
+    this.restService.request<any, DeviceEventDto[]>({
+      method: 'GET',
+      url: `/api/app/device-event/by-device-id/${deviceId}`,
+    },
+    { apiName: this.apiName,...config });
+  
+
   update = (id: string, input: CreateOrUpdateDeviceEventDto, config?: Partial<Rest.Config>) =>
     this.restService.request<any, DeviceEventDto>({
       method: 'PUT',
