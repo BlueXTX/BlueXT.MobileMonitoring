@@ -16,11 +16,14 @@ public class DeviceStatisticConfiguration : IEntityTypeConfiguration<DeviceStati
     /// <param name="builder">Объект предоставляющий API для конфигурации.</param>
     public void Configure(EntityTypeBuilder<DeviceStatistic> builder)
     {
-        builder.ToTable(MobileMonitoringConsts.DbTablePrefix + nameof(DeviceStatistic) + MobileMonitoringConsts.DbSchema);
         builder.ConfigureByConvention();
-        builder.HasIndex(x => x.DeviceId);
-        builder.Property(x => x.Username).IsRequired();
-        builder.Property(x => x.OperatingSystem).IsRequired();
-        builder.Property(x => x.AppVersion).IsRequired();
+        builder.ToTable(MobileMonitoringConsts.DbTablePrefix + "device_statistic");
+        builder.HasIndex(x => x.Id).IsUnique();
+        builder.Property(x => x.Id).HasColumnName("id");
+        builder.HasIndex(x => x.DeviceId).IsUnique();
+        builder.Property(x => x.DeviceId).HasColumnName("device_id");
+        builder.Property(x => x.Username).IsRequired().HasColumnName("username");
+        builder.Property(x => x.OperatingSystem).IsRequired().HasColumnName("operating_system");
+        builder.Property(x => x.AppVersion).IsRequired().HasColumnName("app_version");
     }
 }

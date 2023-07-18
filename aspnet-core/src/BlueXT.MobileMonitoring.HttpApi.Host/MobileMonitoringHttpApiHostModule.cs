@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using BlueXT.MobileMonitoring.Dapper;
 using BlueXT.MobileMonitoring.EntityFrameworkCore;
 using Medallion.Threading;
 using Medallion.Threading.Redis;
@@ -30,7 +31,7 @@ using Volo.Abp.VirtualFileSystem;
 namespace BlueXT.MobileMonitoring;
 
 /// <summary>
-/// Модуль хоста для http api. 
+/// Модуль хоста для http api.
 /// </summary>
 [DependsOn(
     typeof(MobileMonitoringHttpApiModule),
@@ -41,7 +42,8 @@ namespace BlueXT.MobileMonitoring;
     typeof(MobileMonitoringApplicationModule),
     typeof(MobileMonitoringEntityFrameworkCoreModule),
     typeof(AbpAspNetCoreSerilogModule),
-    typeof(AbpSwashbuckleModule)
+    typeof(AbpSwashbuckleModule),
+    typeof(MobileMonitoringDapperModule)
 )]
 public class MobileMonitoringHttpApiHostModule : AbpModule
 {

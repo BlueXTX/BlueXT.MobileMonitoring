@@ -6,13 +6,8 @@ namespace BlueXT.MobileMonitoring.DeviceStatistics;
 /// <summary>
 /// DTO для получения DeviceStatistic.
 /// </summary>
-public class DeviceStatisticDto : IEntityDto<Guid>
+public class DeviceStatisticDto : EntityDto<Guid>
 {
-    /// <summary>
-    /// Id сущности статистики.
-    /// </summary>
-    public Guid Id { get; set; }
-
     /// <summary>
     /// Id устройства.
     /// </summary>

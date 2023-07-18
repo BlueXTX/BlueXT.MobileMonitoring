@@ -2,13 +2,12 @@
   "culture": "ru",
   "texts": {
     "Menu:Home": "Главная",
-	"Menu:DeviceStatistics": "Статистика устройств",
+    "Menu:DeviceStatistics": "Статистика устройств",
     "Welcome": "Добро пожаловать",
     "LongWelcomeMessage": "Добро пожаловать в приложение. Этот запущенный проект основан на фреймворке ABP. Для получения дополнительной информации посетите сайт abp.io.",
-	"DeviceStatistic:DeviceId": "Id устройства",
-	"DeviceStatistic:Username": "Имя пользователя",
-	"DeviceStatistic:OperatingSystem": "Операционная система",
-	"DeviceStatistic:AppVersion": "Версия приложения"
-  
+    "DeviceStatistic:DeviceId": "Id устройства",
+    "DeviceStatistic:Username": "Имя пользователя",
+    "DeviceStatistic:OperatingSystem": "Операционная система",
+    "DeviceStatistic:AppVersion": "Версия приложения"
   }
 }
