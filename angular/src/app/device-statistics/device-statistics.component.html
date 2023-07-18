@@ -10,7 +10,9 @@
     </div>
   </div>
   <div class='card-body'>
-    <ngx-datatable [count]='deviceStatistics.totalCount' [list]='list' [rows]='deviceStatistics.items' default>
+    <ngx-datatable class='bootstrap' [selected]='selected' [selectionType]='selectionType' (select)='open($event)'
+                   [count]='deviceStatistics.totalCount'
+                   [list]='list' [rows]='deviceStatistics.items' default>
       <ngx-datatable-column [name]="'::DeviceStatistic:DeviceId' | abpLocalization"
                             prop='deviceId'></ngx-datatable-column>
       <ngx-datatable-column [name]="'::DeviceStatistic:Username' | abpLocalization"
