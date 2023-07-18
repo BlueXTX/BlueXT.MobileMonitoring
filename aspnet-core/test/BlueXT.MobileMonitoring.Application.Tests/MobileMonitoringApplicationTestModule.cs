@@ -2,6 +2,9 @@
 
 namespace BlueXT.MobileMonitoring;
 
+/// <summary>
+/// Модуль для тестирования слоя Application.
+/// </summary>
 [DependsOn(
     typeof(MobileMonitoringApplicationModule),
     typeof(MobileMonitoringDomainTestModule)
