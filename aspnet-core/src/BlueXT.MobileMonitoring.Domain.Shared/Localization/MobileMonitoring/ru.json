@@ -8,6 +8,8 @@
     "DeviceStatistic:DeviceId": "Id устройства",
     "DeviceStatistic:Username": "Имя пользователя",
     "DeviceStatistic:OperatingSystem": "Операционная система",
-    "DeviceStatistic:AppVersion": "Версия приложения"
+    "DeviceStatistic:AppVersion": "Версия приложения",
+    "DeviceEvent:CreationDate": "Дата",
+    "DeviceEvent:Name": "Событие"
   }
 }
