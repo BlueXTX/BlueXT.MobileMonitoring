@@ -5,7 +5,7 @@ import { DeviceEventsComponent } from './device-events.component';
 const routes: Routes = [{ path: '', component: DeviceEventsComponent }];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+    imports: [RouterModule.forChild(routes)],
+    exports: [RouterModule],
 })
-export class DeviceEventsRoutingModule { }
+export class DeviceEventsRoutingModule {}
