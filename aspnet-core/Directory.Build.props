@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
-        <CodeAnalysisRuleSet>$(MSBuildThisFileDirectory)/../infotecs.ruleset</CodeAnalysisRuleSet>
+        <CodeAnalysisRuleSet>$(MSBuildThisFileDirectory)/infotecs.ruleset</CodeAnalysisRuleSet>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)'=='Release'">
