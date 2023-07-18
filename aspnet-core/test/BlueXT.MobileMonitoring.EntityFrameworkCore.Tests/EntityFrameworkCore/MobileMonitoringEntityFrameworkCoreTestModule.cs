@@ -12,6 +12,9 @@ using Volo.Abp.Uow;
 
 namespace BlueXT.MobileMonitoring.EntityFrameworkCore;
 
+/// <summary>
+/// Модуль тестирования слоя EntityFramework.
+/// </summary>
 [DependsOn(
     typeof(MobileMonitoringEntityFrameworkCoreModule),
     typeof(MobileMonitoringTestBaseModule),
@@ -21,6 +24,10 @@ public class MobileMonitoringEntityFrameworkCoreTestModule : AbpModule
 {
     private SqliteConnection? _sqliteConnection;
 
+    /// <summary>
+    /// Сконфигурировать сервисы.
+    /// </summary>
+    /// <param name="context">Контекст конфигурации.</param>
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
         Configure<PermissionManagementOptions>(
@@ -34,6 +41,10 @@ public class MobileMonitoringEntityFrameworkCoreTestModule : AbpModule
         ConfigureInMemorySqlite(context.Services);
     }
 
+    /// <summary>
+    /// Вызывается при закрытии приложения.
+    /// </summary>
+    /// <param name="context">Контекст закрытия приложения.</param>
     public override void OnApplicationShutdown(ApplicationShutdownContext context) => _sqliteConnection?.Dispose();
 
     private static SqliteConnection CreateDatabaseAndGetConnection()
@@ -45,10 +56,8 @@ public class MobileMonitoringEntityFrameworkCoreTestModule : AbpModule
             .UseSqlite(connection)
             .Options;
 
-        using (var context = new MobileMonitoringDbContext(options))
-        {
-            context.GetService<IRelationalDatabaseCreator>().CreateTables();
-        }
+        using var context = new MobileMonitoringDbContext(options);
+        context.GetService<IRelationalDatabaseCreator>().CreateTables();
 
         return connection;
     }

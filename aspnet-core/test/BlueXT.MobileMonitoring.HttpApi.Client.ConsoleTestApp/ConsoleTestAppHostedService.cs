@@ -44,7 +44,7 @@ public class ConsoleTestAppHostedService : IHostedService
     /// <summary>
     /// Остановить сервис.
     /// </summary>
-    /// <param name="cancellationToken">Токен отмены</param>
+    /// <param name="cancellationToken">Токен отмены.</param>
     /// <returns>Задача остановки сервиса.</returns>
     public Task StopAsync(CancellationToken cancellationToken) => Task.CompletedTask;
 }
