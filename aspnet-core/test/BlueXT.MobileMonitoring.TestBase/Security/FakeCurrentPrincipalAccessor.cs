@@ -5,12 +5,19 @@ using Volo.Abp.Security.Claims;
 
 namespace BlueXT.MobileMonitoring.Security;
 
+/// <summary>
+/// Класс предоставляющий тестовые аутентификационные данные.
+/// </summary>
 [Dependency(ReplaceServices = true)]
 public class FakeCurrentPrincipalAccessor : ThreadCurrentPrincipalAccessor
 {
+    /// <summary>
+    /// Получить тестовые <see cref="ClaimsPrincipal"/>.
+    /// </summary>
+    /// <returns>Тестовые данные.</returns>
     protected override ClaimsPrincipal GetClaimsPrincipal() => GetPrincipal();
 
-    private ClaimsPrincipal GetPrincipal() =>
+    private static ClaimsPrincipal GetPrincipal() =>
         new(
             new ClaimsIdentity(
                 new List<Claim>
