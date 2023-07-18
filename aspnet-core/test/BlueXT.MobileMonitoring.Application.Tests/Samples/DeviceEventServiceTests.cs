@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using BlueXT.MobileMonitoring.DeviceEvents;
 using Bogus;
-using Shouldly;
+using FluentAssertions;
 using Volo.Abp.Domain.Entities;
 using Volo.Abp.Validation;
 using Xunit;
@@ -21,7 +21,7 @@ public sealed class DeviceEventServiceTests : MobileMonitoringApplicationTestBas
     {
         var createdEntity = await CreateEntity();
 
-        createdEntity.ShouldNotBeNull();
+        createdEntity.Should().NotBeNull();
     }
 
     [Fact]
@@ -33,7 +33,7 @@ public sealed class DeviceEventServiceTests : MobileMonitoringApplicationTestBas
         };
         var act = () => _deviceEventService.CreateAsync(dto);
 
-        await act.ShouldThrowAsync<AbpValidationException>();
+        await act.Should().ThrowAsync<AbpValidationException>();
     }
 
     [Fact]
@@ -42,15 +42,15 @@ public sealed class DeviceEventServiceTests : MobileMonitoringApplicationTestBas
         var createdEntity = await CreateEntity();
         var entity = await _deviceEventService.GetAsync(createdEntity.Id);
 
-        entity.ShouldNotBeNull();
-        entity.Name.ShouldBe(createdEntity.Name);
+        entity.Should().NotBeNull();
+        entity.Name.Should().Be(createdEntity.Name);
     }
 
     [Fact]
     public async Task GetAsync_WithNonExistentId_ShouldNotBeNull()
     {
         var act = () => _deviceEventService.GetAsync(Guid.Empty);
-        await act.ShouldThrowAsync<EntityNotFoundException>();
+        await act.Should().ThrowAsync<EntityNotFoundException>();
     }
 
     [Fact]
@@ -66,7 +66,7 @@ public sealed class DeviceEventServiceTests : MobileMonitoringApplicationTestBas
 
         var updatedEntity = await _deviceEventService.UpdateAsync(createdEntity.Id, updateDto);
 
-        updatedEntity.Name.ShouldBe(UpdatedName);
+        updatedEntity.Name.Should().Be(UpdatedName);
     }
 
     [Fact]
@@ -77,7 +77,7 @@ public sealed class DeviceEventServiceTests : MobileMonitoringApplicationTestBas
             Name = "updated name",
         };
         var act = () => _deviceEventService.UpdateAsync(Guid.Empty, updateDto);
-        await act.ShouldThrowAsync<EntityNotFoundException>();
+        await act.Should().ThrowAsync<EntityNotFoundException>();
     }
 
     [Fact]
