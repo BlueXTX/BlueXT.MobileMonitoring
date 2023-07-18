@@ -1,13 +1,12 @@
 ﻿using System;
 using Volo.Abp.Application.Dtos;
-using Volo.Abp.Auditing;
 
 namespace BlueXT.MobileMonitoring.DeviceEvents;
 
 /// <summary>
 /// DTO сущности DeviceEvent.
 /// </summary>
-public class DeviceEventDto : EntityDto<Guid>, IHasCreationTime
+public class DeviceEventDto : EntityDto<Guid>
 {
     /// <summary>
     /// Название.
@@ -17,5 +16,5 @@ public class DeviceEventDto : EntityDto<Guid>, IHasCreationTime
     /// <summary>
     /// Дата создания.
     /// </summary>
-    public DateTime CreationTime { get; set; }
+    public DateTime CreationDate { get; set; }
 }

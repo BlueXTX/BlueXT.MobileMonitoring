@@ -1,15 +1,20 @@
 ﻿using System;
-using Volo.Abp.Domain.Entities.Auditing;
+using Volo.Abp.Domain.Entities;
 
 namespace BlueXT.MobileMonitoring.DeviceEvents;
 
 /// <summary>
 /// Событие устройства.
 /// </summary>
-public class DeviceEvent : FullAuditedEntity<Guid>
+public class DeviceEvent : Entity<Guid>
 {
     /// <summary>
     /// Название.
     /// </summary>
     public string Name { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Уникальный идентификатор устройства.
+    /// </summary>
+    public Guid DeviceId { get; set; }
 }

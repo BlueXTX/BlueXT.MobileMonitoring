@@ -13,6 +13,11 @@ public class CreateOrUpdateDeviceEventDto
     public string Name { get; set; } = string.Empty;
 
     /// <summary>
+    /// Уникальный идентификатор устройства.
+    /// </summary>
+    public Guid DeviceId { get; set; }
+
+    /// <summary>
     /// Дата создания.
     /// </summary>
     public DateTime CreationDate { get; set; }
