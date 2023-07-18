@@ -4,13 +4,16 @@ using Microsoft.Extensions.Hosting;
 
 namespace BlueXT.MobileMonitoring.HttpApi.Client.ConsoleTestApp;
 
-internal class Program
+/// <summary>
+/// Входная точка приложения.
+/// </summary>
+internal static class Program
 {
-    public static IHostBuilder CreateHostBuilder(string[] args) =>
+    private static IHostBuilder CreateHostBuilder(string[] args) =>
         Host.CreateDefaultBuilder(args)
             .AddAppSettingsSecretsJson()
             .ConfigureServices(
-                (hostContext, services) =>
+                (_, services) =>
                 {
                     services.AddHostedService<ConsoleTestAppHostedService>();
                 });
