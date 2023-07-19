@@ -21,8 +21,8 @@ export class DeviceStatisticsComponent implements OnInit {
 
     constructor(
         public readonly list: ListService,
-        private deviceStatisticService: DeviceStatisticService,
-        private offcanvasService: NgbOffcanvas,
+        private readonly deviceStatisticService: DeviceStatisticService,
+        private readonly offcanvasService: NgbOffcanvas,
         private readonly activeRoute: ActivatedRoute,
         private readonly router: Router,
     ) {}
