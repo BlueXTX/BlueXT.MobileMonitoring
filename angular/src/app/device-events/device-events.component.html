@@ -1,4 +1,4 @@
-<div class='container'>
+<div [abpLoading]='isLoading' class='container'>
   <h3>{{deviceStatistic?.username}}</h3>
   <p>Идентификатор: {{deviceStatistic?.id}}</p>
   <p>Версия ПО: {{deviceStatistic?.appVersion}}</p>
@@ -9,7 +9,7 @@
                           prop='name'></ngx-datatable-column>
     <ngx-datatable-column [name]="'::DeviceEvent:CreationDate' | abpLocalization"
                           prop='creationDate'>
-      <ng-template let-row="row" ngx-datatable-cell-template>
+      <ng-template let-row='row' ngx-datatable-cell-template>
         {{row.creationDate | date:"dd/MM/yy HH:mm:ss"}}
       </ng-template>
     </ngx-datatable-column>
