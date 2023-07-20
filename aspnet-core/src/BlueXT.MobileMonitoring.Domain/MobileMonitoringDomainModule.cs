@@ -108,8 +108,6 @@ public class MobileMonitoringDomainModule : AbpModule
                 options.Languages.Add(new LanguageInfo("es", "es", "Español"));
             });
 
-#if DEBUG
         context.Services.Replace(ServiceDescriptor.Singleton<IEmailSender, NullEmailSender>());
-#endif
     }
 }

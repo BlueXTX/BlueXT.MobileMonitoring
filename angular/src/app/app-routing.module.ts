@@ -27,6 +27,10 @@ const routes: Routes = [
         path: 'device-statistics',
         loadChildren: () => import('./device-statistics/device-statistics.module').then(m => m.DeviceStatisticsModule),
     },
+    {
+        path: 'device-events',
+        loadChildren: () => import('./device-events/device-events.module').then(m => m.DeviceEventsModule),
+    },
 ];
 
 @NgModule({

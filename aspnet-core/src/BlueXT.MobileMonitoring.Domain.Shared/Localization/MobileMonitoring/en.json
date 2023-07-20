@@ -8,6 +8,8 @@
     "DeviceStatistic:DeviceId": "Device id",
     "DeviceStatistic:Username": "Username",
     "DeviceStatistic:OperatingSystem": "Operating system",
-    "DeviceStatistic:AppVersion": "Application version"
+    "DeviceStatistic:AppVersion": "Application version",
+    "DeviceEvent:CreationDate": "Date",
+    "DeviceEvent:Name": "Event"
   }
 }

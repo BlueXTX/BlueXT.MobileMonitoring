@@ -1,2 +1,3 @@
+import * as DeviceEvents from './device-events';
 import * as DeviceStatistics from './device-statistics';
-export { DeviceStatistics };
+export { DeviceEvents, DeviceStatistics };

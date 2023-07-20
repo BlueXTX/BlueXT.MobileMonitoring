@@ -35,6 +35,14 @@ export class DeviceStatisticService {
     { apiName: this.apiName,...config });
   
 
+  getByDeviceId = (deviceId: string, config?: Partial<Rest.Config>) =>
+    this.restService.request<any, DeviceStatisticDto>({
+      method: 'GET',
+      url: `/api/app/device-statistic/by-device-id/${deviceId}`,
+    },
+    { apiName: this.apiName,...config });
+  
+
   getList = (input: PagedAndSortedResultRequestDto, config?: Partial<Rest.Config>) =>
     this.restService.request<any, PagedResultDto<DeviceStatisticDto>>({
       method: 'GET',

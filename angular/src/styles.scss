@@ -1,4 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
+@import "node_modules/@swimlane/ngx-datatable/index";
+@import "node_modules/@swimlane/ngx-datatable/themes/bootstrap";
+@import "node_modules/@swimlane/ngx-datatable/assets/icons.css";
 
 @keyframes donut-spin {
   0% {

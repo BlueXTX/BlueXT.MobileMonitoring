@@ -26,6 +26,7 @@ using Volo.Abp.Caching.StackExchangeRedis;
 using Volo.Abp.DistributedLocking;
 using Volo.Abp.Modularity;
 using Volo.Abp.Swashbuckle;
+using Volo.Abp.Timing;
 using Volo.Abp.VirtualFileSystem;
 
 namespace BlueXT.MobileMonitoring;
@@ -64,6 +65,7 @@ public class MobileMonitoringHttpApiHostModule : AbpModule
         ConfigureDistributedLocking(context, configuration);
         ConfigureCors(context, configuration);
         ConfigureSwaggerServices(context, configuration);
+        ConfigureClock();
     }
 
     /// <summary>
@@ -118,6 +120,13 @@ public class MobileMonitoringHttpApiHostModule : AbpModule
                 options.SwaggerDoc("v1", new OpenApiInfo { Title = "MobileMonitoring API", Version = "v1" });
                 options.DocInclusionPredicate((docName, description) => true);
                 options.CustomSchemaIds(type => type.FullName);
+            });
+
+    private void ConfigureClock() =>
+        Configure<AbpClockOptions>(
+            options =>
+            {
+                options.Kind = DateTimeKind.Utc;
             });
 
     private void ConfigureCache(IConfiguration configuration) => Configure<AbpDistributedCacheOptions>(options => { options.KeyPrefix = "MobileMonitoring:"; });

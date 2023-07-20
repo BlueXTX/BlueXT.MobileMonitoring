@@ -9,6 +9,9 @@ using Volo.Abp.Threading;
 
 namespace BlueXT.MobileMonitoring;
 
+/// <summary>
+/// Модуль упрощающий работу с тестированием.
+/// </summary>
 [DependsOn(
     typeof(AbpAutofacModule),
     typeof(AbpTestBaseModule),
@@ -17,32 +20,35 @@ namespace BlueXT.MobileMonitoring;
 )]
 public class MobileMonitoringTestBaseModule : AbpModule
 {
-    public override void PreConfigureServices(ServiceConfigurationContext context)
-    {
-    }
-
+    /// <summary>
+    /// Сконфигурировать сервисы.
+    /// </summary>
+    /// <param name="context">Контекст конфигурации.</param>
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
-        Configure<AbpBackgroundJobOptions>(
-            options =>
-            {
-                options.IsJobExecutionEnabled = false;
-            });
-
-        context.Services.AddAlwaysAllowAuthorization();
+        ConfigureBackgroundJobOptions();
+        ConfigureAuthorization(context);
     }
 
+    /// <summary>
+    /// Инициализация приложения.
+    /// </summary>
+    /// <param name="context">Контекст инициализации.</param>
     public override void OnApplicationInitialization(ApplicationInitializationContext context) => SeedTestData(context);
+
+    private static void ConfigureAuthorization(ServiceConfigurationContext context) => context.Services.AddAlwaysAllowAuthorization();
 
     private static void SeedTestData(ApplicationInitializationContext context) =>
         AsyncHelper.RunSync(
             async () =>
             {
-                using (var scope = context.ServiceProvider.CreateScope())
-                {
-                    await scope.ServiceProvider
-                        .GetRequiredService<IDataSeeder>()
-                        .SeedAsync();
-                }
+                using var scope = context.ServiceProvider.CreateScope();
+                await scope.ServiceProvider
+                    .GetRequiredService<IDataSeeder>()
+                    .SeedAsync();
             });
+
+    private void ConfigureBackgroundJobOptions() =>
+        Configure<AbpBackgroundJobOptions>(
+            options => { options.IsJobExecutionEnabled = false; });
 }
