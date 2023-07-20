@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using BlueXT.MobileMonitoring.DeviceEvents;
 
 namespace BlueXT.MobileMonitoring.DeviceStatistics;
 
@@ -26,4 +28,9 @@ public class CreateOrUpdateDeviceStatisticDto
     /// Версия установленного приложения.
     /// </summary>
     public string AppVersion { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Список событий устройства.
+    /// </summary>
+    public IReadOnlyCollection<CreateOrUpdateDeviceEventDto> DeviceEvents { get; set; } = Array.Empty<CreateOrUpdateDeviceEventDto>();
 }
