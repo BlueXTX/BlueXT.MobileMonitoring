@@ -215,4 +215,19 @@ public class DapperDeviceStatisticRepository : DapperRepository<MobileMonitoring
             },
             await GetDbTransactionAsync());
     }
+
+    /// <inheritdoc cref="IDeviceStatisticRepository.GetByDeviceId"/>
+    public async Task<DeviceStatistic> GetByDeviceId(Guid deviceId, CancellationToken cancellationToken = default)
+    {
+        const string Sql = @"SELECT * FROM app_device_statistic WHERE device_id = @DeviceId";
+        var connection = await GetDbConnectionAsync();
+        return await connection.QuerySingleAsync<DeviceStatistic>(
+            Sql,
+            new
+            {
+                deviceId,
+            },
+            await GetDbTransactionAsync()
+        );
+    }
 }
