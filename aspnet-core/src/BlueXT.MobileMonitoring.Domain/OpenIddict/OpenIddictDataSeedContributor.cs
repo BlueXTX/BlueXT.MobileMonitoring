@@ -46,7 +46,7 @@ public class OpenIddictDataSeedContributor : IDataSeedContributor, ITransientDep
         _applicationManager = applicationManager;
         _scopeManager = scopeManager;
         _permissionDataSeeder = permissionDataSeeder;
-        this._l = l;
+        _l = l;
     }
 
     /// <summary>

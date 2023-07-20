@@ -1,12 +1,12 @@
 ﻿using System;
-using Volo.Abp.Domain.Entities.Auditing;
+using Volo.Abp.Domain.Entities;
 
 namespace BlueXT.MobileMonitoring.DeviceStatistics;
 
 /// <summary>
 /// Статистика устройства.
 /// </summary>
-public class DeviceStatistic : FullAuditedEntity<Guid>
+public class DeviceStatistic : Entity<Guid>
 {
     /// <summary>
     /// Id устройства.
