@@ -16,8 +16,11 @@ public class DeviceEventConfiguration : IEntityTypeConfiguration<DeviceEvent>
     /// <param name="builder">Объект предоставляющий API для конфигурации.</param>
     public void Configure(EntityTypeBuilder<DeviceEvent> builder)
     {
-        builder.ToTable(MobileMonitoringConsts.DbTablePrefix + nameof(DeviceEvent) + MobileMonitoringConsts.DbSchema);
         builder.ConfigureByConvention();
-        builder.Property(x => x.Name).IsRequired().HasMaxLength(maxLength: 50);
+        builder.ToTable(MobileMonitoringConsts.DbTablePrefix + "device_event");
+        builder.Property(x => x.Id).HasColumnName("id");
+        builder.Property(x => x.Name).HasColumnName("name").IsRequired().HasMaxLength(maxLength: 50);
+        builder.Property(x => x.DeviceId).HasColumnName("device_id").IsRequired();
+        builder.Property(x => x.CreationDate).HasColumnName("creation_date");
     }
 }
