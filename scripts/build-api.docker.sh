@@ -1,3 +1,3 @@
 #!/bin/bash
 
-docker build -t bluext/mobile-monitoring ../
+docker build -f ../aspnet-core/Dockerfile -t bluext/mobile-monitoring ../aspnet-core
