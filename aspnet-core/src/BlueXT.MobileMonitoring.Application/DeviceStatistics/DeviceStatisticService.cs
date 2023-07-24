@@ -20,6 +20,7 @@ public class DeviceStatisticService : CrudAppService<DeviceStatistic, DeviceStat
     private readonly ILocalEventBus _localEventBus;
     private readonly IDeviceStatisticRepository _deviceStatisticRepository;
     private readonly IRepository<DeviceEvent, Guid> _deviceEventRepository;
+    private readonly DeviceStatisticDomainService _deviceStatisticDomainService;
 
     /// <summary>
     /// Конструктор класса.
@@ -29,18 +30,21 @@ public class DeviceStatisticService : CrudAppService<DeviceStatistic, DeviceStat
     /// <param name="deviceStatisticRepository">Расширенный репозиторий <see cref="DeviceStatistic"/>.</param>
     /// <param name="deviceEventRepository">Репозиторий <see cref="DeviceEvent"/>.</param>
     /// <param name="localEventBus">Локальная шина событий.</param>
+    /// <param name="deviceStatisticDomainService">Доменный сервис для работы с <see cref="DeviceStatistic"/>.</param>
     public DeviceStatisticService(
         IRepository<DeviceStatistic, Guid> baseRepository,
         IObjectMapper mapper,
         IDeviceStatisticRepository deviceStatisticRepository,
         IRepository<DeviceEvent, Guid> deviceEventRepository,
-        ILocalEventBus localEventBus)
+        ILocalEventBus localEventBus,
+        DeviceStatisticDomainService deviceStatisticDomainService)
         : base(baseRepository)
     {
         _mapper = mapper;
         _deviceStatisticRepository = deviceStatisticRepository;
         _deviceEventRepository = deviceEventRepository;
         _localEventBus = localEventBus;
+        _deviceStatisticDomainService = deviceStatisticDomainService;
     }
 
     /// <summary>
@@ -52,10 +56,9 @@ public class DeviceStatisticService : CrudAppService<DeviceStatistic, DeviceStat
     {
         var entity = _mapper.Map<CreateOrUpdateDeviceStatisticDto, DeviceStatistic>(input);
         var insertedEntity = await _deviceStatisticRepository.InsertAsync(entity);
+        var assignedDeviceEvents = _deviceStatisticDomainService.AssignDeviceEvents(insertedEntity, entity.DeviceEvents);
+        await _deviceEventRepository.InsertManyAsync(assignedDeviceEvents);
         await _localEventBus.PublishAsync(new EntityCreatedEventData<DeviceStatistic>(insertedEntity));
-        foreach (var entityDeviceEvent in entity.DeviceEvents) entityDeviceEvent.DeviceStatisticId = insertedEntity.Id;
-
-        await _deviceEventRepository.InsertManyAsync(entity.DeviceEvents);
         return _mapper.Map<DeviceStatistic, DeviceStatisticDto>(insertedEntity);
     }
 
