@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DeviceEventDto, DeviceEventService } from '@proxy/device-events';
 import { DeviceStatisticDto, DeviceStatisticService } from '@proxy/device-statistics';
-import { forkJoin, Observable } from 'rxjs';
+import { BehaviorSubject, forkJoin, interval, mergeMap, Observable, Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-device-events',
@@ -14,6 +14,8 @@ export class DeviceEventsComponent implements OnInit {
     deviceStatistic: DeviceStatisticDto = {};
     deviceEvents: DeviceEventDto[] = [];
     isLoading = true;
+    autoUpdate = new BehaviorSubject<boolean>(true);
+    private intervalSubscription: Subscription;
 
     constructor(
         private readonly activeRoute: ActivatedRoute,
@@ -24,6 +26,17 @@ export class DeviceEventsComponent implements OnInit {
     ngOnInit(): void {
         this.loadDeviceIdFromQueryParams();
         this.loadData();
+        this.subscribeToCheckboxUpdate();
+    }
+
+    private subscribeToCheckboxUpdate(): void {
+        this.autoUpdate.subscribe((value: boolean) => {
+            if (value === true) {
+                this.subscribeToAutoUpdates();
+            } else {
+                this.intervalSubscription.unsubscribe();
+            }
+        });
     }
 
     private getDeviceStatistic(): Observable<DeviceStatisticDto> {
@@ -46,5 +59,17 @@ export class DeviceEventsComponent implements OnInit {
                 this.isLoading = false;
             },
         );
+    }
+
+    private subscribeToAutoUpdates(): void {
+        this.intervalSubscription = interval(30000)
+            .pipe(mergeMap(() => this.deviceEventsService.getListByDeviceId(this.deviceId)))
+            .subscribe(response => {
+                this.deviceEvents = response;
+            });
+    }
+
+    onValueChange(enabled: boolean): void {
+        this.autoUpdate.next(enabled);
     }
 }
