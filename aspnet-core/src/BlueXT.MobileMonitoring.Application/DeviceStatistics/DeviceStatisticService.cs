@@ -4,7 +4,9 @@ using System.Threading.Tasks;
 using BlueXT.MobileMonitoring.DeviceEvents;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
+using Volo.Abp.Domain.Entities.Events;
 using Volo.Abp.Domain.Repositories;
+using Volo.Abp.EventBus.Local;
 using Volo.Abp.ObjectMapping;
 
 namespace BlueXT.MobileMonitoring.DeviceStatistics;
@@ -15,26 +17,30 @@ namespace BlueXT.MobileMonitoring.DeviceStatistics;
 public class DeviceStatisticService : CrudAppService<DeviceStatistic, DeviceStatisticDto, Guid, PagedAndSortedResultRequestDto, CreateOrUpdateDeviceStatisticDto>, IDeviceStatisticService
 {
     private readonly IObjectMapper _mapper;
+    private readonly ILocalEventBus _localEventBus;
     private readonly IDeviceStatisticRepository _deviceStatisticRepository;
     private readonly IRepository<DeviceEvent, Guid> _deviceEventRepository;
 
     /// <summary>
     /// Конструктор класса.
     /// </summary>
-    /// <param name="baseRepository">Репозиторий <see cref="DeviceStatistic"/>.</param>
+    /// <param name="baseRepository">Репозиторий.</param>
     /// <param name="mapper">Преобразователь сущностей.</param>
     /// <param name="deviceStatisticRepository">Расширенный репозиторий <see cref="DeviceStatistic"/>.</param>
     /// <param name="deviceEventRepository">Репозиторий <see cref="DeviceEvent"/>.</param>
+    /// <param name="localEventBus">Локальная шина событий.</param>
     public DeviceStatisticService(
         IRepository<DeviceStatistic, Guid> baseRepository,
         IObjectMapper mapper,
         IDeviceStatisticRepository deviceStatisticRepository,
-        IRepository<DeviceEvent, Guid> deviceEventRepository)
+        IRepository<DeviceEvent, Guid> deviceEventRepository,
+        ILocalEventBus localEventBus)
         : base(baseRepository)
     {
         _mapper = mapper;
         _deviceStatisticRepository = deviceStatisticRepository;
         _deviceEventRepository = deviceEventRepository;
+        _localEventBus = localEventBus;
     }
 
     /// <summary>
@@ -46,6 +52,7 @@ public class DeviceStatisticService : CrudAppService<DeviceStatistic, DeviceStat
     {
         var entity = _mapper.Map<CreateOrUpdateDeviceStatisticDto, DeviceStatistic>(input);
         var insertedEntity = await _deviceStatisticRepository.InsertAsync(entity);
+        _localEventBus.PublishAsync(new EntityCreatedEventData<DeviceStatistic>(insertedEntity));
         foreach (var entityDeviceEvent in entity.DeviceEvents) entityDeviceEvent.DeviceStatisticId = insertedEntity.Id;
 
         await _deviceEventRepository.InsertManyAsync(entity.DeviceEvents);
