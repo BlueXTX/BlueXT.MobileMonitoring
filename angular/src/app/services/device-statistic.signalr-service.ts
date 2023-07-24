@@ -11,11 +11,7 @@ export class DeviceStatisticSignalRService {
     private readonly connection = new HubConnectionBuilder()
         .withUrl(`${environment.apis.default.url}/signalr-hubs/device-statistic`)
         .build();
-    private readonly _deviceStatistic = new Subject<DeviceStatisticDto>();
-
-    public get deviceStatistic(): Observable<DeviceStatisticDto> {
-        return this._deviceStatistic.asObservable();
-    }
+    public readonly deviceStatistic = new Subject<DeviceStatisticDto>();
 
     constructor() {
         this.openConnection();
@@ -27,9 +23,8 @@ export class DeviceStatisticSignalRService {
     }
 
     private subscribeToUpdates(): void {
-        this.connection.on('ReceiveUpdates', (dto: DeviceStatisticDto) => {
-            console.log(`Received ${dto}`);
-            this._deviceStatistic.next(dto);
+        this.connection.on('ReceiveUpdate', (dto: DeviceStatisticDto) => {
+            this.deviceStatistic.next(dto);
         });
     }
 }
