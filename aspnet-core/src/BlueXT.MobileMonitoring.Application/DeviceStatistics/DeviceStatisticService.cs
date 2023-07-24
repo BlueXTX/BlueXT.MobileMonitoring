@@ -97,4 +97,11 @@ public class DeviceStatisticService : CrudAppService<DeviceStatistic, DeviceStat
     /// <param name="id">Уникальный идентификатор сущности.</param>
     /// <returns>Задача удаления.</returns>
     public override async Task DeleteAsync(Guid id) => await _deviceStatisticRepository.DeleteAsync(id);
+
+    /// <summary>
+    /// Получить <see cref="DeviceStatisticDto"/> по уникальному идентификатору устройства.
+    /// </summary>
+    /// <param name="deviceId">Уникальный идентификатор устройства.</param>
+    /// <returns>Задача получения.</returns>
+    public async Task<DeviceStatisticDto> GetByDeviceId(Guid deviceId) => _mapper.Map<DeviceStatistic, DeviceStatisticDto>(await Repository.GetAsync(x => x.DeviceId == deviceId));
 }
