@@ -103,5 +103,5 @@ public class DeviceStatisticService : CrudAppService<DeviceStatistic, DeviceStat
     /// </summary>
     /// <param name="deviceId">Уникальный идентификатор устройства.</param>
     /// <returns>Задача получения.</returns>
-    public async Task<DeviceStatisticDto> GetByDeviceId(Guid deviceId) => _mapper.Map<DeviceStatistic, DeviceStatisticDto>(await Repository.GetAsync(x => x.DeviceId == deviceId));
+    public async Task<DeviceStatisticDto> GetByDeviceIdAsync(Guid deviceId) => _mapper.Map<DeviceStatistic, DeviceStatisticDto>(await Repository.GetAsync(x => x.DeviceId == deviceId));
 }
