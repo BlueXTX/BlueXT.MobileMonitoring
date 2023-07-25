@@ -80,6 +80,7 @@ export class DeviceEventsComponent implements OnInit, OnDestroy {
 
     ngOnDestroy(): void {
         this.onDestroy$.next(true);
-        this.onDestroy$.unsubscribe();
+        this.onDestroy$.complete();
+        this.autoUpdate.complete();
     }
 }
