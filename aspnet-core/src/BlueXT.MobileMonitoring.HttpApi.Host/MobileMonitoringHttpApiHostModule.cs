@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using BlueXT.MobileMonitoring.Application.Realtime;
 using BlueXT.MobileMonitoring.Dapper;
 using BlueXT.MobileMonitoring.EntityFrameworkCore;
 using Medallion.Threading;
@@ -44,7 +45,8 @@ namespace BlueXT.MobileMonitoring;
     typeof(MobileMonitoringEntityFrameworkCoreModule),
     typeof(AbpAspNetCoreSerilogModule),
     typeof(AbpSwashbuckleModule),
-    typeof(MobileMonitoringDapperModule)
+    typeof(MobileMonitoringDapperModule),
+    typeof(MobileMonitoringApplicationRealtimeModule)
 )]
 public class MobileMonitoringHttpApiHostModule : AbpModule
 {

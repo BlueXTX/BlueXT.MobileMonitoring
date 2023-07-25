@@ -1,4 +1,5 @@
 ﻿using System;
+using BlueXT.MobileMonitoring.DeviceStatistics;
 using Volo.Abp.Domain.Entities;
 
 namespace BlueXT.MobileMonitoring.DeviceEvents;
@@ -19,7 +20,7 @@ public class DeviceEvent : Entity<Guid>
     public DateTime CreationDate { get; set; }
 
     /// <summary>
-    /// Уникальный идентификатор устройства.
+    /// Уникальный идентификатор статистики устройства <seealso cref="DeviceStatistic"/>.
     /// </summary>
-    public Guid DeviceId { get; set; }
+    public Guid DeviceStatisticId { get; set; }
 }

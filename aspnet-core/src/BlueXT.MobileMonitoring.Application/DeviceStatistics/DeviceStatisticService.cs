@@ -1,9 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using BlueXT.MobileMonitoring.DeviceEvents;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
+using Volo.Abp.Domain.Entities.Events;
 using Volo.Abp.Domain.Repositories;
+using Volo.Abp.EventBus.Local;
 using Volo.Abp.ObjectMapping;
 
 namespace BlueXT.MobileMonitoring.DeviceStatistics;
@@ -14,22 +17,34 @@ namespace BlueXT.MobileMonitoring.DeviceStatistics;
 public class DeviceStatisticService : CrudAppService<DeviceStatistic, DeviceStatisticDto, Guid, PagedAndSortedResultRequestDto, CreateOrUpdateDeviceStatisticDto>, IDeviceStatisticService
 {
     private readonly IObjectMapper _mapper;
-    private readonly IDeviceStatisticRepository _repository;
+    private readonly ILocalEventBus _localEventBus;
+    private readonly IDeviceStatisticRepository _deviceStatisticRepository;
+    private readonly IRepository<DeviceEvent, Guid> _deviceEventRepository;
+    private readonly DeviceStatisticDomainService _deviceStatisticDomainService;
 
     /// <summary>
     /// Конструктор класса.
     /// </summary>
     /// <param name="baseRepository">Репозиторий.</param>
     /// <param name="mapper">Преобразователь сущностей.</param>
-    /// <param name="repository">Репозиторий.</param>
+    /// <param name="deviceStatisticRepository">Расширенный репозиторий <see cref="DeviceStatistic"/>.</param>
+    /// <param name="deviceEventRepository">Репозиторий <see cref="DeviceEvent"/>.</param>
+    /// <param name="localEventBus">Локальная шина событий.</param>
+    /// <param name="deviceStatisticDomainService">Доменный сервис для работы с <see cref="DeviceStatistic"/>.</param>
     public DeviceStatisticService(
         IRepository<DeviceStatistic, Guid> baseRepository,
         IObjectMapper mapper,
-        IDeviceStatisticRepository repository)
+        IDeviceStatisticRepository deviceStatisticRepository,
+        IRepository<DeviceEvent, Guid> deviceEventRepository,
+        ILocalEventBus localEventBus,
+        DeviceStatisticDomainService deviceStatisticDomainService)
         : base(baseRepository)
     {
         _mapper = mapper;
-        _repository = repository;
+        _deviceStatisticRepository = deviceStatisticRepository;
+        _deviceEventRepository = deviceEventRepository;
+        _localEventBus = localEventBus;
+        _deviceStatisticDomainService = deviceStatisticDomainService;
     }
 
     /// <summary>
@@ -40,7 +55,11 @@ public class DeviceStatisticService : CrudAppService<DeviceStatistic, DeviceStat
     public override async Task<DeviceStatisticDto> CreateAsync(CreateOrUpdateDeviceStatisticDto input)
     {
         var entity = _mapper.Map<CreateOrUpdateDeviceStatisticDto, DeviceStatistic>(input);
-        return _mapper.Map<DeviceStatistic, DeviceStatisticDto>(await _repository.InsertAsync(entity));
+        var insertedEntity = await _deviceStatisticRepository.InsertAsync(entity);
+        var assignedDeviceEvents = _deviceStatisticDomainService.AssignDeviceEvents(insertedEntity, entity.DeviceEvents);
+        await _deviceEventRepository.InsertManyAsync(assignedDeviceEvents);
+        await _localEventBus.PublishAsync(new EntityCreatedEventData<DeviceStatistic>(insertedEntity));
+        return _mapper.Map<DeviceStatistic, DeviceStatisticDto>(insertedEntity);
     }
 
     /// <summary>
@@ -48,7 +67,7 @@ public class DeviceStatisticService : CrudAppService<DeviceStatistic, DeviceStat
     /// </summary>
     /// <param name="id">Уникальный идентификатор сущности.</param>
     /// <returns>Найденная сущность.</returns>
-    public override async Task<DeviceStatisticDto> GetAsync(Guid id) => _mapper.Map<DeviceStatistic, DeviceStatisticDto>(await _repository.GetAsync(id));
+    public override async Task<DeviceStatisticDto> GetAsync(Guid id) => _mapper.Map<DeviceStatistic, DeviceStatisticDto>(await _deviceStatisticRepository.GetAsync(id));
 
     /// <summary>
     /// Получить постраничный список сущностей <see cref="DeviceStatistic"/>.
@@ -57,8 +76,8 @@ public class DeviceStatisticService : CrudAppService<DeviceStatistic, DeviceStat
     /// <returns>Список сущностей.</returns>
     public override async Task<PagedResultDto<DeviceStatisticDto>> GetListAsync(PagedAndSortedResultRequestDto input)
     {
-        var totalCount = await _repository.GetCountAsync();
-        var entities = await _repository.GetPagedListAsync(input.SkipCount, input.MaxResultCount, input.Sorting);
+        var totalCount = await _deviceStatisticRepository.GetCountAsync();
+        var entities = await _deviceStatisticRepository.GetPagedListAsync(input.SkipCount, input.MaxResultCount, input.Sorting);
         var mappedEntities = _mapper.Map<List<DeviceStatistic>, List<DeviceStatisticDto>>(entities);
         return new PagedResultDto<DeviceStatisticDto>(totalCount, mappedEntities);
     }
@@ -72,7 +91,7 @@ public class DeviceStatisticService : CrudAppService<DeviceStatistic, DeviceStat
     public override async Task<DeviceStatisticDto> UpdateAsync(Guid id, CreateOrUpdateDeviceStatisticDto input)
     {
         var entity = _mapper.Map<CreateOrUpdateDeviceStatisticDto, DeviceStatistic>(input);
-        return _mapper.Map<DeviceStatistic, DeviceStatisticDto>(await _repository.UpdateAsync(id, entity));
+        return _mapper.Map<DeviceStatistic, DeviceStatisticDto>(await _deviceStatisticRepository.UpdateAsync(id, entity));
     }
 
     /// <summary>
@@ -80,5 +99,12 @@ public class DeviceStatisticService : CrudAppService<DeviceStatistic, DeviceStat
     /// </summary>
     /// <param name="id">Уникальный идентификатор сущности.</param>
     /// <returns>Задача удаления.</returns>
-    public override async Task DeleteAsync(Guid id) => await _repository.DeleteAsync(id);
+    public override async Task DeleteAsync(Guid id) => await _deviceStatisticRepository.DeleteAsync(id);
+
+    /// <summary>
+    /// Получить <see cref="DeviceStatisticDto"/> по уникальному идентификатору устройства.
+    /// </summary>
+    /// <param name="deviceId">Уникальный идентификатор устройства.</param>
+    /// <returns>Задача получения.</returns>
+    public async Task<DeviceStatisticDto> GetByDeviceIdAsync(Guid deviceId) => _mapper.Map<DeviceStatistic, DeviceStatisticDto>(await Repository.GetAsync(x => x.DeviceId == deviceId));
 }

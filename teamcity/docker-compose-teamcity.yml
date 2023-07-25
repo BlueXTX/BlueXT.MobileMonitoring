@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  teamcity-server:
+    image: jetbrains/teamcity-server
+    container_name: teamcity-server
+    ports:
+      - '8111:8111'
+    volumes:
+      - teamcity-data:/data/teamcity_server/datadir
+      - teamcity-logs:/opt/teamcity/logs
+  teamcity-agent:
+    image: jetbrains/teamcity-agent:2022.04.4-linux-sudo
+    container_name: teamcity-agent
+    hostname: teamcity-agent
+    privileged: true
+    environment:
+      - SERVER_URL=http://teamcity-server:8111
+      - AGENT_NAME=Agent1
+      - DOCKER_IN_DOCKER=start
+    volumes:
+      - ./conf:/data/teamcity_agent/conf
+      
+volumes:
+  teamcity-data:
+  teamcity-logs:
+    
