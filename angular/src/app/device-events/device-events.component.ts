@@ -67,7 +67,7 @@ export class DeviceEventsComponent implements OnInit, OnDestroy {
 
     private subscribeToAutoUpdates(): void {
         this.intervalSubscription = interval(30000)
-            .pipe(switchMap(() => this.deviceEventsService.getListByDeviceId(this.deviceId)))
+            .pipe(switchMap(() => this.getDeviceEvents()))
             .pipe(takeUntil(this.onDestroy$))
             .subscribe(response => {
                 this.deviceEvents = response;
