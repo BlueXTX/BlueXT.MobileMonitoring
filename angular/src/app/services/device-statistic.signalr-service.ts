@@ -1,6 +1,6 @@
 import { HubConnectionBuilder } from '@microsoft/signalr';
 import { DeviceStatisticDto } from '@proxy/device-statistics';
-import { Observable, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { Injectable } from '@angular/core';
 
@@ -8,10 +8,10 @@ import { Injectable } from '@angular/core';
     providedIn: 'root',
 })
 export class DeviceStatisticSignalRService {
+    public readonly deviceStatistic = new Subject<DeviceStatisticDto>();
     private readonly connection = new HubConnectionBuilder()
         .withUrl(`${environment.apis.default.url}/signalr-hubs/device-statistic`)
         .build();
-    public readonly deviceStatistic = new Subject<DeviceStatisticDto>();
 
     constructor() {
         this.openConnection();

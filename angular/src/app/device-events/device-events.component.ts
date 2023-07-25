@@ -30,6 +30,16 @@ export class DeviceEventsComponent implements OnInit, OnDestroy {
         this.subscribeToCheckboxUpdate();
     }
 
+    onValueChange(enabled: boolean): void {
+        this.autoUpdate.next(enabled);
+    }
+
+    ngOnDestroy(): void {
+        this.onDestroy$.next(true);
+        this.onDestroy$.complete();
+        this.autoUpdate.complete();
+    }
+
     private subscribeToCheckboxUpdate(): void {
         this.autoUpdate.pipe(takeUntil(this.onDestroy$)).subscribe((value: boolean) => {
             if (value === true) {
@@ -72,15 +82,5 @@ export class DeviceEventsComponent implements OnInit, OnDestroy {
             .subscribe(response => {
                 this.deviceEvents = response;
             });
-    }
-
-    onValueChange(enabled: boolean): void {
-        this.autoUpdate.next(enabled);
-    }
-
-    ngOnDestroy(): void {
-        this.onDestroy$.next(true);
-        this.onDestroy$.complete();
-        this.autoUpdate.complete();
     }
 }

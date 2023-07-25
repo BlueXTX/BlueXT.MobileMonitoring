@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ListService, PagedResultDto } from '@abp/ng.core';
 import { DeviceStatisticDto, DeviceStatisticService } from '@proxy/device-statistics';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
 import { DeviceEventsComponent } from '../device-events/device-events.component';
 import { SelectionType } from '@swimlane/ngx-datatable';
@@ -35,6 +35,11 @@ export class DeviceStatisticsComponent implements OnInit {
         this.subscribeToRealtimeUpdates();
     }
 
+    open($event: any): void {
+        this.selected = $event.selected;
+        this.openOffcanvas(this.selected[0].deviceId);
+    }
+
     private subscribeToRealtimeUpdates(): void {
         this.deviceStatisticSignalRService.deviceStatistic.subscribe(value => {
             const newValue = this.deviceStatistics$.value;
@@ -42,11 +47,6 @@ export class DeviceStatisticsComponent implements OnInit {
             newValue.items.push(value);
             this.deviceStatistics$.next(newValue);
         });
-    }
-
-    open($event: any): void {
-        this.selected = $event.selected;
-        this.openOffcanvas(this.selected[0].deviceId);
     }
 
     private loadQueryParams(): void {
