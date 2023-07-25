@@ -30,8 +30,8 @@ export class DeviceEventsComponent implements OnInit, OnDestroy {
         this.subscribeToCheckboxUpdate();
     }
 
-    onValueChange(enabled: boolean): void {
-        this.autoUpdate.next(enabled);
+    onValueChange(input: HTMLInputElement): void {
+        this.autoUpdate.next(input.checked);
     }
 
     ngOnDestroy(): void {

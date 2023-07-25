@@ -4,7 +4,7 @@
   <p>Версия ПО: {{deviceStatistic?.appVersion}}</p>
   <label>
     Автоматическое обновление:
-    <input #autoUpdate (change)='onValueChange(autoUpdate.checked)' [checked]='autoUpdate' type='checkbox'>
+    <input (change)='onValueChange($event.target)' [checked]='autoUpdate | async' type='checkbox'>
   </label>
   <ngx-datatable [count]='deviceEvents.length'
                  [rows]='deviceEvents'
