@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DeviceEventDto, DeviceEventService } from '@proxy/device-events';
 import { DeviceStatisticDto, DeviceStatisticService } from '@proxy/device-statistics';
-import { BehaviorSubject, forkJoin, interval, mergeMap, Observable, Subject, Subscription, takeUntil } from 'rxjs';
+import { BehaviorSubject, forkJoin, interval, Observable, Subject, Subscription, switchMap, takeUntil } from 'rxjs';
 
 @Component({
     selector: 'app-device-events',
@@ -67,7 +67,7 @@ export class DeviceEventsComponent implements OnInit, OnDestroy {
 
     private subscribeToAutoUpdates(): void {
         this.intervalSubscription = interval(30000)
-            .pipe(mergeMap(() => this.deviceEventsService.getListByDeviceId(this.deviceId)))
+            .pipe(switchMap(() => this.deviceEventsService.getListByDeviceId(this.deviceId)))
             .pipe(takeUntil(this.onDestroy$))
             .subscribe(response => {
                 this.deviceEvents = response;
