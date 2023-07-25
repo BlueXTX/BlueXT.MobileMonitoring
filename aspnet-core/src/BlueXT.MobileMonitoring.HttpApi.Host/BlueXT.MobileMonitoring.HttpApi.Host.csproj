@@ -33,14 +33,4 @@
         <ProjectReference Include="..\BlueXT.MobileMonitoring.HttpApi\BlueXT.MobileMonitoring.HttpApi.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-        <Compile Remove="Logs\**" />
-        <Content Remove="Logs\**" />
-        <Content Include="..\..\.dockerignore">
-          <Link>.dockerignore</Link>
-        </Content>
-        <EmbeddedResource Remove="Logs\**" />
-        <None Remove="Logs\**" />
-    </ItemGroup>
-
 </Project>
