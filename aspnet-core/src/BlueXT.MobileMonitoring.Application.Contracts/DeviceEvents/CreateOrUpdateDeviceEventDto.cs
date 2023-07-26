@@ -15,7 +15,7 @@ public class CreateOrUpdateDeviceEventDto
     /// <summary>
     /// Уникальный идентификатор статистики устройства.
     /// </summary>
-    public Guid? DeviceStatisticId { get; set; }
+    public Guid? DeviceId { get; set; }
 
     /// <summary>
     /// Дата создания.
