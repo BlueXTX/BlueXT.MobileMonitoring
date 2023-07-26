@@ -30,5 +30,8 @@ public class DeviceEventService : CrudAppService<DeviceEvent, DeviceEventDto, Gu
     /// <param name="deviceId">Уникальный идентификатор устройства.</param>
     /// <returns>Список событий устройства.</returns>
     public async Task<List<DeviceEventDto>> GetListByDeviceIdAsync(Guid deviceId)
-        => _mapper.Map<List<DeviceEvent>, List<DeviceEventDto>>(await Repository.GetListAsync(x => x.DeviceId == deviceId));
+    {
+        var events = await Repository.GetListAsync(x => x.DeviceId == deviceId);
+        return _mapper.Map<List<DeviceEvent>, List<DeviceEventDto>>(events);
+    }
 }
