@@ -13,9 +13,9 @@ public class CreateOrUpdateDeviceEventDto
     public string Name { get; set; } = string.Empty;
 
     /// <summary>
-    /// Уникальный идентификатор устройства.
+    /// Уникальный идентификатор статистики устройства.
     /// </summary>
-    public Guid DeviceId { get; set; }
+    public Guid? DeviceId { get; set; }
 
     /// <summary>
     /// Дата создания.

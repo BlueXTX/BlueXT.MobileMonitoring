@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using BlueXT.MobileMonitoring.DeviceEvents;
 using Volo.Abp.Domain.Entities;
 
 namespace BlueXT.MobileMonitoring.DeviceStatistics;

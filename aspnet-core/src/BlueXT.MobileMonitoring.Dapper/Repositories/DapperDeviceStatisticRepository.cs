@@ -1,4 +1,5 @@
-﻿using BlueXT.MobileMonitoring.DeviceStatistics;
+﻿using System.Text;
+using BlueXT.MobileMonitoring.DeviceStatistics;
 using BlueXT.MobileMonitoring.EntityFrameworkCore;
 using Dapper;
 using Volo.Abp.DependencyInjection;
@@ -81,8 +82,9 @@ public class DapperDeviceStatisticRepository : DapperRepository<MobileMonitoring
     /// <returns>Добавленная сущность.</returns>
     public async Task<DeviceStatistic> InsertAsync(DeviceStatistic entity, bool autoSave = false, CancellationToken cancellationToken = default)
     {
-        const string Sql = @"INSERT INTO app_device_statistic (id, device_id, username, operating_system, app_version) VALUES (@Id, @DeviceId, @Username, @OperatingSystem, @AppVersion) RETURNING *;";
         var connection = await GetDbConnectionAsync();
+
+        const string Sql = @"INSERT INTO app_device_statistic (id, device_id, username, operating_system, app_version) VALUES (@Id, @DeviceId, @Username, @OperatingSystem, @AppVersion) RETURNING *;";
         return await connection.QuerySingleAsync<DeviceStatistic>(
             Sql,
             new
@@ -214,5 +216,20 @@ public class DapperDeviceStatisticRepository : DapperRepository<MobileMonitoring
                 Id = id,
             },
             await GetDbTransactionAsync());
+    }
+
+    /// <inheritdoc cref="IDeviceStatisticRepository.GetByDeviceId"/>
+    public async Task<DeviceStatistic> GetByDeviceId(Guid deviceId, CancellationToken cancellationToken = default)
+    {
+        const string Sql = @"SELECT * FROM app_device_statistic WHERE device_id = @DeviceId";
+        var connection = await GetDbConnectionAsync();
+        return await connection.QuerySingleAsync<DeviceStatistic>(
+            Sql,
+            new
+            {
+                deviceId,
+            },
+            await GetDbTransactionAsync()
+        );
     }
 }

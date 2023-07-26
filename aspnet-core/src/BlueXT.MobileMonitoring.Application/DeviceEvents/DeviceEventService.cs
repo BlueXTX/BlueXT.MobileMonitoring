@@ -18,13 +18,11 @@ public class DeviceEventService : CrudAppService<DeviceEvent, DeviceEventDto, Gu
     /// <summary>
     /// Конструктор.
     /// </summary>
-    /// <param name="repository">Репозиторий сущностей.</param>
+    /// <param name="deviceEventRepository">Репозиторий <see cref="DeviceEvent"/>.</param>
     /// <param name="mapper">Преобразователь объектов.</param>
-    public DeviceEventService(IRepository<DeviceEvent, Guid> repository, IObjectMapper mapper)
-        : base(repository)
-    {
+    public DeviceEventService(IRepository<DeviceEvent, Guid> deviceEventRepository, IObjectMapper mapper)
+        : base(deviceEventRepository) =>
         _mapper = mapper;
-    }
 
     /// <summary>
     /// Получить список <see cref="DeviceEvent"/> по уникальному идентификатору устройства.
@@ -32,5 +30,8 @@ public class DeviceEventService : CrudAppService<DeviceEvent, DeviceEventDto, Gu
     /// <param name="deviceId">Уникальный идентификатор устройства.</param>
     /// <returns>Список событий устройства.</returns>
     public async Task<List<DeviceEventDto>> GetListByDeviceIdAsync(Guid deviceId)
-        => _mapper.Map<List<DeviceEvent>, List<DeviceEventDto>>(await Repository.GetListAsync(x => x.DeviceId == deviceId));
+    {
+        var events = await Repository.GetListAsync(x => x.DeviceId == deviceId);
+        return _mapper.Map<List<DeviceEvent>, List<DeviceEventDto>>(events);
+    }
 }
