@@ -29,9 +29,4 @@ public class DeviceStatistic : Entity<Guid>
     /// Версия установленного приложения.
     /// </summary>
     public string AppVersion { get; set; } = string.Empty;
-
-    /// <summary>
-    /// Список событий приложения.
-    /// </summary>
-    public IReadOnlyCollection<DeviceEvent> DeviceEvents { get; set; } = Array.Empty<DeviceEvent>();
 }

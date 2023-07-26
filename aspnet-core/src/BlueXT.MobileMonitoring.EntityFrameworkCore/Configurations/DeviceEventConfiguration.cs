@@ -22,7 +22,6 @@ public class DeviceEventConfiguration : IEntityTypeConfiguration<DeviceEvent>
         builder.Property(x => x.Id).HasColumnName("id");
         builder.Property(x => x.Name).HasColumnName("name").IsRequired().HasMaxLength(maxLength: 50);
         builder.Property(x => x.CreationDate).HasColumnName("creation_date");
-        builder.Property(x => x.DeviceStatisticId).HasColumnName("device_statistic_id");
-        builder.HasOne<DeviceStatistic>().WithMany(x => x.DeviceEvents).HasForeignKey(x => x.DeviceStatisticId);
+        builder.Property(x => x.DeviceId).HasColumnName("device_id");
     }
 }
