@@ -20,7 +20,7 @@ public class DeviceEvent : Entity<Guid>
     public DateTime CreationDate { get; set; }
 
     /// <summary>
-    /// Уникальный идентификатор статистики устройства <seealso cref="DeviceStatistic"/>.
+    /// Уникальный идентификатор устройства.
     /// </summary>
-    public Guid DeviceStatisticId { get; set; }
+    public Guid DeviceId { get; set; }
 }

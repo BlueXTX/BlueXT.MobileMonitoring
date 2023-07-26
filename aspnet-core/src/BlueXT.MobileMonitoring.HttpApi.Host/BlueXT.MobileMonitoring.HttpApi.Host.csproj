@@ -35,13 +35,10 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Compile Remove="Logs\**" />
-        <Content Remove="Logs\**" />
-        <Content Include="..\..\.dockerignore">
-            <Link>.dockerignore</Link>
-        </Content>
-        <EmbeddedResource Remove="Logs\**" />
-        <None Remove="Logs\**" />
+        <ProjectReference Include="..\BlueXT.MobileMonitoring.Application\BlueXT.MobileMonitoring.Application.csproj" />
+        <ProjectReference Include="..\BlueXT.MobileMonitoring.Dapper\BlueXT.MobileMonitoring.Dapper.csproj" />
+        <ProjectReference Include="..\BlueXT.MobileMonitoring.EntityFrameworkCore\BlueXT.MobileMonitoring.EntityFrameworkCore.csproj" />
+        <ProjectReference Include="..\BlueXT.MobileMonitoring.HttpApi\BlueXT.MobileMonitoring.HttpApi.csproj" />
     </ItemGroup>
 
 </Project>

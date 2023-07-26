@@ -17,10 +17,10 @@ COPY ["src/BlueXT.MobileMonitoring.HttpApi/BlueXT.MobileMonitoring.HttpApi.cspro
 RUN dotnet restore "src/BlueXT.MobileMonitoring.HttpApi.Host/BlueXT.MobileMonitoring.HttpApi.Host.csproj"
 COPY . .
 WORKDIR "/src/src/BlueXT.MobileMonitoring.HttpApi.Host"
-RUN dotnet build "BlueXT.MobileMonitoring.HttpApi.Host.csproj" -c Release -o /app/build
+RUN dotnet build "BlueXT.MobileMonitoring.HttpApi.Host.csproj" -c Release -o /app/build --no-restore
 
 FROM build AS publish
-RUN dotnet publish "BlueXT.MobileMonitoring.HttpApi.Host.csproj" -c Release -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "BlueXT.MobileMonitoring.HttpApi.Host.csproj" -c Release -o /app/publish /p:UseAppHost=false --no-restore
 
 FROM base AS final
 WORKDIR /app

@@ -56,9 +56,8 @@ public class DeviceStatisticService : CrudAppService<DeviceStatistic, DeviceStat
     {
         var entity = _mapper.Map<CreateOrUpdateDeviceStatisticDto, DeviceStatistic>(input);
         var insertedEntity = await _deviceStatisticRepository.InsertAsync(entity);
-        var assignedDeviceEvents = _deviceStatisticDomainService.AssignDeviceEvents(insertedEntity, entity.DeviceEvents);
-        await _deviceEventRepository.InsertManyAsync(assignedDeviceEvents);
-        await _localEventBus.PublishAsync(new EntityCreatedEventData<DeviceStatistic>(insertedEntity));
+        var deviceEvents = _mapper.Map<IEnumerable<CreateOrUpdateDeviceEventDto>, IEnumerable<DeviceEvent>>(input.DeviceEvents);
+        await _deviceEventRepository.InsertManyAsync(deviceEvents);
         return _mapper.Map<DeviceStatistic, DeviceStatisticDto>(insertedEntity);
     }
 
