@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\BlueXT.MobileMonitoring.Application.Contracts\BlueXT.MobileMonitoring.Application.Contracts.csproj" />
+      <ProjectReference Include="..\BlueXT.MobileMonitoring.Domain\BlueXT.MobileMonitoring.Domain.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Volo.Abp.AspNetCore.SignalR" Version="7.2.3" />
+    </ItemGroup>
+
+</Project>

@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ListService, PagedResultDto } from '@abp/ng.core';
 import { DeviceStatisticDto, DeviceStatisticService } from '@proxy/device-statistics';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
 import { DeviceEventsComponent } from '../device-events/device-events.component';
 import { SelectionType } from '@swimlane/ngx-datatable';
 import { ActivatedRoute, Router } from '@angular/router';
+import { DeviceStatisticSignalRService } from '../services/device-statistic.signalr-service';
 
 @Component({
     selector: 'app-device-statistics',
@@ -14,10 +15,10 @@ import { ActivatedRoute, Router } from '@angular/router';
     providers: [ListService],
 })
 export class DeviceStatisticsComponent implements OnInit {
-    deviceStatistics = { items: [], totalCount: 0 } as PagedResultDto<DeviceStatisticDto>;
     selectionType = SelectionType.single;
     selected: DeviceStatisticDto[] = [];
     deviceId?: string;
+    deviceStatistics$ = new BehaviorSubject<PagedResultDto<DeviceStatisticDto>>({ items: [], totalCount: 0 });
 
     constructor(
         public readonly list: ListService,
@@ -25,16 +26,27 @@ export class DeviceStatisticsComponent implements OnInit {
         private readonly offcanvasService: NgbOffcanvas,
         private readonly activeRoute: ActivatedRoute,
         private readonly router: Router,
+        private readonly deviceStatisticSignalRService: DeviceStatisticSignalRService,
     ) {}
 
     ngOnInit(): void {
         this.loadQueryParams();
         this.getDeviceStatistics();
+        this.subscribeToRealtimeUpdates();
     }
 
     open($event: any): void {
         this.selected = $event.selected;
         this.openOffcanvas(this.selected[0].deviceId);
+    }
+
+    private subscribeToRealtimeUpdates(): void {
+        this.deviceStatisticSignalRService.deviceStatistic.subscribe(value => {
+            const newValue = this.deviceStatistics$.value;
+            newValue.totalCount++;
+            newValue.items.push(value);
+            this.deviceStatistics$.next(newValue);
+        });
     }
 
     private loadQueryParams(): void {
@@ -63,7 +75,7 @@ export class DeviceStatisticsComponent implements OnInit {
             this.deviceStatisticService.getList(query);
 
         this.list.hookToQuery(streamCreator).subscribe(response => {
-            this.deviceStatistics = response;
+            this.deviceStatistics$.next(response);
         });
     }
 }

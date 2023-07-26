@@ -12,6 +12,14 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\BlueXT.MobileMonitoring.Application.Realtime\BlueXT.MobileMonitoring.Application.Realtime.csproj" />
+        <ProjectReference Include="..\BlueXT.MobileMonitoring.Application\BlueXT.MobileMonitoring.Application.csproj" />
+        <ProjectReference Include="..\BlueXT.MobileMonitoring.Dapper\BlueXT.MobileMonitoring.Dapper.csproj" />
+        <ProjectReference Include="..\BlueXT.MobileMonitoring.EntityFrameworkCore\BlueXT.MobileMonitoring.EntityFrameworkCore.csproj" />
+        <ProjectReference Include="..\BlueXT.MobileMonitoring.HttpApi\BlueXT.MobileMonitoring.HttpApi.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
         <PackageReference Include="Serilog.AspNetCore" Version="5.0.0" />
         <PackageReference Include="Serilog.Sinks.Async" Version="1.5.0" />
         <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.0" />

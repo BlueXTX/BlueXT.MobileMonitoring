@@ -2,7 +2,7 @@ import type { EntityDto } from '@abp/ng.core';
 
 export interface CreateOrUpdateDeviceEventDto {
   name?: string;
-  deviceId?: string;
+  deviceStatisticId?: string;
   creationDate?: string;
 }
 

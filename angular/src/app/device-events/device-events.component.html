@@ -2,6 +2,10 @@
   <h3>{{deviceStatistic?.username}}</h3>
   <p>Идентификатор: {{deviceStatistic?.id}}</p>
   <p>Версия ПО: {{deviceStatistic?.appVersion}}</p>
+  <label>
+    Автоматическое обновление:
+    <input (change)='onValueChange($event.target)' [checked]='autoUpdate | async' type='checkbox'>
+  </label>
   <ngx-datatable [count]='deviceEvents.length'
                  [rows]='deviceEvents'
                  class='bootstrap' default>
