@@ -33,7 +33,7 @@ services:
       context: aspnet-core
       dockerfile: Dockerfile
     ports:
-      - '44391:44391'
+      - '8080:80'
     depends_on:
       - seq
       - redis
@@ -43,7 +43,7 @@ services:
       context: angular
       dockerfile: Dockerfile
     ports:
-      - '4200:4200'
+      - '8082:80'
     depends_on:
       - mobile-monitoring-api
 
