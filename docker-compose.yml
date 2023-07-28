@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  redis:
+    image: redis:7.0.11-alpine
+    container_name: 'redis'
+    restart: unless-stopped
+    ports:
+      - '6379:6379'
+  postgres-db:
+    image: postgres:15.3-alpine3.18
+    container_name: 'postgres-db'
+    ports:
+      - '5432:5432'
+    environment:
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+  seq:
+    image: datalust/seq:2023.2
+    container_name: 'seq'
+    restart: unless-stopped
+    ports:
+      - '5341:5341'
+      - '5342:80'
+    environment:
+      - ACCEPT_EULA=y
+    volumes:
+      - seq:/data
+
+  mobile-monitoring-api:
+    build:
+      context: aspnet-core
+      dockerfile: Dockerfile
+    ports:
+      - '8080:80'
+    depends_on:
+      - seq
+      - redis
+      - postgres-db
+  mobile-monitoring-frontend:
+    build:
+      context: angular
+      dockerfile: Dockerfile
+    ports:
+      - '8082:80'
+    depends_on:
+      - mobile-monitoring-api
+
+volumes:
+  seq:
+  postgres-data:

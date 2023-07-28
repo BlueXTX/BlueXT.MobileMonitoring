@@ -19,7 +19,7 @@ export const environment = {
     },
     apis: {
         default: {
-            url: 'https://localhost:44391',
+            url: 'http://localhost:8080',
             rootNamespace: 'BlueXT.MobileMonitoring',
         },
     },

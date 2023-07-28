@@ -1,12 +1,14 @@
-﻿FROM mcr.microsoft.com/dotnet/aspnet:7.0-alpine AS base
+﻿FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
 WORKDIR /app
 EXPOSE 80
 EXPOSE 443
+ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=false
 
 FROM mcr.microsoft.com/dotnet/sdk:7.0-alpine AS build
 WORKDIR /src
 COPY ["src/BlueXT.MobileMonitoring.HttpApi.Host/BlueXT.MobileMonitoring.HttpApi.Host.csproj", "src/BlueXT.MobileMonitoring.HttpApi.Host/"]
 COPY ["src/BlueXT.MobileMonitoring.Application/BlueXT.MobileMonitoring.Application.csproj", "src/BlueXT.MobileMonitoring.Application/"]
+COPY ["src/BlueXT.MobileMonitoring.Application.Realtime/BlueXT.MobileMonitoring.Application.Realtime.csproj", "src/BlueXT.MobileMonitoring.Application.Realtime/"]
 COPY ["src/BlueXT.MobileMonitoring.Application.Mapster/BlueXT.MobileMonitoring.Application.Mapster.csproj", "src/BlueXT.MobileMonitoring.Application.Mapster/"]
 COPY ["src/BlueXT.MobileMonitoring.Domain/BlueXT.MobileMonitoring.Domain.csproj", "src/BlueXT.MobileMonitoring.Domain/"]
 COPY ["src/BlueXT.MobileMonitoring.Domain.Shared/BlueXT.MobileMonitoring.Domain.Shared.csproj", "src/BlueXT.MobileMonitoring.Domain.Shared/"]
